@@ -526,6 +526,41 @@ public class StringUtil
 
 
     /**
+     *  A flexible substring that can return left or right substrings, and returns a
+     *  "best effort" result if offset or length are outside the bounds of the string.
+     *
+     *  @param  src     The source string; <code>null</code> is treated as an
+     *                  empty string.
+     *  @param  off     The starting offset of the substring. If negative, offset is
+     *                  measured from the end of the string (where -1 is the last
+     *                  character).
+     *  @parma  len     The maximum number of characters to retrieve from the string.
+     *
+     *  @return A string containing up to <code>len</code> characters.
+     */
+    public static String substr(String src, int off, int len)
+    {
+        if (src == null)            return "";
+        if (off >= src.length())    return "";
+
+        int start = off < 0
+                  ? src.length() + off
+                  : off;
+
+        int end = src.length() >= (start + len)
+                ? start + len
+                : src.length();
+
+        if (start < 0)
+            start = 0;
+        if (end < 0)
+            end = 0;
+
+        return src.substring(start, end);
+    }
+
+
+    /**
      *  Returns <code>true</code> if the passed string is equal to one of
      *  the target strings, <code>false</code> otherwise. This will typically
      *  be invoked with a variable <code>str</code> and literal values for

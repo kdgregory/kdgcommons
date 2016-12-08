@@ -355,6 +355,28 @@ public class TestStringUtil extends TestCase
     }
 
 
+    public void testSubstr() throws Exception
+    {
+        assertEquals("null string",                 "",             StringUtil.substr(null, 0, 1));
+
+        assertEquals("empty string, left",          "",             StringUtil.substr("", 0, 1));
+        assertEquals("empty string, right",         "",             StringUtil.substr("", -1, 1));
+
+        assertEquals("left, in-bounds",             "oo",           StringUtil.substr("foobarbaz", 1, 2));
+        assertEquals("left, at-bounds",             "foobarbaz",    StringUtil.substr("foobarbaz", 0, 9));
+        assertEquals("left, offset too large",      "",             StringUtil.substr("foobarbaz", 9, 1));
+        assertEquals("left, length too large",      "az",           StringUtil.substr("foobarbaz", 7, 5));
+        assertEquals("left, zero length",           "",             StringUtil.substr("foobarbaz", 1, 0));
+
+        assertEquals("right, in-bounds",            "az",           StringUtil.substr("foobarbaz", -2, 2));
+        assertEquals("right, at-bounds",            "foobarbaz",    StringUtil.substr("foobarbaz", -9, 9));
+        assertEquals("right, offset too large",     "",             StringUtil.substr("foobarbaz", -10, 1));
+        assertEquals("right, offset too large #2",  "fo",           StringUtil.substr("foobarbaz", -10, 3));
+        assertEquals("right, length too large",     "baz",          StringUtil.substr("foobarbaz", -3, 5));
+        assertEquals("right, zero length",          "",             StringUtil.substr("foobarbaz", -1, 0));
+    }
+
+
     public void testIsIn() throws Exception
     {
         assertTrue("happy path",        StringUtil.isIn("foo", "foo", "bar", "baz"));
@@ -384,5 +406,4 @@ public class TestStringUtil extends TestCase
         assertEquals("1",   StringUtil.valueOf(1));
         assertEquals("",    StringUtil.valueOf(null));
     }
-
 }
