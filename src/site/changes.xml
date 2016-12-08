@@ -19,10 +19,14 @@
             <action dev='kdgregory' type='add'>
                 SwingUtil: assorted utility functions
             </action>
+            <action dev='kdgregory' type='add'>
+                StringUtil.substr: flexible substring that's null-safe, bounds-safe, and allows
+                selection of the right side of the string.
+            </action>
         </release>
 
         <release version="1.0.14" date="2014-01-21"
-            description="">
+            description="Multiple additions">
             <action dev='kdgregory' type='add'>
                 ArrayAsserts: JUnit assertions for primitive arrays
             </action>
