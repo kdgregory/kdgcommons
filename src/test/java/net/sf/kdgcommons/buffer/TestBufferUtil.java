@@ -22,6 +22,8 @@ import java.nio.channels.FileChannel.MapMode;
 
 import junit.framework.TestCase;
 
+import net.sf.kdgcommons.test.ArrayAsserts;
+
 public class TestBufferUtil extends TestCase
 {
 //----------------------------------------------------------------------------
@@ -123,5 +125,18 @@ public class TestBufferUtil extends TestCase
     }
 
 
+    public void testToArray() throws Exception
+    {
+        byte[] data = new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+        ByteBuffer buf = ByteBuffer.wrap(data);
 
+        byte[] result1 = BufferUtil.toArray(buf);
+        assertFalse("does not return wrapped array", result1 == data);
+        ArrayAsserts.assertEquals("returned array equals wrapped array", data, result1);
+
+        buf.rewind();
+        buf.limit(2);
+        byte[] result2 = BufferUtil.toArray(buf);
+        ArrayAsserts.assertEquals("returned array after reduced limit", new byte[] {0x01, 0x02}, result2);
+    }
 }
