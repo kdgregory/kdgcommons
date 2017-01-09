@@ -13,14 +13,17 @@
                 CollectionUtil.asMap(): produce a HashMap from a list of values
             </action>
             <action dev='kdgregory' type='add'>
-                CollectionUtil.putIf(), putIfNotNull(): conditional stores for maps
+                CollectionUtil.cast(): add variant for maps
             </action>
-            <action dev='kdgregory' type='update'>
-                CollectionUtil.asSet(): be explicit that we return a HashSet
+            <action dev='kdgregory' type='add'>
+                CollectionUtil.putIf(), putIfNotNull(): conditional stores for maps
             </action>
             <action dev='kdgregory' type='add'>
                 StringUtil.substr: flexible substring that's null-safe, bounds-safe, and allows
                 selection of the right side of the string
+            </action>
+            <action dev='kdgregory' type='update'>
+                CollectionUtil.asSet(): be explicit that we return a HashSet
             </action>
         </release>
 
