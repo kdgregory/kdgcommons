@@ -217,9 +217,12 @@ public class CollectionUtil
 
 
     /**
-     *  Verifies that the passed list contains only elements of the given
-     *  type, and returns it as a parameterized type. Throws if any element
-     *  is a different type.
+     *  Verifies that the passed list contains only elements of the given type,
+     *  and returns it as a parameterized list (does not create a new list).
+     *  <p>
+     *  This function exists to avoid suppressing warnings in application code.
+     *
+     *  @throws ClassCastException if any element is a different type.
      */
     @SuppressWarnings("unchecked")
     public static <T> List<T> cast(List<?> list, Class<T> klass)
@@ -233,9 +236,12 @@ public class CollectionUtil
 
 
     /**
-     *  Verifies that the passed set contains only elements of the given
-     *  type, and returns it as a parameterized type. Throws if any element
-     *  is a different type.
+     *  Verifies that the passed set contains only elements of the given type,
+     *  and returns it as a parameterized set (does not create a new set).
+     *  <p>
+     *  This function exists to avoid suppressing warnings in application code.
+     *
+     *  @throws ClassCastException if any element is a different type.
      */
     @SuppressWarnings("unchecked")
     public static <T> Set<T> cast(Set<?> set, Class<T> klass)
@@ -245,6 +251,26 @@ public class CollectionUtil
             klass.cast(obj);
         }
         return (Set<T>)set;
+    }
+
+
+    /**
+     *  Verifies that the passed set contains only keys and values of the given
+     *  types, and returns it as a parameterized map (does not create a new map).
+     *  <p>
+     *  This function exists to avoid suppressing warnings in application code.
+     *
+     *  @throws ClassCastException if any key/value is a different type.
+     */
+    @SuppressWarnings("unchecked")
+    public static <K,V> Map<K,V> cast(Map<?,?> map, Class<K> keyClass, Class<V> valueClass)
+    {
+        for (Map.Entry<?,?> entry : map.entrySet())
+        {
+            keyClass.cast(entry.getKey());
+            valueClass.cast(entry.getValue());
+        }
+        return (Map<K,V>)map;
     }
 
 

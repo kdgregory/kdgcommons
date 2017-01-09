@@ -350,6 +350,63 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    public void testCastMap() throws Exception
+    {
+        Map<Object,Object> x = new HashMap<Object,Object>();
+        x.put("foo", "bar");
+        x.put("argle", "bargle");
+
+        Map<String,String> y = CollectionUtil.cast(x, String.class, String.class);
+        assertSame(x, y);
+    }
+
+
+    public void testCastMapKeyFailure() throws Exception
+    {
+        Map<Object,Object> x = new HashMap<Object,Object>();
+        x.put("foo", "bar");
+        x.put(Integer.valueOf(123), "bargle");
+
+        try
+        {
+            CollectionUtil.cast(x, String.class, String.class);
+            fail("should have thrown");
+        }
+        catch (ClassCastException ignored)
+        {
+            // success
+        }
+    }
+
+    public void testCastMapValueFailure() throws Exception
+    {
+        Map<Object,Object> x = new HashMap<Object,Object>();
+        x.put("foo", "bar");
+        x.put("argle", Integer.valueOf(123));
+
+        try
+        {
+            CollectionUtil.cast(x, String.class, String.class);
+            fail("should have thrown");
+        }
+        catch (ClassCastException ignored)
+        {
+            // success
+        }
+    }
+
+
+    public void testCastMapWithNullValue() throws Exception
+    {
+        Map<Object,Object> x = new HashMap<Object,Object>();
+        x.put("foo", "bar");
+        x.put("argle", null);
+
+        Map<String,String> y = CollectionUtil.cast(x, String.class, String.class);
+        assertSame(x, y);
+    }
+
+
     public void testResize() throws Exception
     {
         ArrayList<String> list1 = new ArrayList<String>();
