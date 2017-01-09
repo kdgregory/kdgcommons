@@ -96,4 +96,19 @@ public class BufferUtil
             chars[ii] = buf.getChar();
         return chars;
     }
+
+
+    /**
+     *  Creates and fills a byte array that consists of all bytes from 0 to the
+     *  buffer's limit. This array is independent of the buffer's backing array
+     *  (if any)
+     *
+     *  @since 1.0.15
+     */
+    public static byte[] toArray(ByteBuffer buf)
+    {
+        byte[] result = new byte[buf.limit()];
+        buf.get(result, 0, buf.limit());
+        return result;
+    }
 }

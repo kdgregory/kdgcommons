@@ -5,10 +5,13 @@
 
     <body>
         <release version="1.0.15" date="TBD"
-            description="Added functions to StringUtil, BufferUtil">
+            description="A variety of new functions, across utils">
+            <action dev='kdgregory' type='add'>
+                BufferUtil.toArray: returns the entire contents of a ByteBuffer as an array
+            </action>
             <action dev='kdgregory' type='add'>
                 StringUtil.substr: flexible substring that's null-safe, bounds-safe, and allows
-                selection of the right side of the string.
+                selection of the right side of the string
             </action>
         </release>
 
