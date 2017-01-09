@@ -16,6 +16,7 @@ package net.sf.kdgcommons.collections;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -38,13 +39,41 @@ import java.util.regex.Pattern;
 public class CollectionUtil
 {
     /**
-     *  Returns a set containing the passed elements.
+     *  Returns a set (<code>HashSet</code>) containing the passed elements.
      */
-    public static <T> Set<T> asSet(T... elems)
+    public static <T> HashSet<T> asSet(T... elems)
     {
-        Set<T> result = new HashSet<T>();
+        HashSet<T> result = new HashSet<T>();
         for (T elem : elems)
             result.add(elem);
+        return result;
+    }
+
+
+    /**
+     *  Returns a map (<code>HashMap</code>) built from the passed elements. Elements
+     *  alternate between keys and values, and if given an odd number of elements the
+     *  last will be used as the key for a null value. Elements will be added in the
+     *  order they appear as parameters, so repeating a key will mean that only the
+     *  last value is stored.
+     *  <p>
+     *  Note that the result is parameterized as <code>Object,Object</code>; as there
+     *  is no way to differentiate between keys and values with varargs, we have to
+     *  use the lowest common denominator.
+     *
+     *  @since 1.0.15
+     */
+    public static HashMap<Object,Object> asMap(Object... elems)
+    {
+        HashMap<Object,Object> result = new HashMap<Object,Object>();
+        for (int ii = 0 ; ii < elems.length ; ii += 2)
+        {
+            Object key = elems[ii];
+            Object value = (ii < elems.length - 1)
+                         ? elems[ii + 1]
+                         : null;
+            result.put(key, value);
+        }
         return result;
     }
 
@@ -87,9 +116,7 @@ public class CollectionUtil
      */
     public static <T> Collection<T> addIf(Collection<T> coll, T value, boolean expr)
     {
-        if (expr)
-            coll.add(value);
-
+        if (expr)  coll.add(value);
         return coll;
     }
 

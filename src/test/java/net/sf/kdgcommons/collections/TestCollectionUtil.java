@@ -42,6 +42,32 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    public void testAsMap() throws Exception
+    {
+        Map<Object,Object> expected = new HashMap<Object,Object>();
+        expected.put("foo", "bar");
+        expected.put("argle", "bargle");
+
+        assertEquals("basic operation, all keys have values",
+                     expected,
+                     CollectionUtil.asMap("foo", "bar", "argle", "bargle"));
+
+        assertEquals("repeated keys",
+                     expected,
+                     CollectionUtil.asMap("foo", "biff", "argle", "bargle", "foo", "bar"));
+
+        expected.put("biff", null);
+        assertEquals("odd number of parameters",
+                     expected,
+                     CollectionUtil.asMap("foo", "bar", "argle", "bargle",  "biff"));
+
+        assertEquals("no parameters",
+                     new HashMap<Object,Object>(),
+                     CollectionUtil.asMap());
+    }
+
+
+
     public void testAddAllFromVarargs() throws Exception
     {
         List<String> list = new ArrayList<String>();
