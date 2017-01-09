@@ -41,7 +41,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *  least not without adding lots of locks that aren't needed for the common case).
  *  <p>
  *  Values may not be <code>null</code>.
- *  
+ *
  *  @since 1.0.10
  */
 public class Counters<K>

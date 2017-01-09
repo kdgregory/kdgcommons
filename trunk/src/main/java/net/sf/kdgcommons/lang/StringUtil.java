@@ -537,6 +537,8 @@ public class StringUtil
      *  @parma  len     The maximum number of characters to retrieve from the string.
      *
      *  @return A string containing up to <code>len</code> characters.
+     *
+     *  @since 1.0.15
      */
     public static String substr(String src, int off, int len)
     {

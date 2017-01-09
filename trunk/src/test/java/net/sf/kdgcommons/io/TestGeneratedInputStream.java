@@ -201,7 +201,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
-    // cross-library regression test 
+    // cross-library regression test
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {
         InputStream in = new GeneratedInputStream()
@@ -212,7 +212,7 @@ public class TestGeneratedInputStream extends TestCase
                 return new byte[] { (byte)0xFF, 0x01 };
             }
         };
-        
+
         assertEquals(0xFF, in.read());
         assertEquals(0x01, in.read());
         // will never return a real EOF

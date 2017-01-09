@@ -25,15 +25,15 @@ public class InvalidSourceByteException
 extends CodecException
 {
     private static final long serialVersionUID = 1L;
-    
+
     private byte _byte;
-    
+
     public InvalidSourceByteException(int c)
     {
         super("invalid source byte: " + c);
         _byte = (byte)c;
     }
-    
+
     /**
      *  Returns the invalid byte.
      */
