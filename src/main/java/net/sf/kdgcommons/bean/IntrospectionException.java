@@ -19,7 +19,7 @@ package net.sf.kdgcommons.bean;
  *  This exception is thrown by methods in {@link Introspection} and
  *  {@link IntrospectionCache}. It typically wraps an underlying reflection
  *  exception.
- *  
+ *
  *  @since 1.0.5
  */
 public class IntrospectionException

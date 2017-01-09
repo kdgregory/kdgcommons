@@ -29,19 +29,19 @@ public abstract class InaccessibleClass
     {
         return new InaccessibleClassImpl();
     }
-    
+
     public abstract String getValue();
     public abstract void setValue(String value);
-    
+
 
     static class InaccessibleClassImpl
     extends InaccessibleClass
     {
         private String _value;
-        
+
         @Override
         public String getValue()            { return _value; }
-        
+
         @Override
         public void setValue(String value)  { _value = value; }
     }

@@ -34,7 +34,7 @@ import java.util.TreeMap;
  *  At the present time, this class does not support combined arguments.
  *  However, since they will be passed to the subclass' default method,
  *  it can handle them if needed.
- *  
+ *
  *  @deprecated {@link SimpleCLIParser} is my current preferred implementation.
  *              It's a lot simpler: there's no need for handler objects,
  *              and the options are processed by the constructor. However,

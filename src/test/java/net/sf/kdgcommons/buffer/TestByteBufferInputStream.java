@@ -37,9 +37,9 @@ extends TestCase
         assertEquals(-1, in.read());
         assertEquals(-1, in.read());
     }
-    
-    
-    public void testSingleByteReadDoesNotExtendSign() throws Exception 
+
+
+    public void testSingleByteReadDoesNotExtendSign() throws Exception
     {
         byte[] data = new byte[] { (byte)0xFF };
         ByteBuffer buf = ByteBuffer.wrap(data);
@@ -48,7 +48,7 @@ extends TestCase
         assertEquals(0xFF, in.read());
         assertEquals(-1, in.read());
     }
-    
+
 
     // this is a redundant test given current implementation; leave it, in case
     // implementation changes

@@ -19,6 +19,9 @@
                 CollectionUtil.putIf(), putIfNotNull(): conditional stores for maps
             </action>
             <action dev='kdgregory' type='add'>
+                ReadThroughCache: a size-limited LRU cache that uses a retriever function to load values
+            </action>
+            <action dev='kdgregory' type='add'>
                 StringUtil.substr: flexible substring that's null-safe, bounds-safe, and allows
                 selection of the right side of the string
             </action>
@@ -43,7 +46,7 @@
                 are startsWith(), endsWith(), and containsAt()
             </action>
             <action dev='kdgregory' type='add'>
-                CollectionUtil.compare(): compares the elements of two collections in iterator order 
+                CollectionUtil.compare(): compares the elements of two collections in iterator order
             </action>
             <action dev='kdgregory' type='add'>
                 CollectionUtil.putIfAbsent(Map,Map): adds all mappings not present in base

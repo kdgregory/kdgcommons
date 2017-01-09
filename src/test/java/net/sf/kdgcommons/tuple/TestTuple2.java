@@ -37,7 +37,7 @@ extends TestCase
         assertTrue("identity", x.equals(x));
         assertTrue("same value", x.equals(y));
         assertFalse("different values", x.equals(z));
-        
+
         // this one's for coverage
         assertFalse("not-a-tuple", x.equals("I'm not a tuple"));
 

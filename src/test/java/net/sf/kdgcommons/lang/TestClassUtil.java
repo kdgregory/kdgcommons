@@ -194,7 +194,7 @@ public class TestClassUtil extends TestCase
         assertEquals("java.lang.Object",     ClassUtil.internalNameToExternal("Ljava/lang/Object;"));
         assertEquals("int[]",                ClassUtil.internalNameToExternal("[I"));
         assertEquals("java.lang.Object[][]", ClassUtil.internalNameToExternal("[[Ljava/lang/Object;"));
-        
+
         try
         {
             ClassUtil.internalNameToExternal("Q");
