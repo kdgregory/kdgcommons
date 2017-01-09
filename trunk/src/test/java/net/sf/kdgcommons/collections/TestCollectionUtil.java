@@ -755,4 +755,105 @@ public class TestCollectionUtil extends TestCase
             assertEquals("partial results",     Arrays.asList(2),           ex.getPartialResults());
         }
     }
+
+
+    @SuppressWarnings("serial")
+    public void testGetVia() throws Exception
+    {
+        // I *really* hate this technique to make it look like I've got an inline map initializer
+        // (when it's really creating a new class) but in this case I think that the concise code
+        // justifies the means
+
+        Map<Object,Object> root = new HashMap<Object,Object>()
+        {{
+            put(0, "fribble");
+            put(1, new HashMap<Object,Object>()
+                    {{
+                        put("gorf", "blerp");
+                    }});
+            put("foo", new LinkedList<String>(Arrays.asList("argle", "bargle", "wargle", "zerg")));
+            put("bar", new String[] { "ix", "ax", "ox", "fx"});
+            put("baz", Arrays.asList(
+                    new HashMap<Object,Object>()
+                        {{
+                            put("foo", Arrays.asList("something", "wicked", "this", "way", "comes"));
+                        }},
+                    Arrays.asList("123", "bcd", "efg")));
+        }};
+
+        // happy paths
+        assertEquals("keypath: 0",
+                     "fribble",
+                     CollectionUtil.getVia(root, 0));
+        assertEquals("keypath: nothing",
+                     null,
+                     CollectionUtil.getVia(root, "nothing"));
+        assertEquals("keypath: 1 gorf",
+                     "blerp",
+                     CollectionUtil.getVia(root, 1, "gorf"));
+        assertEquals("keypath: foo 1",
+                     "bargle",
+                     CollectionUtil.getVia(root, "foo", 1));
+        assertEquals("keypath: foo 3",
+                     "zerg",
+                     CollectionUtil.getVia(root, "foo", 3));
+        assertEquals("keypath: bar 2",
+                     "ox",
+                     CollectionUtil.getVia(root, "bar", 2));
+        assertEquals("keypath: bar 3",
+                     "fx",
+                     CollectionUtil.getVia(root, "bar", 3));
+        assertEquals("keypath: baz 0 foo 3",
+                     "way",
+                     CollectionUtil.getVia(root, "baz", 0, "foo", 3));
+        assertEquals("keypath: baz 1 2",
+                     "efg",
+                     CollectionUtil.getVia(root, "baz", 1, 2));
+
+        // these should all find something missing
+
+        assertEquals("empty keypath",
+                     root,
+                     CollectionUtil.getVia(root));
+        assertEquals("null root",
+                     null,
+                     CollectionUtil.getVia(null, "fribble", "bibble", "biff"));
+        assertEquals("keypath: foo 4",
+                     null,
+                     CollectionUtil.getVia(root, "foo", 4));
+        assertEquals("keypath: foo 17",
+                     null,
+                     CollectionUtil.getVia(root, "foo", 17));
+        assertEquals("keypath: bar 17",
+                     null,
+                     CollectionUtil.getVia(root, "bar", 17));
+        assertEquals("keypath: bar 4",
+                     null,
+                     CollectionUtil.getVia(root, "bar", 4));
+
+        // and now the error tests -- note we're checking messages
+
+        try
+        {
+            CollectionUtil.getVia(root, "foo", "biff", "nope");
+            fail("did not throw when attempting to get from array via string index");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            assertTrue("exception indicates class", ex.getMessage().contains("java.util.LinkedList"));
+            assertTrue("exception indicates path", ex.getMessage().contains(Arrays.asList("foo", "biff").toString()));
+        }
+
+        try
+        {
+            CollectionUtil.getVia(root, "bar", 2, "nuh-huh", "nope");
+            fail("did not throw when attempting to get from non-collection");
+        }
+        catch (IllegalArgumentException ex)
+        {
+            assertTrue("exception indicates class", ex.getMessage().contains("java.lang.String"));
+            assertTrue("exception indicates path", ex.getMessage().contains(Arrays.asList("bar", 2, "nuh-huh").toString()));
+        }
+    }
+
 }
