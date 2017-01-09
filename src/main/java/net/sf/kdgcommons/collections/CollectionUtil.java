@@ -134,6 +134,31 @@ public class CollectionUtil
 
 
     /**
+     *  Stores an entry in a map if the boolean expression is true. Returns the
+     *  map as a convenience for chained invocations.
+     *
+     *  @since 1.0.15
+     */
+    public static <K,V> Map<K,V> putIf(Map<K,V> map, K key, V value, boolean expr)
+    {
+        if (expr) map.put(key, value);
+        return map;
+    }
+
+
+    /**
+     *  Stores an entry in a map if the value is not <code>null</code>. Returns the
+     *  map as a convenience for chained invocations.
+     *
+     *  @since 1.0.15
+     */
+    public static <K,V> Map<K,V> putIfNotNull(Map<K,V> map, K key, V value)
+    {
+        return putIf(map, key, value, value != null);
+    }
+
+
+    /**
      *  Adds the specified item to a map if it does not already exist. Returns
      *  either the added item or the existing mapping.
      *  <p>

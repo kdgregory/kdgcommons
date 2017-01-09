@@ -67,7 +67,6 @@ public class TestCollectionUtil extends TestCase
     }
 
 
-
     public void testAddAllFromVarargs() throws Exception
     {
         List<String> list = new ArrayList<String>();
@@ -118,6 +117,34 @@ public class TestCollectionUtil extends TestCase
         CollectionUtil.addIfNotNull(list, "bar");
 
         assertEquals(Arrays.asList("foo", "foo", "bar"), list);
+    }
+
+
+    public void testPutIf() throws Exception
+    {
+        Map<Object,Object> map = CollectionUtil.asMap("foo", "bar");
+
+        assertEquals("expression is true",
+                     CollectionUtil.asMap("foo", "bar", "argle", "bargle"),
+                     CollectionUtil.putIf(map, "argle", "bargle", true));
+
+        assertEquals("expression is true",
+                     CollectionUtil.asMap("foo", "bar", "argle", "bargle"),
+                     CollectionUtil.putIf(map, "bazzle", "biff", false));
+    }
+
+
+    public void testPutIfNotNull() throws Exception
+    {
+        Map<Object,Object> map = CollectionUtil.asMap("foo", "bar");
+
+        assertEquals("value is null",
+                     CollectionUtil.asMap("foo", "bar"),
+                     CollectionUtil.putIfNotNull(map, "argle", null));
+
+        assertEquals("value is not null",
+                     CollectionUtil.asMap("foo", "bar", "argle", "bargle"),
+                     CollectionUtil.putIfNotNull(map, "argle", "bargle"));
     }
 
 
