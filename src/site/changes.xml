@@ -16,6 +16,9 @@
                 CollectionUtil.cast(): add variant for maps
             </action>
             <action dev='kdgregory' type='add'>
+                CollectionUtil.getVia(): traverses hierarchies of maps, lists, and arrays
+            </action>
+            <action dev='kdgregory' type='add'>
                 CollectionUtil.putIf(), putIfNotNull(): conditional stores for maps
             </action>
             <action dev='kdgregory' type='add'>

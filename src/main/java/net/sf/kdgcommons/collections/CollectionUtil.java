@@ -14,7 +14,9 @@
 
 package net.sf.kdgcommons.collections;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -493,6 +495,80 @@ public class CollectionUtil
     public static <T> Collection<T> defaultIfEmpty(Collection<T> reg, Collection<T> def)
     {
         return ((reg == null) || (reg.size() == 0)) ? def : reg;
+    }
+
+
+    /**
+     *  Retrieves a value from a nested collection hierarchy by following a sequence
+     *  of keys. Supports arbitrary nesting of maps, arrays, and lists.
+     *
+     *  @param  root    The root object.
+     *  @param  keys    One or more keys. The first key is applied to the root object,
+     *                  the second key is applied to the result of that, and so on.
+     *                  Arrays and lists may only be accessed via numeric keys; maps
+     *                  may be accessed via any type of key.
+     *
+     *  @return The object located via the sequence of keys, <code>null</code> if
+     *          <em>any</em> key along the path does not resolve to an object.
+     *
+     *  @throws IllegalArgumentException if any object found during the traversal is
+     *          not a valid collection type, or if the key is not appropriate for the
+     *          collection.
+     *
+     *  @since 1.0.15
+     */
+    public static Object getVia(Object root, Object... keys)
+    {
+        Object current = root;
+
+        // I iterate by index rather than for-in so that I can construct exceptions
+        for (int ii = 0 ; ii < keys.length ; ii++)
+        {
+            try
+            {
+                Object key = keys[ii];
+                if (current == null)
+                {
+                    return null;
+                }
+                if (current instanceof Map)
+                {
+                    current = ((Map<Object,Object>)current).get(key);
+                }
+                else if (current instanceof List)
+                {
+                    int index = ((Number)key).intValue();
+                    List<Object> list = (List<Object>)current;
+                    current = (index < list.size())
+                            ? list.get(index)
+                            : null;
+                }
+                else if (current.getClass().isArray())
+                {
+                    int index = ((Number)key).intValue();
+                    current = (index < Array.getLength(current))
+                            ? Array.get(current, index)
+                            : null;
+                }
+                else
+                {
+                    List<Object> currentKeys = Arrays.asList(keys).subList(0, ii+1);
+                    throw new IllegalArgumentException(
+                            "attempted to get from " + current.getClass().getName()
+                            + " (path: " + currentKeys + ")");
+                }
+            }
+            catch (ClassCastException ex)
+            {
+                // I believe this is the only way that we can get here ...
+                List<Object> currentKeys = Arrays.asList(keys).subList(0, ii+1);
+                throw new IllegalArgumentException(
+                        "attempted to get from " + current.getClass().getName() + " with non-numeric index"
+                        + " (path: " + currentKeys + ")");
+            }
+        }
+
+        return current;
     }
 
 
