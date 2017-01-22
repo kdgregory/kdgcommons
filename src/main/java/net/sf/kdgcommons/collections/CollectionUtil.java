@@ -263,6 +263,8 @@ public class CollectionUtil
      *  This function exists to avoid suppressing warnings in application code.
      *
      *  @throws ClassCastException if any key/value is a different type.
+     *
+     *  @since 1.0.15
      */
     @SuppressWarnings("unchecked")
     public static <K,V> Map<K,V> cast(Map<?,?> map, Class<K> keyClass, Class<V> valueClass)
