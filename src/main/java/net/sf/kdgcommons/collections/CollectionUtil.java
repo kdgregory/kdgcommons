@@ -794,6 +794,40 @@ public class CollectionUtil
     }
 
 
+    /**
+     *  Returns a map that contains all keys in the specified collection.
+     *  <p>
+     *  The returned map is a HashMap; see variant for choosing map type.
+     */
+    public static <K,V> Map<K,V> submap(Map<K,V> src, Collection<K> keys)
+    {
+        return submap(src, keys, new HashMap<K,V>());
+    }
+
+
+    /**
+     *  Extracts all mappings from the source map that correspond to the passed
+     *  keys, and stores them in the destination map. Returns the destination
+     *  map as a convenience.
+     */
+    public static <K,V> Map<K,V> submap(Map<K,V> src, Collection<K> keys, Map<K,V> dest)
+    {
+        if ((src == null) || (keys == null) || (dest == null))
+        {
+            return dest;
+        }
+
+        for (K key : keys)
+        {
+            if (src.containsKey(key))
+            {
+                dest.put(key, src.get(key));
+            }
+        }
+        return dest;
+    }
+
+
 //----------------------------------------------------------------------------
 //  Supporting Objects
 //----------------------------------------------------------------------------

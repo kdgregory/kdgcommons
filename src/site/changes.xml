@@ -9,6 +9,9 @@
             <action dev='kdgregory' type='add'>
                 CollectionUtil.partition: breaks a passed collection into a list of max-size lists
             </action>
+            <action dev='kdgregory' type='add'>
+                CollectionUtil.submap: extracts mappings for a set of keys
+            </action>
         </release>
 
         <release version="1.0.15" date="2017-01-22"
