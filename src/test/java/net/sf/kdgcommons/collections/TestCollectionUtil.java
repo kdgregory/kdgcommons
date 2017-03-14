@@ -856,4 +856,22 @@ public class TestCollectionUtil extends TestCase
         }
     }
 
+
+    public void testPartition() throws Exception
+    {
+        assertEquals(
+                "null source",
+                Collections.<Integer>emptyList(),
+                CollectionUtil.partition(null, 2));
+
+        assertEquals(
+                "empty source list",
+                Collections.<Integer>emptyList(),
+                CollectionUtil.partition(Collections.<Integer>emptyList(), 2));
+
+        assertEquals(
+                "non-empty source array",
+                Arrays.asList(Arrays.asList(1,2), Arrays.asList(3,4), Arrays.asList(5)),
+                CollectionUtil.partition(Arrays.asList(1,2,3,4,5), 2));
+    }
 }
