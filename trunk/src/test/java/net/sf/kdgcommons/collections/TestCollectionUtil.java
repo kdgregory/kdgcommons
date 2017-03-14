@@ -24,6 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -874,4 +875,39 @@ public class TestCollectionUtil extends TestCase
                 Arrays.asList(Arrays.asList(1,2), Arrays.asList(3,4), Arrays.asList(5)),
                 CollectionUtil.partition(Arrays.asList(1,2,3,4,5), 2));
     }
+
+
+    public void testSubmap() throws Exception
+    {
+        Map<Integer,String> source = new HashMap<Integer,String>();
+        source.put(1, "foo");
+        source.put(2, "bar");
+        source.put(3, "baz");
+
+        assertEquals("null source",
+                     Collections.emptyMap(),
+                     CollectionUtil.submap(null, Arrays.asList(1, 2, 3)));
+
+        assertEquals("null keylist",
+                     Collections.emptyMap(),
+                     CollectionUtil.submap(source, null));
+
+        assertEquals("null destination",
+                     null,
+                     CollectionUtil.submap(source, Arrays.asList(1,2), null));
+
+        Map<Integer,String> expected = new HashMap<Integer,String>();
+        expected.put(2, "bar");
+
+        assertEquals("normal operation",
+                     expected,
+                     CollectionUtil.submap(source, Arrays.asList(2)));
+
+        Map<Integer,String> dest = new TreeMap<Integer,String>();
+
+        assertSame("explicit destination",
+                     dest,
+                     CollectionUtil.submap(source, Arrays.asList(2), dest));
+    }
+
 }
