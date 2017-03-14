@@ -18,6 +18,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -760,6 +761,36 @@ public class CollectionUtil
                 return pattern.matcher(str).matches() == include;
             }
         });
+    }
+
+
+    /**
+     *  Partitions the passed iterable into N sublists, each of which has
+     *  at most <code>maxSize</code> elements.
+     */
+    public static <T> List<List<T>> partition(Iterable<T> source, int maxSize)
+    {
+        if (source == null) return Collections.emptyList();
+
+        List<List<T>> result = new ArrayList<List<T>>();
+        List<T> sublist = new ArrayList<T>(maxSize);
+        int count = 0;
+        for (T item : source)
+        {
+            sublist.add(item);
+            count++;
+            if (count >= maxSize)
+            {
+                result.add(sublist);
+                sublist = new ArrayList<T>(maxSize);
+                count = 0;
+            }
+        }
+        if (sublist.size() > 0)
+        {
+            result.add(sublist);
+        }
+        return result;
     }
 
 
