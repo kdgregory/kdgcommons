@@ -48,4 +48,61 @@ public class TestNumericAsserts extends TestCase
         assertNotNull("did not assert for > delta %", last);
     }
 
+
+    public void testAssertApproximateLong() throws Exception
+    {
+        NumericAsserts.assertApproximate(100L, 100L, 0);
+        NumericAsserts.assertApproximate(100L, 101L, 1);
+        NumericAsserts.assertApproximate(100L,  99L, 1);
+
+        AssertionFailedError last = null;
+        try
+        {
+            NumericAsserts.assertApproximate(100L, 98L, 1);
+        }
+        catch (AssertionFailedError ee)
+        {
+            last = ee;
+        }
+        assertNotNull("did not assert for < delta %", last);
+
+        try
+        {
+            NumericAsserts.assertApproximate(100L, 102L, 1);
+        }
+        catch (AssertionFailedError ee)
+        {
+            last = ee;
+        }
+        assertNotNull("did not assert for > delta %", last);
+    }
+
+
+    public void testAssertApproximateDouble() throws Exception
+    {
+        NumericAsserts.assertApproximate(100.0, 100.0, 0);
+        NumericAsserts.assertApproximate(100.0, 101.0, 1);
+        NumericAsserts.assertApproximate(100.0,  99.0, 1);
+
+        AssertionFailedError last = null;
+        try
+        {
+            NumericAsserts.assertApproximate(100.0, 98.0, 1);
+        }
+        catch (AssertionFailedError ee)
+        {
+            last = ee;
+        }
+        assertNotNull("did not assert for < delta %", last);
+
+        try
+        {
+            NumericAsserts.assertApproximate(100.0, 102.0, 1);
+        }
+        catch (AssertionFailedError ee)
+        {
+            last = ee;
+        }
+        assertNotNull("did not assert for > delta %", last);
+    }
 }
