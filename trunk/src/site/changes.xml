@@ -13,6 +13,14 @@
                 CollectionUtil.submap: extracts mappings for a set of keys
             </action>
             <action dev='kdgregory' type='add'>
+                NumericAsserts: add assertApproximate() for long and double values
+                assertInRange()
+            </action>
+            <action dev='kdgregory' type='add'>
+                NumericAsserts: add assertInRange(), which allows caller to assert that the actual
+                value is within an arbitrary range +/- of the expected value
+            </action>
+            <action dev='kdgregory' type='add'>
                 SelfMock: a reflection-based mock object that invokes methods on itself. Used to mock
                 a portion of an interface without a long if-else chain in the invocation handler.
             </action>
