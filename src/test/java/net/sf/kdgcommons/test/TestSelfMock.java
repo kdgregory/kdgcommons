@@ -83,5 +83,4 @@ public class TestSelfMock extends TestCase
             // success
         }
     }
-
 }
