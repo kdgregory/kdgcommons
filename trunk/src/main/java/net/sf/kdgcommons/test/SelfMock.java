@@ -57,7 +57,8 @@ implements InvocationHandler
     {
         try
         {
-            Method selfMethod = getClass().getMethod(method.getName(), method.getParameterTypes());
+            Method selfMethod = getClass().getDeclaredMethod(method.getName(), method.getParameterTypes());
+            selfMethod.setAccessible(true);
             return selfMethod.invoke(this, args);
         }
         catch (NoSuchMethodException ex)
