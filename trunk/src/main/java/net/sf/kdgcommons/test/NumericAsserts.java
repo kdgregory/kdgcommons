@@ -24,67 +24,146 @@ public class NumericAsserts
 {
     /**
      *  Asserts that the actual value is within the expected, plus/minus the
-     *  specified percentage. This is a reasonable approach to probabilistic
-     *  testing.
+     *  specified percentage (useful for probabilistic testing).
      */
     public static void assertApproximate(int expected, int actual, int deltaPercent)
     {
+        assertApproximate(null, expected, actual, deltaPercent);
+    }
+
+
+    /**
+     *  Asserts that the actual value is within the expected, plus/minus the
+     *  specified percentage (useful for probabilistic testing). On failure,
+     *  prepends the supplied message (if any) to a description of the failure.
+     */
+    public static void assertApproximate(String message, int expected, int actual, int deltaPercent)
+    {
         int delta = (int)(((long)expected * deltaPercent) / 100);
-        assertInRange(expected - delta, expected + delta, actual);
+        assertInRange(message, expected - delta, expected + delta, actual);
+    }
+
+
+    /**
+     *  Asserts that the actual value is within the expected, plus/minus the
+     *  specified percentage (useful for probabilistic testing).
+     */
+    public static void assertApproximate(long expected, long actual, int deltaPercent)
+    {
+        assertApproximate(null, expected, actual, deltaPercent);
     }
 
     /**
      *  Asserts that the actual value is within the expected, plus/minus the
-     *  specified percentage. This is a reasonable approach to probabilistic
-     *  testing.
+     *  specified percentage (useful for probabilistic testing). On failure,
+     *  prepends the supplied message (if any) to a description of the failure.
      */
-    public static void assertApproximate(long expected, long actual, int deltaPercent)
+    public static void assertApproximate(String message, long expected, long actual, int deltaPercent)
     {
         // to avoid overflow, we swap the divide and multiply depending on the size of
         // the value -- assumption is that range of error is minimal compared to delta
         long delta = (expected > Integer.MAX_VALUE * 100)
                    ? (expected / 100) * deltaPercent
                    : (expected * deltaPercent) / 100;
-        assertInRange(expected - delta, expected + delta, actual);
+        assertInRange(message, expected - delta, expected + delta, actual);
     }
+
 
     /**
      *  Asserts that the actual value is within the expected, plus/minus the
-     *  specified percentage. This is a reasonable approach to probabilistic
-     *  testing.
+     *  specified percentage (useful for probabilistic testing).
      */
     public static void assertApproximate(double expected, double actual, double deltaPercent)
     {
-        // to avoid overflow, we swap the divide and multiply depending on the size of
-        // the value -- assumption is that range of error is minimal compared to delta
-        double delta = (expected * deltaPercent) / 100;
-        assertInRange(expected - delta, expected + delta, actual);
+        assertApproximate(null, expected, actual, deltaPercent);
     }
+
+
+    /**
+     *  Asserts that the actual value is within the expected, plus/minus the
+     *  specified percentage (useful for probabilistic testing). On failure,
+     *  prepends the supplied message (if any) to a description of the failure.
+     */
+    public static void assertApproximate(String message, double expected, double actual, double deltaPercent)
+    {
+        double delta = (expected * deltaPercent) / 100;
+        assertInRange(message, expected - delta, expected + delta, actual);
+    }
+
 
     /**
      *  Asserts that the actual value is within an arbitrary range +/- the expected value.
      */
     public static void assertInRange(int expectedLow, int expectedHigh, int actual)
     {
-        Assert.assertTrue("expected >= " + expectedLow + ", was " + actual, actual >= expectedLow);
-        Assert.assertTrue("expected <= " + expectedHigh + ", was " + actual, actual <= expectedHigh);
+        assertInRange(null, expectedLow, expectedHigh, actual);
     }
+
+
+    /**
+     *  Asserts that the actual value is within an arbitrary range +/- the expected value.
+     *  On failure, prepends the supplied message (if any) to a description of the failure.
+     */
+    public static void assertInRange(String message, int expectedLow, int expectedHigh, int actual)
+    {
+        if ((actual < expectedLow) || (actual > expectedHigh))
+        {
+            String baseMessage = "value not in expected range: was " + actual + ", expected between " + expectedLow + " and " + expectedHigh;
+            String actualMessage = (message != null)
+                                 ? message + ": " + baseMessage
+                                 : baseMessage;
+            Assert.fail(actualMessage);
+        }
+    }
+
 
     /**
      *  Asserts that the actual value is within an arbitrary range +/- the expected value.
      */
     public static void assertInRange(long expectedLow, long expectedHigh, long actual)
     {
-        Assert.assertTrue("expected >= " + expectedLow + ", was " + actual, actual >= expectedLow);
-        Assert.assertTrue("expected <= " + expectedHigh + ", was " + actual, actual <= expectedHigh);
+        assertInRange(null, expectedLow, expectedHigh, actual);
     }
+
+
+    /**
+     *  Asserts that the actual value is within an arbitrary range +/- the expected value.
+     *  On failure, prepends the supplied message (if any) to a description of the failure.
+     */
+    public static void assertInRange(String message, long expectedLow, long expectedHigh, long actual)
+    {
+        if ((actual < expectedLow) || (actual > expectedHigh))
+        {
+            String baseMessage = "value not in expected range: was " + actual + ", expected between " + expectedLow + " and " + expectedHigh;
+            String actualMessage = (message != null)
+                                 ? message + ": " + baseMessage
+                                 : baseMessage;
+            Assert.fail(actualMessage);
+        }
+    }
+
 
     /**
      *  Asserts that the actual value is within an arbitrary range +/- the expected value.
      */
     public static void assertInRange(double expectedLow, double expectedHigh, double actual)
     {
-        Assert.assertTrue("expected >= " + expectedLow + ", was " + actual, actual >= expectedLow);
-        Assert.assertTrue("expected <= " + expectedHigh + ", was " + actual, actual <= expectedHigh);
+        assertInRange(null, expectedLow, expectedHigh, actual);
+    }
+
+
+    /**
+     *  Asserts that the actual value is within an arbitrary range +/- the expected value.
+     */
+    public static void assertInRange(String message, double expectedLow, double expectedHigh, double actual)
+    {
+        if ((actual < expectedLow) || (actual > expectedHigh))
+        {
+            String baseMessage = "value not in expected range: was " + actual + ", expected between " + expectedLow + " and " + expectedHigh;
+            String actualMessage = (message != null)
+                                 ? message + ": " + baseMessage
+                                 : baseMessage;
+            Assert.fail(actualMessage);
+        }
     }
 }
