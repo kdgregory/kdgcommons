@@ -26,26 +26,40 @@ public class TestNumericAsserts extends TestCase
         NumericAsserts.assertApproximate(100, 101, 1);
         NumericAsserts.assertApproximate(100,  99, 1);
 
-        AssertionFailedError last = null;
-        try
-        {
-            NumericAsserts.assertApproximate(100, 98, 1);
-        }
-        catch (AssertionFailedError ee)
-        {
-            last = ee;
-        }
-        assertNotNull("did not assert for < delta %", last);
+        // note: we can't use fail() inside the try block (because it throws
+        //       AssertionFailedError) so must capture the exception and
+        //       assert on it afterward
+        AssertionFailedError lastAssertionResult;
 
         try
         {
-            NumericAsserts.assertApproximate(100, 102, 1);
+            NumericAsserts.assertApproximate("example", 100, 98, 1);
+            lastAssertionResult = null;
         }
         catch (AssertionFailedError ee)
         {
-            last = ee;
+            lastAssertionResult = ee;
         }
-        assertNotNull("did not assert for > delta %", last);
+        assertNotNull("did not assert for < delta %",   lastAssertionResult);
+        assertTrue("message contained passed title",    lastAssertionResult.getMessage().contains("example: "));
+        assertTrue("message identified original value", lastAssertionResult.getMessage().contains("98"));
+        assertTrue("message identified expected low",   lastAssertionResult.getMessage().contains("99"));
+        assertTrue("message identified expected high",  lastAssertionResult.getMessage().contains("101"));
+
+        try
+        {
+            NumericAsserts.assertApproximate("example", 100, 102, 1);
+            lastAssertionResult = null;
+        }
+        catch (AssertionFailedError ee)
+        {
+            lastAssertionResult = ee;
+        }
+        assertNotNull("did not assert for > delta %",   lastAssertionResult);
+        assertTrue("message contained passed title",    lastAssertionResult.getMessage().contains("example: "));
+        assertTrue("message identified original value", lastAssertionResult.getMessage().contains("102"));
+        assertTrue("message identified expected low",   lastAssertionResult.getMessage().contains("99"));
+        assertTrue("message identified expected high",  lastAssertionResult.getMessage().contains("101"));
     }
 
 
@@ -55,26 +69,40 @@ public class TestNumericAsserts extends TestCase
         NumericAsserts.assertApproximate(100L, 101L, 1);
         NumericAsserts.assertApproximate(100L,  99L, 1);
 
-        AssertionFailedError last = null;
-        try
-        {
-            NumericAsserts.assertApproximate(100L, 98L, 1);
-        }
-        catch (AssertionFailedError ee)
-        {
-            last = ee;
-        }
-        assertNotNull("did not assert for < delta %", last);
+        // note: we can't use fail() inside the try block (because it throws
+        //       AssertionFailedError) so must capture the exception and
+        //       assert on it afterward
+        AssertionFailedError lastAssertionResult;
 
         try
         {
-            NumericAsserts.assertApproximate(100L, 102L, 1);
+            NumericAsserts.assertApproximate("example", 100L, 98L, 1);
+            lastAssertionResult = null;
         }
         catch (AssertionFailedError ee)
         {
-            last = ee;
+            lastAssertionResult = ee;
         }
-        assertNotNull("did not assert for > delta %", last);
+        assertNotNull("did not assert for < delta %",   lastAssertionResult);
+        assertTrue("message contained passed title",    lastAssertionResult.getMessage().contains("example: "));
+        assertTrue("message identified original value", lastAssertionResult.getMessage().contains("98"));
+        assertTrue("message identified expected low",   lastAssertionResult.getMessage().contains("99"));
+        assertTrue("message identified expected high",  lastAssertionResult.getMessage().contains("101"));
+
+        try
+        {
+            NumericAsserts.assertApproximate("example", 100L, 102L, 1);
+            lastAssertionResult = null;
+        }
+        catch (AssertionFailedError ee)
+        {
+            lastAssertionResult = ee;
+        }
+        assertNotNull("did not assert for > delta %",   lastAssertionResult);
+        assertTrue("message contained passed title",    lastAssertionResult.getMessage().contains("example: "));
+        assertTrue("message identified original value", lastAssertionResult.getMessage().contains("102"));
+        assertTrue("message identified expected low",   lastAssertionResult.getMessage().contains("99"));
+        assertTrue("message identified expected high",  lastAssertionResult.getMessage().contains("101"));
     }
 
 
@@ -84,25 +112,39 @@ public class TestNumericAsserts extends TestCase
         NumericAsserts.assertApproximate(100.0, 101.0, 1);
         NumericAsserts.assertApproximate(100.0,  99.0, 1);
 
-        AssertionFailedError last = null;
-        try
-        {
-            NumericAsserts.assertApproximate(100.0, 98.0, 1);
-        }
-        catch (AssertionFailedError ee)
-        {
-            last = ee;
-        }
-        assertNotNull("did not assert for < delta %", last);
+        // note: we can't use fail() inside the try block (because it throws
+        //       AssertionFailedError) so must capture the exception and
+        //       assert on it afterward
+        AssertionFailedError lastAssertionResult;
 
         try
         {
-            NumericAsserts.assertApproximate(100.0, 102.0, 1);
+            NumericAsserts.assertApproximate("example", 100.0, 98.0, 1);
+            lastAssertionResult = null;
         }
         catch (AssertionFailedError ee)
         {
-            last = ee;
+            lastAssertionResult = ee;
         }
-        assertNotNull("did not assert for > delta %", last);
+        assertNotNull("did not assert for < delta %",   lastAssertionResult);
+        assertTrue("message contained passed title",    lastAssertionResult.getMessage().contains("example: "));
+        assertTrue("message identified original value", lastAssertionResult.getMessage().contains("98"));
+        assertTrue("message identified expected low",   lastAssertionResult.getMessage().contains("99"));
+        assertTrue("message identified expected high",  lastAssertionResult.getMessage().contains("101"));
+
+        try
+        {
+            NumericAsserts.assertApproximate("example", 100.0, 102.0, 1);
+            lastAssertionResult = null;
+        }
+        catch (AssertionFailedError ee)
+        {
+            lastAssertionResult = ee;
+        }
+        assertNotNull("did not assert for > delta %",   lastAssertionResult);
+        assertTrue("message contained passed title",    lastAssertionResult.getMessage().contains("example: "));
+        assertTrue("message identified original value", lastAssertionResult.getMessage().contains("102"));
+        assertTrue("message identified expected low",   lastAssertionResult.getMessage().contains("99"));
+        assertTrue("message identified expected high",  lastAssertionResult.getMessage().contains("101"));
     }
 }
