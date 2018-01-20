@@ -83,4 +83,13 @@ public class TestSelfMock extends TestCase
             // success
         }
     }
+
+
+    public void testInvokeInheritedFunctions() throws Exception
+    {
+        TestMock mock = new TestMock() { /* nothing new here */ };
+        CharSequence instance = mock.getInstance();
+
+        assertEquals(123, instance.length());
+    }
 }
