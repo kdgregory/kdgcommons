@@ -28,6 +28,30 @@ import junit.framework.Assert;
 public class StringAsserts
 {
     /**
+     *  Asserts that the passed string is not empty or null.
+     */
+    public static void assertNotEmpty(String value)
+    {
+        assertNotEmpty(null, value);
+    }
+
+
+    /**
+     *  Asserts that the passed string is not empty or null. On failure, reports
+     *  the specified message along with a descriptive error message.
+     */
+    public static void assertNotEmpty(String message, String value)
+    {
+        String baseMessage = (message == null)
+                           ? "expected not-empty"
+                           : message + ": expected not-empty";
+
+        if (value == null)          Assert.fail(baseMessage + ", was null");
+        if (value.length() == 0)    Assert.fail(baseMessage);
+    }
+
+
+    /**
      *  Asserts that a given string contains N instances of a substring.
      *
      *  @param  str         The source string.

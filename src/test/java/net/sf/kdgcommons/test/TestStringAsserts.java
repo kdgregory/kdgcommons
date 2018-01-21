@@ -20,6 +20,50 @@ import junit.framework.TestCase;
 
 public class TestStringAsserts extends TestCase
 {
+    public void testAsserNotEmpty() throws Exception
+    {
+        StringAsserts.assertNotEmpty("this succeeds");
+
+        AssertionFailedError fail1 = null;
+        try
+        {
+            StringAsserts.assertNotEmpty(null);
+        }
+        catch (AssertionFailedError ex)
+        {
+            fail1 = ex;
+            assertEquals("expected exception to indicate value was null", "expected not-empty, was null", ex.getMessage());
+        }
+        assertNotNull("null did not cause assertion failure", fail1);
+
+        AssertionFailedError fail2 = null;
+        try
+        {
+            StringAsserts.assertNotEmpty("");
+        }
+        catch (AssertionFailedError ex)
+        {
+            fail2 = ex;
+            assertEquals("expected exception to indicate value was empty", "expected not-empty", ex.getMessage());
+        }
+        assertNotNull("empty string did not cause assertion failure", fail2);
+
+        AssertionFailedError fail3 = null;
+        try
+        {
+            StringAsserts.assertNotEmpty("example", "");
+        }
+        catch (AssertionFailedError ex)
+        {
+            fail3 = ex;
+            assertEquals("expected exception to start with user message", "example: expected not-empty", ex.getMessage());
+        }
+        assertNotNull("null did not cause assertion failure", fail3);
+
+
+    }
+
+
     public void testAssertSubstringCount0() throws Exception
     {
         StringAsserts.assertSubstringCount("foo", "bar", 0);
