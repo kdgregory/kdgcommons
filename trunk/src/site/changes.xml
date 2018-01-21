@@ -21,6 +21,9 @@
                 value is within an arbitrary range +/- of the expected value
             </action>
             <action dev='kdgregory' type='add'>
+                StringAsserts.assertNotEmpty()
+            </action>
+            <action dev='kdgregory' type='add'>
                 SelfMock: a reflection-based mock object that invokes methods on itself. Used to mock
                 a portion of an interface without a long if-else chain in the invocation handler.
             </action>
