@@ -215,7 +215,7 @@ public class IOUtil
 
 
     /**
-     *  Repeatedly calls <code>skip()/code> on the underlying stream, until either the
+     *  Repeatedly calls <code>skip()</code> on the underlying stream, until either the
      *  desired number of bytes have been read or EOF is reached. Returns the number
      *  of bytes actually skipped.
      *
