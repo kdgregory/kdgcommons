@@ -15,6 +15,7 @@
 package net.sf.kdgcommons.lang;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -306,6 +307,38 @@ public class ClassUtil
                 return true;
         }
         return false;
+    }
+
+
+    /**
+     *  Looks for the specified field in the class or its superclasses, returning
+     *  its value if it exists. Throws <code>NoSuchFieldException</code> if unable
+     *  to find the field in the class hierarchy, or if an exception occurred while
+     *  retrieving its value.
+     *  <p>
+     *  Note: does not verify that actual field value matches <code>expectedClass</code>
+     *  (this gets tricky when dealing with primitive wrapper classes).
+     */
+    public static <T> T getFieldValue(Object obj, String fieldName, Class<T> expectedClass)
+    throws NoSuchFieldException
+    {
+        for (Class<?> objKlass = obj.getClass() ; objKlass != null ; objKlass = objKlass.getSuperclass())
+        {
+            Field field = null;
+            try
+            {
+                field = objKlass.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                return (T)field.get(obj);
+            }
+            catch (Exception ignored)
+            {
+                // most likely a NoSuchFieldException, but could be a security exception
+                // from setAccessible(); in either case we'll just try superclass
+            }
+        }
+
+        throw new NoSuchFieldException("unable to retrieve field " + fieldName + " from object of class " + obj.getClass().getName());
     }
 
 

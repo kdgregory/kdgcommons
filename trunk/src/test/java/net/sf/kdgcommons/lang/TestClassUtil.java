@@ -48,27 +48,70 @@ public class TestClassUtil extends TestCase
 
     public static class Parent
     {
-        public int foo()                        { return 1; }
+        protected int parentField;
+        protected int fieldToBeShadowed;
+
+        public Parent()
+        {}
+
+        public Parent(int fieldValue, int shadowValue)
+        {
+            parentField = fieldValue;
+            fieldToBeShadowed = shadowValue;
+        }
+
+        public int foo()
+        { return 1; }
 
         @Bar
-        public int bar()                        { return 2; }
+        public int bar()
+        { return 2; }
     }
 
 
     public static class Child
     extends Parent
     {
+        // leaving this private to verify that we can make it accessible
+        @SuppressWarnings("unused")
+        private int childField;
+
+        public Child()
+        {}
+
+        public Child(int parentValue, int shadowValue, int fieldValue)
+        {
+            super(parentValue, shadowValue);
+            childField = fieldValue;
+        }
+
         @Override
-        public int bar()                        { return 3; }
+        public int bar()
+        { return 3; }
 
         @Foo
-        public int baz()                        { return 3; }
+        public int baz()
+        { return 3; }
     }
 
 
     public static class Grandchild extends Child
     {
-        public int bar(int param)               { return 4; }
+        public int grandchildField;
+        public int fieldToBeShadowed;
+
+        public Grandchild()
+        {}
+
+        public Grandchild(int parentValue, int parentShadowValue, int childValue, int fieldValue, int shadowValue)
+        {
+            super(parentValue, parentShadowValue, childValue);
+            grandchildField = fieldValue;
+            fieldToBeShadowed = shadowValue;
+        }
+
+        public int bar(int param)
+        { return 4; }
     }
 
 
@@ -76,6 +119,7 @@ public class TestClassUtil extends TestCase
     {
         public    void foo(Object val)          { /* nothing here */ }
 
+        @SuppressWarnings("unused")
         private   void bar(Object val)          { /* nothing here */ }
 
         protected void baz(Object val)          { /* nothing here */ }
@@ -513,4 +557,34 @@ public class TestClassUtil extends TestCase
         assertEquals("override: parameters",    Arrays.asList(Object.class),
                                                 Arrays.asList(m3.getParameterTypes()));
     }
+
+
+    public void testGetFieldValue() throws Exception
+    {
+        Grandchild obj1 = new Grandchild(1, 2, 3, 4, 5);
+        assertEquals("parentField",         Integer.valueOf(1),     ClassUtil.getFieldValue(obj1, "parentField",     Integer.TYPE));
+        assertEquals("childField",          Integer.valueOf(3),     ClassUtil.getFieldValue(obj1, "childField",      Integer.TYPE));
+        assertEquals("grandchildField",     Integer.valueOf(4),     ClassUtil.getFieldValue(obj1, "grandchildField", Integer.TYPE));
+        assertEquals("fieldToBeShadowed",   Integer.valueOf(5),     ClassUtil.getFieldValue(obj1, "fieldToBeShadowed", Integer.TYPE));
+
+        Child obj2 = new Child(1, 2, 3);
+        assertEquals("parentField",         Integer.valueOf(1),     ClassUtil.getFieldValue(obj2, "parentField",     Integer.TYPE));
+        assertEquals("childField",          Integer.valueOf(3),     ClassUtil.getFieldValue(obj2, "childField",      Integer.TYPE));
+        assertEquals("fieldToBeShadowed",   Integer.valueOf(2),     ClassUtil.getFieldValue(obj2, "fieldToBeShadowed", Integer.TYPE));
+
+        try
+        {
+            ClassUtil.getFieldValue(obj2, "grandchildField", Integer.TYPE);
+            fail("did not throw when retrieving non-existent field");
+        }
+        catch (NoSuchFieldException ex)
+        {
+            String message = ex.getMessage();
+            assertTrue("exception message includes field name (was: \"" + message + "\")",
+                       message.contains("grandchildField"));
+            assertTrue("exception message includes class name (was: \"" + message + "\")",
+                       message.contains("Child"));
+        }
+    }
+
 }

@@ -7,25 +7,28 @@
         <release version="1.0.16" date="TBD"
             description="TBD">
             <action dev='kdgregory' type='add'>
-                CollectionUtil.partition: breaks a passed collection into a list of max-size lists
+                ClassUtil.getFieldValue(): retrieves a field's value from wherever it's defined in
+                the class hierarchy
             </action>
             <action dev='kdgregory' type='add'>
-                CollectionUtil.submap: extracts mappings for a set of keys
+                CollectionUtil.partition(): breaks a passed collection into a list of max-size lists
+            </action>
+            <action dev='kdgregory' type='add'>
+                CollectionUtil.submap(): extracts mappings for a set of keys.
             </action>
             <action dev='kdgregory' type='add'>
                 NumericAsserts: add assertApproximate() for long and double values
-                assertInRange()
             </action>
             <action dev='kdgregory' type='add'>
-                NumericAsserts: add assertInRange(), which allows caller to assert that the actual
-                value is within an arbitrary range +/- of the expected value
+                NumericAsserts.assertInRange(): allows caller to assert that the actual value is
+                within an arbitrary range +/- of the expected value
             </action>
             <action dev='kdgregory' type='add'>
                 StringAsserts.assertNotEmpty()
             </action>
             <action dev='kdgregory' type='add'>
-                SelfMock: a reflection-based mock object that invokes methods on itself. Used to mock
-                a portion of an interface without a long if-else chain in the invocation handler.
+                SelfMock: a reflection-based mock object that invokes methods on itself; used to mock
+                a portion of an interface without a long if-else chain in the invocation handler
             </action>
         </release>
 
