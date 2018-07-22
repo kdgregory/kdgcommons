@@ -82,7 +82,7 @@ public class StringAsserts
         int actual = 0;
         for (int idx = str.indexOf(sub) ; (idx >= 0) && (idx < str.length()) ; )
         {
-            actual += (idx >= 0) ? 1 : 0;
+            actual++;
             idx = str.indexOf(sub, idx + 1);
         }
         Assert.assertEquals(message + ": count(" + sub + ")",
