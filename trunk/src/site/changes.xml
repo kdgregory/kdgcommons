@@ -11,6 +11,9 @@
                 the class hierarchy
             </action>
             <action dev='kdgregory' type='add'>
+                CollectionUtil.isEmpty(), isNotEmpty(): now accept Maps
+            </action>
+            <action dev='kdgregory' type='add'>
                 CollectionUtil.partition(): breaks a passed collection into a list of max-size lists
             </action>
             <action dev='kdgregory' type='add'>
