@@ -4,7 +4,10 @@
 	</properties>
 
     <body>
-        <release version="1.0.16" date="TBD"
+        <release version="1.0.17" date="TBD"
+        </release>
+
+        <release version="1.0.16" date="1018-07-22"
             description="TBD">
             <action dev='kdgregory' type='add'>
                 ClassUtil.getFieldValue(): retrieves a field's value from wherever it's defined in
