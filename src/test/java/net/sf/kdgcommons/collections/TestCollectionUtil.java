@@ -203,13 +203,30 @@ public class TestCollectionUtil extends TestCase
 
     public void testIsEmpty() throws Exception
     {
-        assertTrue(CollectionUtil.isEmpty(null));
-        assertTrue(CollectionUtil.isEmpty(Arrays.asList()));
-        assertFalse(CollectionUtil.isEmpty(Arrays.asList("foo")));
+        List<String> list1 = null;
+        assertTrue(CollectionUtil.isEmpty(list1));
+        assertFalse(CollectionUtil.isNotEmpty(list1));
 
-        assertFalse(CollectionUtil.isNotEmpty(null));
-        assertFalse(CollectionUtil.isNotEmpty(Arrays.asList()));
-        assertTrue(CollectionUtil.isNotEmpty(Arrays.asList("foo")));
+        List<String> list2 = new ArrayList<String>();
+        assertTrue(CollectionUtil.isEmpty(list2));
+        assertFalse(CollectionUtil.isNotEmpty(list2));
+
+        List<String> list3 = Arrays.asList("foo");
+        assertFalse(CollectionUtil.isEmpty(list3));
+        assertTrue(CollectionUtil.isNotEmpty(list3));
+
+        Map<String,String> map1 = null;
+        assertTrue(CollectionUtil.isEmpty(map1));
+        assertFalse(CollectionUtil.isNotEmpty(map1));
+
+        Map<String,String> map2 = new HashMap<String,String>();
+        assertTrue(CollectionUtil.isEmpty(map2));
+        assertFalse(CollectionUtil.isNotEmpty(map2));
+
+        Map<String,String> map3 = new HashMap<String,String>();
+        map3.put("foo", "bar");
+        assertFalse(CollectionUtil.isEmpty(list3));
+        assertTrue(CollectionUtil.isNotEmpty(map3));
     }
 
 

@@ -445,6 +445,28 @@ public class CollectionUtil
 
 
     /**
+     *  Returns <code>true</code> if the passed map is either <code>null</code>
+     *  or has size 0.
+     */
+    public static boolean isEmpty(Map<?,?> m)
+    {
+        return (m == null)
+             ? true
+             : (m.size() == 0);
+    }
+
+
+    /**
+     *  Returns <code>true</code> if the passed map is not <code>null</code>
+     *  and has size &gt; 0.
+     */
+    public static boolean isNotEmpty(Map<?,?> m)
+    {
+        return (m != null) && (m.size() > 0);
+    }
+
+
+    /**
      *  Compares two collections of <code>Comparable</code> elements. The two collections are
      *  iterated, and the first not-equal <code>compareTo()</code> result is returned. If the
      *  collections are of equal length and contain the same elements in iteration order, they
