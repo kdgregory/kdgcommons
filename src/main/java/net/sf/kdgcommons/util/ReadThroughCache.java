@@ -149,7 +149,7 @@ public class ReadThroughCache<K,V>
 
              @Override
              protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
-                return size() > size;
+                return this.size() > size;
              }
         };
     }

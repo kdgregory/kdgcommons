@@ -47,4 +47,11 @@
         <!-- all paths are covered; FindBugs is being paranoid -->
     </Match>
 
+    <Match>
+        <Class name='net.sf.kdgcommons.lang.ObjectUtil' />
+        <Method name='equals' />
+        <Bug pattern='RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE' />
+        <!-- intentional: as written I consider the conditions more obvious -->
+    </Match>
+
 </FindBugsFilter>
