@@ -6,6 +6,9 @@
     <body>
         <release version="1.0.17" date="TBD"
             description="TBD">
+            <action dev='kdgregory' type='add'>
+                JDBCUtil: add retrieve(ResultSet)
+            </action>
         </release>
 
         <release version="1.0.16" date="2018-07-22"

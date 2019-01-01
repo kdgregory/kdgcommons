@@ -16,12 +16,19 @@ package net.sf.kdgcommons.sql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
+import net.sf.kdgcommons.collections.CollectionUtil;
 import net.sf.kdgcommons.test.ExceptionMock;
+import net.sf.kdgcommons.test.SelfMock;
 import net.sf.kdgcommons.test.SimpleMock;
 
 
@@ -42,10 +49,100 @@ public class TestJDBCUtil extends TestCase
 //  Support Code
 //----------------------------------------------------------------------------
 
+    private static class ResultSetMock
+    extends SelfMock<ResultSet>
+    {
+        private String[] columnNames;
+
+        public int getMetaDataInvocationCount;
+        public int nextInvocationCount;
+
+        private Iterator<? extends Map<Object,Object>> rowItx;
+        private Map<Object,Object> currentRow;
+
+        public ResultSetMock(String[] columnNames, List<? extends Map<Object,Object>> data)
+        {
+            super(ResultSet.class);
+            this.columnNames = columnNames;
+            this.rowItx = data.iterator();
+        }
+
+        @SuppressWarnings("unused")
+        public ResultSetMetaData getMetaData()
+        {
+            getMetaDataInvocationCount++;
+            return new ResultSetMetaDataMock(columnNames).getInstance();
+        }
+
+        @SuppressWarnings("unused")
+        public boolean next()
+        {
+            nextInvocationCount++;
+            if (rowItx.hasNext())
+            {
+                currentRow = rowItx.next();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        @SuppressWarnings("unused")
+        public Object getObject(int idx)
+        {
+            return currentRow.get(columnNames[idx - 1]);
+        }
+    }
+
+
+    private static class ResultSetMetaDataMock
+    extends SelfMock<ResultSetMetaData>
+    {
+        private String[] columnNames;
+
+        public ResultSetMetaDataMock(String[] columnNames)
+        {
+            super(ResultSetMetaData.class);
+            this.columnNames = columnNames;
+        }
+
+        @SuppressWarnings("unused")
+        public int getColumnCount()
+        {
+            return columnNames.length;
+        }
+
+        @SuppressWarnings("unused")
+        public String getColumnName(int idx)
+        {
+            return columnNames[idx - 1];
+        }
+    }
+
 
 //----------------------------------------------------------------------------
 //  Test cases
 //----------------------------------------------------------------------------
+
+    public void testRetrieve() throws Exception
+    {
+        final List<? extends Map<Object,Object>> data = Arrays.asList(
+            CollectionUtil.asMap("foo", "123",  "argle", Integer.valueOf(123)),
+            CollectionUtil.asMap("foo", "baz",  "argle", Integer.valueOf(456)),
+            CollectionUtil.asMap("foo", null,   "argle", Integer.valueOf(789))
+        );
+
+        ResultSetMock mock = new ResultSetMock(new String[] { "foo", "argle" }, data);
+        List<Map<String,Object>> result = JDBCUtil.retrieve(mock.getInstance());
+
+        assertEquals("result equivalent to source data",    data,   result);
+        assertEquals("getMetaData() invocation count",      1,      mock.getMetaDataInvocationCount);
+        assertEquals("next() invocation count",             4,      mock.nextInvocationCount);
+
+    }
+
 
     public void testCloseQuietly()
     throws Exception
