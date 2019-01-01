@@ -16,8 +16,13 @@ package net.sf.kdgcommons.sql;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -25,6 +30,34 @@ import java.sql.Statement;
  */
 public class JDBCUtil
 {
+    /**
+     *  Iterates through the passed <code>ResultSet</code>, converting each row into a
+     *  <code>Map</code>, where keys are the column names as retrieved from metadata,
+     *  and values are the result of calling <code>getObject()</code>.
+     *  <p>
+     *  Caller is responsible for closing the <code>ResultSet</code>.
+     */
+    public static List<Map<String,Object>> retrieve(ResultSet rslt)
+    throws SQLException
+    {
+        // we use a LinkedList because it has simpler memory allocation characteristics
+        List<Map<String,Object>> results = new LinkedList<Map<String,Object>>();
+
+        ResultSetMetaData meta = rslt.getMetaData();
+        while (rslt.next())
+        {
+            Map<String,Object> row = new HashMap<String,Object>();
+            for (int ii = 1 ; ii <= meta.getColumnCount() ; ii++)
+            {
+                row.put(meta.getColumnName(ii), rslt.getObject(ii));
+            }
+            results.add(row);
+        }
+
+        return results;
+    }
+
+
     /**
      *  Closes the passed <code>Connection</code> ignoring exceptions. This is usually
      *  called in a <code>finally</code> block, and throwing an exception there would
