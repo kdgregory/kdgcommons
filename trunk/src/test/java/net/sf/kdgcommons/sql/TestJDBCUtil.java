@@ -35,48 +35,81 @@ import net.sf.kdgcommons.test.SimpleMock;
  */
 public class TestJDBCUtil extends TestCase
 {
-
     public TestJDBCUtil(String testName)
     {
         super(testName);
     }
 
-
 //----------------------------------------------------------------------------
 //  Support Code
 //----------------------------------------------------------------------------
 
-    private static class ConnectionMock
+    private final static List<? extends Map<Object,Object>> SAMPLE_DATA = Arrays.asList(
+        CollectionUtil.asMap("foo", "123",  "argle", Integer.valueOf(123)),
+        CollectionUtil.asMap("foo", "baz",  "argle", Integer.valueOf(456)),
+        CollectionUtil.asMap("foo", null,   "argle", Integer.valueOf(789))
+    );
+
+    private final static String[] SAMPLE_DATA_COLNAMES = new String[] { "foo", "argle" };
+
+
+    private static class MockConnection
     extends SelfMock<Connection>
     {
+        public boolean isOpen = true;
         public String lastPrepareSql;
-        public PreparedStatementMock lastPrepareMock;
+        public MockPreparedStatement lastPrepareMock;
 
-        public ConnectionMock()
+        public MockConnection()
         {
             super(Connection.class);
+        }
+
+        @SuppressWarnings("unused")
+        public void close()
+        {
+            isOpen = false;
         }
 
         @SuppressWarnings("unused")
         public PreparedStatement prepareStatement(String sql)
         {
             lastPrepareSql = sql;
-            lastPrepareMock = new PreparedStatementMock();
+            lastPrepareMock = new MockPreparedStatement();
             return lastPrepareMock.getInstance();
         }
     }
 
 
-    private static class PreparedStatementMock
+    private static class MockPreparedStatement
     extends SelfMock<PreparedStatement>
     {
+        // these can be changed if necessary
+        public String[] queryColumnNames = SAMPLE_DATA_COLNAMES;
+        public List<? extends Map<Object,Object>> queryData = SAMPLE_DATA;
+
         // note: first element will always be null; objects are stored
         //       at the index specified in the call
         public ArrayList<Object> parameters = new ArrayList<Object>();
+        public boolean isOpen = true;
+        public MockResultSet lastResultMock;
 
-        public PreparedStatementMock()
+        public MockPreparedStatement()
         {
             super(PreparedStatement.class);
+        }
+
+        @SuppressWarnings("unused")
+        public void close()
+        {
+            isOpen = false;
+        }
+
+        @SuppressWarnings("unused")
+        public ResultSet executeQuery()
+        {
+            lastResultMock = new MockResultSet(queryColumnNames, queryData);
+            return lastResultMock.getInstance();
         }
 
         @SuppressWarnings("unused")
@@ -94,18 +127,19 @@ public class TestJDBCUtil extends TestCase
     }
 
 
-    private static class ResultSetMock
+    private static class MockResultSet
     extends SelfMock<ResultSet>
     {
         private String[] columnNames;
 
         public int getMetaDataInvocationCount;
         public int nextInvocationCount;
+        public boolean isOpen = true;
 
         private Iterator<? extends Map<Object,Object>> rowItx;
         private Map<Object,Object> currentRow;
 
-        public ResultSetMock(String[] columnNames, List<? extends Map<Object,Object>> data)
+        public MockResultSet(String[] columnNames, List<? extends Map<Object,Object>> data)
         {
             super(ResultSet.class);
             this.columnNames = columnNames;
@@ -113,10 +147,16 @@ public class TestJDBCUtil extends TestCase
         }
 
         @SuppressWarnings("unused")
+        public void close()
+        {
+            isOpen = false;
+        }
+
+        @SuppressWarnings("unused")
         public ResultSetMetaData getMetaData()
         {
             getMetaDataInvocationCount++;
-            return new ResultSetMetaDataMock(columnNames).getInstance();
+            return new MockResultSetMetaData(columnNames).getInstance();
         }
 
         @SuppressWarnings("unused")
@@ -142,12 +182,12 @@ public class TestJDBCUtil extends TestCase
     }
 
 
-    private static class ResultSetMetaDataMock
+    private static class MockResultSetMetaData
     extends SelfMock<ResultSetMetaData>
     {
         private String[] columnNames;
 
-        public ResultSetMetaDataMock(String[] columnNames)
+        public MockResultSetMetaData(String[] columnNames)
         {
             super(ResultSetMetaData.class);
             this.columnNames = columnNames;
@@ -171,34 +211,46 @@ public class TestJDBCUtil extends TestCase
 //  Test cases
 //----------------------------------------------------------------------------
 
+    public void testExecuteQuery() throws Exception
+    {
+        final String sql = "select * from foo where bar = ?";
+
+        MockConnection cxtMock = new MockConnection();
+        List<? extends Map<String,Object>> result = JDBCUtil.executeQuery(cxtMock.getInstance(), sql, "baz");
+
+        assertEquals("SQL",                 sql,                        cxtMock.lastPrepareSql);
+        assertEquals("parameters",          Arrays.asList(null, "baz"), cxtMock.lastPrepareMock.parameters);
+        assertEquals("results",             SAMPLE_DATA,                result);
+        assertTrue("connection still open",                             cxtMock.isOpen);
+        assertFalse("statment not open",                                cxtMock.lastPrepareMock.isOpen);
+        assertFalse("resultset not open",                               cxtMock.lastPrepareMock.lastResultMock.isOpen);
+    }
+
+
     public void testPrepare() throws Exception
     {
         final String sql = "select * from foo where bar = ?";
 
-        ConnectionMock cxtMock = new ConnectionMock();
+        MockConnection cxtMock = new MockConnection();
         PreparedStatement stmt = JDBCUtil.prepare(cxtMock.getInstance(), sql, "baz");
 
-        assertNotNull("created statement", stmt);
-        assertEquals("SQL", sql, cxtMock.lastPrepareSql);
-        assertEquals("parameters", Arrays.asList(null, "baz"), cxtMock.lastPrepareMock.parameters);
+        assertNotNull("created statement",                              stmt);
+        assertEquals("SQL",                 sql,                        cxtMock.lastPrepareSql);
+        assertEquals("parameters",          Arrays.asList(null, "baz"), cxtMock.lastPrepareMock.parameters);
+        assertTrue("statement open",                                    cxtMock.lastPrepareMock.isOpen);
+        assertTrue("connection still open",                             cxtMock.isOpen);
     }
 
 
     public void testRetrieve() throws Exception
     {
-        final List<? extends Map<Object,Object>> data = Arrays.asList(
-            CollectionUtil.asMap("foo", "123",  "argle", Integer.valueOf(123)),
-            CollectionUtil.asMap("foo", "baz",  "argle", Integer.valueOf(456)),
-            CollectionUtil.asMap("foo", null,   "argle", Integer.valueOf(789))
-        );
-
-        ResultSetMock mock = new ResultSetMock(new String[] { "foo", "argle" }, data);
+        MockResultSet mock = new MockResultSet(SAMPLE_DATA_COLNAMES, SAMPLE_DATA);
         List<Map<String,Object>> result = JDBCUtil.retrieve(mock.getInstance());
 
-        assertEquals("result equivalent to source data",    data,   result);
+        assertEquals("result equivalent to source data",    SAMPLE_DATA,   result);
         assertEquals("getMetaData() invocation count",      1,      mock.getMetaDataInvocationCount);
         assertEquals("next() invocation count",             4,      mock.nextInvocationCount);
-
+        assertTrue("resultSet still open",                          mock.isOpen);
     }
 
 
