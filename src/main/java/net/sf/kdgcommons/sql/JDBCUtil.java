@@ -27,8 +27,37 @@ import java.util.Map;
 public class JDBCUtil
 {
     /**
-     *  Creates a <code>PreparedStatement</code> from the provided connection, and
-     *  populates it from the varargs.
+     *  Executes a query and returns the results, ensuring that the created statement
+     *  and resultset are closed.
+     *
+     *  @param  args    Parameters for the query. May be empty.
+     *
+     *  @return A list of maps, where each entry in the list represents a row from the
+     *          results, and the keys in the map represent the column names.
+     */
+    public static List<Map<String,Object>> executeQuery(Connection cxt, String sql, Object... args)
+    throws SQLException
+    {
+        PreparedStatement stmt = null;
+        ResultSet rslt = null;
+        try
+        {
+            stmt = prepare(cxt, sql, args);
+            rslt = stmt.executeQuery();
+            return retrieve(rslt);
+        }
+        finally
+        {
+            closeQuietly(stmt);
+            closeQuietly(rslt);
+        }
+    }
+
+
+    /**
+     *  Creates a <code>PreparedStatement</code> from the provided connection.
+     *
+     *  @param  args    Parameters for the query. May be empty.
      */
     public static PreparedStatement prepare(Connection cxt, String sql, Object... args)
     throws SQLException
