@@ -7,7 +7,7 @@
         <release version="1.0.17" date="TBD"
             description="TBD">
             <action dev='kdgregory' type='add'>
-                JDBCUtil: add retrieve(ResultSet)
+                JDBCUtil: add functions to support simple SQL operations
             </action>
         </release>
 
