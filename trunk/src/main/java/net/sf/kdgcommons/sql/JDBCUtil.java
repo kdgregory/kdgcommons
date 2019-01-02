@@ -14,11 +14,7 @@
 
 package net.sf.kdgcommons.sql;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,6 +26,22 @@ import java.util.Map;
  */
 public class JDBCUtil
 {
+    /**
+     *  Creates a <code>PreparedStatement</code> from the provided connection, and
+     *  populates it from the varargs.
+     */
+    public static PreparedStatement prepare(Connection cxt, String sql, Object... args)
+    throws SQLException
+    {
+        PreparedStatement stmt = cxt.prepareStatement(sql);
+        for (int ii = 0 ; ii < args.length ; ii++)
+        {
+            stmt.setObject(ii + 1, args[ii]);
+        }
+        return stmt;
+    }
+
+
     /**
      *  Iterates through the passed <code>ResultSet</code>, converting each row into a
      *  <code>Map</code>, where keys are the column names as retrieved from metadata,

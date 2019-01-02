@@ -14,11 +14,8 @@
 
 package net.sf.kdgcommons.sql;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -48,6 +45,54 @@ public class TestJDBCUtil extends TestCase
 //----------------------------------------------------------------------------
 //  Support Code
 //----------------------------------------------------------------------------
+
+    private static class ConnectionMock
+    extends SelfMock<Connection>
+    {
+        public String lastPrepareSql;
+        public PreparedStatementMock lastPrepareMock;
+
+        public ConnectionMock()
+        {
+            super(Connection.class);
+        }
+
+        @SuppressWarnings("unused")
+        public PreparedStatement prepareStatement(String sql)
+        {
+            lastPrepareSql = sql;
+            lastPrepareMock = new PreparedStatementMock();
+            return lastPrepareMock.getInstance();
+        }
+    }
+
+
+    private static class PreparedStatementMock
+    extends SelfMock<PreparedStatement>
+    {
+        // note: first element will always be null; objects are stored
+        //       at the index specified in the call
+        public ArrayList<Object> parameters = new ArrayList<Object>();
+
+        public PreparedStatementMock()
+        {
+            super(PreparedStatement.class);
+        }
+
+        @SuppressWarnings("unused")
+        public void setObject(int idx, Object obj)
+        {
+            if (parameters.size() > idx)
+                parameters.set(idx, obj);
+            else
+            {
+                while (parameters.size() < idx)
+                    parameters.add(null);
+                parameters.add(obj);
+            }
+        }
+    }
+
 
     private static class ResultSetMock
     extends SelfMock<ResultSet>
@@ -125,6 +170,19 @@ public class TestJDBCUtil extends TestCase
 //----------------------------------------------------------------------------
 //  Test cases
 //----------------------------------------------------------------------------
+
+    public void testPrepare() throws Exception
+    {
+        final String sql = "select * from foo where bar = ?";
+
+        ConnectionMock cxtMock = new ConnectionMock();
+        PreparedStatement stmt = JDBCUtil.prepare(cxtMock.getInstance(), sql, "baz");
+
+        assertNotNull("created statement", stmt);
+        assertEquals("SQL", sql, cxtMock.lastPrepareSql);
+        assertEquals("parameters", Arrays.asList(null, "baz"), cxtMock.lastPrepareMock.parameters);
+    }
+
 
     public void testRetrieve() throws Exception
     {
