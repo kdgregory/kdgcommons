@@ -55,6 +55,29 @@ public class JDBCUtil
 
 
     /**
+     *  Executes an update and returns the results, ensuring that the created statement is closed.
+     *
+     *  @param  args    Parameters for the query. May be empty.
+     *
+     *  @return The number of rows updated by this statement.
+     */
+    public static int executeUpdate(Connection cxt, String sql, Object... args)
+    throws SQLException
+    {
+        PreparedStatement stmt = null;
+        try
+        {
+            stmt = prepare(cxt, sql, args);
+            return stmt.executeUpdate();
+        }
+        finally
+        {
+            closeQuietly(stmt);
+        }
+    }
+
+
+    /**
      *  Creates a <code>PreparedStatement</code> from the provided connection.
      *
      *  @param  args    Parameters for the query. May be empty.

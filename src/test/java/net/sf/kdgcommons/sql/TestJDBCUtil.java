@@ -87,6 +87,7 @@ public class TestJDBCUtil extends TestCase
         // these can be changed if necessary
         public String[] queryColumnNames = SAMPLE_DATA_COLNAMES;
         public List<? extends Map<Object,Object>> queryData = SAMPLE_DATA;
+        public int rowsUpdated = 1;
 
         // note: first element will always be null; objects are stored
         //       at the index specified in the call
@@ -103,6 +104,12 @@ public class TestJDBCUtil extends TestCase
         public void close()
         {
             isOpen = false;
+        }
+
+        @SuppressWarnings("unused")
+        public int executeUpdate()
+        {
+            return rowsUpdated;
         }
 
         @SuppressWarnings("unused")
@@ -224,6 +231,21 @@ public class TestJDBCUtil extends TestCase
         assertTrue("connection still open",                             cxtMock.isOpen);
         assertFalse("statment not open",                                cxtMock.lastPrepareMock.isOpen);
         assertFalse("resultset not open",                               cxtMock.lastPrepareMock.lastResultMock.isOpen);
+    }
+
+
+    public void testExecuteUpdate() throws Exception
+    {
+        final String sql = "insert into foo values(?, ?)";
+
+        MockConnection cxtMock = new MockConnection();
+        int count = JDBCUtil.executeUpdate(cxtMock.getInstance(), sql, "bar", "baz");
+
+        assertEquals("SQL",                 sql,                                cxtMock.lastPrepareSql);
+        assertEquals("parameters",          Arrays.asList(null, "bar", "baz"),  cxtMock.lastPrepareMock.parameters);
+        assertEquals("results",             1,                                  count);
+        assertTrue("connection still open",                                     cxtMock.isOpen);
+        assertFalse("statment not open",                                        cxtMock.lastPrepareMock.isOpen);
     }
 
 
