@@ -9,6 +9,9 @@
             <action dev='kdgregory' type='add'>
                 JDBCUtil: add functions to support simple SQL operations
             </action>
+            <action dev='kdgregory' type='update'>
+                HashMultimap: Behavior was not public
+            </action>
         </release>
 
         <release version="1.0.16" date="2018-07-22"
