@@ -60,7 +60,7 @@ implements Serializable
     /**
      *  Controls the handling of equal key-value pairs.
      */
-    enum Behavior { LIST, SET }
+    public enum Behavior { LIST, SET }
 
 //----------------------------------------------------------------------------
 //  Instance variables and Constructors
