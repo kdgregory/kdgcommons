@@ -28,17 +28,18 @@ public class TestSelfMock extends TestCase
             super(CharSequence.class);
         }
 
-        // tests normal invocation
-        public int length()
+        // tests normal invocation -- can be called with different arguments
+        public char charAt(int index)
         {
-            return 123;
+            return (char)('0' + (index % 10));
         }
 
         // tests invocation exceptions
-        public char charAt(int index)
+        public int length()
         {
-            throw new ArrayIndexOutOfBoundsException("testing");
+            throw new IllegalStateException("testing");
         }
+
     }
 
 
@@ -47,7 +48,20 @@ public class TestSelfMock extends TestCase
         TestMock mock = new TestMock();
         CharSequence instance = mock.getInstance();
 
-        assertEquals(123, instance.length());
+        assertEquals("count before invocations", 0, mock.getInvocationCount("charAt"));
+
+        // two invocations so that we can verify history
+
+        assertEquals('3', instance.charAt(3));
+        assertEquals('5', instance.charAt(15));
+
+        assertEquals("count after invocations",     2,                      mock.getInvocationCount("charAt"));
+        assertEquals("argument count, call 0",      1,                      mock.getInvocationArgs("charAt", 0).length);
+        assertEquals("argument value, call 0",      Integer.valueOf(3),     mock.getInvocationArgs("charAt", 0)[0]);
+        assertEquals("as-type value, call 0",       3,                      mock.getInvocationArg("charAt", 0, 0, Integer.class).intValue());
+        assertEquals("argument count, call 1",      1,                      mock.getInvocationArgs("charAt", 1).length);
+        assertEquals("argument value, call 1",      Integer.valueOf(15),    mock.getInvocationArgs("charAt", 1)[0]);
+        assertEquals("as-type value, call 1",       15,                     mock.getInvocationArg("charAt", 1, 0, Integer.class).intValue());
     }
 
 
@@ -58,12 +72,13 @@ public class TestSelfMock extends TestCase
 
         try
         {
-            instance.subSequence(1, 10);
-            fail("successful invocation of method that doesn't exist");
+            instance.length();
+            fail("successful invocation of method that was supposed to throw");
         }
-        catch (UnsupportedOperationException ex)
+        catch (IllegalStateException ex)
         {
-            // success
+            assertEquals("count incremented even though method throws", 1,      mock.getInvocationCount("length"));
+            assertEquals("history recorded even though method throws",  null,   mock.getInvocationArgs("length", 0));
         }
     }
 
@@ -75,12 +90,12 @@ public class TestSelfMock extends TestCase
 
         try
         {
-            instance.charAt(1);
-            fail("successful invocation of method that was supposed to throw");
+            instance.subSequence(1, 10);
+            fail("successful invocation of method that doesn't exist");
         }
-        catch (ArrayIndexOutOfBoundsException ex)
+        catch (UnsupportedOperationException ex)
         {
-            // success
+            assertEquals("count incremented even though method doesn't exist", 1, mock.getInvocationCount("subSequence"));
         }
     }
 
@@ -90,6 +105,7 @@ public class TestSelfMock extends TestCase
         TestMock mock = new TestMock() { /* nothing new here */ };
         CharSequence instance = mock.getInstance();
 
-        assertEquals(123, instance.length());
+        assertEquals('0', instance.charAt(10));
     }
+
 }
