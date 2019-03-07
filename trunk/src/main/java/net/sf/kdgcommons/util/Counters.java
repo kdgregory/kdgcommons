@@ -230,13 +230,26 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
 
 
     /**
-     *  Retrieves the value of the specified key as a primitive. If there is no
+     *  Retrieves the value of the specified key as a primitive long. If there is no
      *  mapping for the key, returns 0.
      */
     public long getLong(K key)
     {
         AtomicLong mapping = _map.get(key);
         return (mapping == null) ? 0 : mapping.get();
+    }
+
+
+    /**
+     *  Retrieves the value of the specified key as a primitive int. If there is no
+     *  mapping for the key, returns 0. This is only valid if you know that your
+     *  counters will remain in integer range (but often works better with other
+     *  variables in your code).
+     */
+    public int getInt(K key)
+    {
+        AtomicLong mapping = _map.get(key);
+        return (mapping == null) ? 0 : (int)mapping.get();
     }
 
 
