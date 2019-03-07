@@ -18,7 +18,11 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.ConcurrentHashMap;
+
+import net.sf.kdgcommons.util.Counters;
 
 
 /**
@@ -26,23 +30,37 @@ import java.util.Arrays;
  *  intended to be subclassed, with the subclass implementing the methods
  *  that are to be mocked.
  *  <p>
- *  To use, construct with the interface to be mocked (only one allowed), then
- *  call {@link #getInstance} to create the proxy instance.
+ *  To use, construct with the interface to be mocked (only one allowed, due to
+ *  Java parameterization), then call {@link #getInstance} to create the proxy
+ *  instance.
  *  <p>
- *
+ *  By default, all invocations are counted and the invocation arguments retained.
+ *  See {@link #getInvocationCount} and {@link #getInvocationArgument} for more
+ *  information.
  */
-public abstract class SelfMock<T>
+public abstract class SelfMock<MockedType>
 implements InvocationHandler
 {
-    private Class<T> klass;
+    private Class<MockedType> klass;
 
-    public SelfMock(Class<T> klass)
+    private Counters<String> invocationCounts = new Counters<String>();
+    private ConcurrentHashMap<String,ArrayList<Object[]>> invocationArgs = new ConcurrentHashMap<String,ArrayList<Object[]>>();
+
+
+    public SelfMock(Class<MockedType> klass)
     {
         this.klass = klass;
     }
 
+//----------------------------------------------------------------------------
+//  Public API
+//----------------------------------------------------------------------------
 
-    public T getInstance()
+    /**
+     *  Returns a proxy instance that passes invocations to this mock. Multiple
+     *  calls will return different proxy instances.
+     */
+    public MockedType getInstance()
     {
         return klass.cast(
                 Proxy.newProxyInstance(
@@ -52,31 +70,99 @@ implements InvocationHandler
     }
 
 
+    /**
+     *  Returns the number of times the named function was invoked. This does
+     *  not differentiate between overloaded methods: all methods with the same
+     *  name is counted together.
+     */
+    public long getInvocationCount(String methodName)
+    {
+        return invocationCounts.getLong(methodName);
+    }
+
+
+    /**
+     *  Returns the arguments passed to a particular invocation of the named method
+     *  (using zero-based counting). This is primarily useful when dealing with
+     *  overloaded methods, where you might not know what types the arguments are.
+     *  If you know the arguments, {@link #getInvocationArgAs} is a better choice.
+     *  <p>
+     *  Note: this method returns the actual argument array that was passed to the
+     *  invocation handler. Don't modify it unless you want to invalidate your tests.
+     *
+     *  @throws IndexOutOfBoundsException if accessing a call that was never made.
+     */
+    public Object[] getInvocationArgs(String methodName, int invocationIndex)
+    {
+        return invocationHistoryFor(methodName).get(invocationIndex);
+    }
+
+
+    /**
+     *  Returns a specific invocation argument, cast to a particular type. Both
+     *  indexes are zero-based.
+     */
+    public <T> T getInvocationArg(String methodName, int invocationIndex, int argumentIndex, Class<T> argType)
+    {
+        return argType.cast(getInvocationArgs(methodName, invocationIndex)[argumentIndex]);
+    }
+
+//----------------------------------------------------------------------------
+//  Internals
+//----------------------------------------------------------------------------
+
     public Object invoke(Object proxy, Method method, Object[] args)
     throws Throwable
     {
+        String methodName = method.getName();
+        invocationCounts.increment(methodName);
+
+        synchronized (this)
+        {
+            invocationHistoryFor(methodName).add(args);
+        }
+
         try
         {
-            Method selfMethod = getClass().getMethod(method.getName(), method.getParameterTypes());
+            Method selfMethod = getClass().getMethod(methodName, method.getParameterTypes());
             selfMethod.setAccessible(true);
             return selfMethod.invoke(this, args);
         }
         catch (NoSuchMethodException ex)
         {
-            throw new UnsupportedOperationException("mock does not implement method: " + method.getName()
+            throw new UnsupportedOperationException("mock does not implement method: " + methodName
                                                     + "(" + Arrays.asList(method.getParameterTypes()) + ")");
         }
         catch (SecurityException ex)
         {
-            throw new RuntimeException("security exception when invoking: " + method.getName(), ex);
+            throw new RuntimeException("security exception when invoking: " + methodName, ex);
         }
         catch (IllegalAccessException ex)
         {
-            throw new RuntimeException("illegal access exception when invoking: " + method.getName(), ex);
+            throw new RuntimeException("illegal access exception when invoking: " + methodName, ex);
         }
         catch (InvocationTargetException ex)
         {
+            // this is an exception thrown by the mock instance, which is probably intentional
             throw ex.getCause();
         }
+    }
+
+
+    /**
+     *  Returns the list of historical arguments for the named method, creating it
+     *  if necessary. May be called without synchronization, although changes to the
+     *  returned array should be synchronized.
+     */
+    private ArrayList<Object[]> invocationHistoryFor(String methodName)
+    {
+        ArrayList<Object[]> history = invocationArgs.get(methodName);
+        if (history == null)
+        {
+            // this could be invoked concurrently, and someone else could create the list
+            invocationArgs.putIfAbsent(methodName, new ArrayList<Object[]>());
+            history = invocationArgs.get(methodName);
+        }
+        return history;
     }
 }

@@ -12,6 +12,9 @@
             <action dev='kdgregory' type='update'>
                 HashMultimap: Behavior was not public
             </action>
+            <action dev='kdgregory' type='update'>
+                SelfMock: added retention of invocation arguments
+            </action>
         </release>
 
         <release version="1.0.16" date="2018-07-22"
