@@ -37,21 +37,24 @@ extends TestCase
     {
         Counters<String> counters = new Counters<String>();
 
-        assertEquals("object get from new instance",        null,               counters.get("foo"));
-        assertEquals("primitive get from new instance",     0,                  counters.getLong("foo"));
+        assertEquals("object get from new instance",            null,               counters.get("foo"));
+        assertEquals("primitive long get from new instance",    0,                  counters.getLong("foo"));
+        assertEquals("primitive int get from new instance",     0,                  counters.getInt("foo"));
 
-        assertEquals("return from put, new mapping",        null,               counters.put("foo", Long.valueOf(12)));
+        assertEquals("return from put, new mapping",            null,               counters.put("foo", Long.valueOf(12)));
 
-        assertEquals("object get, existing mapping",        Long.valueOf(12),   counters.get("foo"));
-        assertEquals("primitive get, existing mapping",     12,                 counters.getLong("foo"));
+        assertEquals("object get, existing mapping",            Long.valueOf(12),   counters.get("foo"));
+        assertEquals("primitive long get, existing mapping",    12,                 counters.getLong("foo"));
+        assertEquals("primitive int get, existing mapping",     12,                 counters.getInt("foo"));
 
         counters.putLong("foo", 13);
-        assertEquals("primitive get after primitive put",   13,                 counters.getLong("foo"));
 
-        assertEquals("return value from remove()",          Long.valueOf(13),   counters.remove("foo"));
+        assertEquals("primitive get after primitive put",       13,                 counters.getLong("foo"));
 
-        assertEquals("object get after remove()",           null,               counters.get("foo"));
-        assertEquals("primitive get after remove()",        0,                  counters.getLong("foo"));
+        assertEquals("return value from remove()",              Long.valueOf(13),   counters.remove("foo"));
+
+        assertEquals("object get after remove()",               null,               counters.get("foo"));
+        assertEquals("primitive get after remove()",            0,                  counters.getLong("foo"));
     }
 
 
@@ -60,19 +63,23 @@ extends TestCase
         Counters<String> counters = new Counters<String>();
 
         assertEquals("increment creates counter",           1,                  counters.increment("foo"));
-        assertEquals("post-increment primitive get",        1,                  counters.getLong("foo"));
-        assertEquals("post-increment object get",           Long.valueOf(1),    counters.get("foo"));
+        assertEquals("post-create primitive long get",      1,                  counters.getLong("foo"));
+        assertEquals("post-create primitive int get",       1,                  counters.getInt("foo"));
+        assertEquals("post-create object get",              Long.valueOf(1),    counters.get("foo"));
 
-        assertEquals("increment of existing counte",        2,                  counters.increment("foo"));
-        assertEquals("post-increment primitive get",        2,                  counters.getLong("foo"));
+        assertEquals("increment of existing counter",       2,                  counters.increment("foo"));
+        assertEquals("post-increment primitive long get",   2,                  counters.getLong("foo"));
+        assertEquals("post-increment primitive int get",    2,                  counters.getInt("foo"));
         assertEquals("post-increment object get",           Long.valueOf(2),    counters.get("foo"));
 
         assertEquals("decrement creates counter",           -1,                 counters.decrement("bar"));
-        assertEquals("post-decrement primitive get",        -1,                 counters.getLong("bar"));
-        assertEquals("post-decrement object get",           Long.valueOf(-1),   counters.get("bar"));
+        assertEquals("post-create primitive long get",      -1,                 counters.getLong("bar"));
+        assertEquals("post-create primitive int get",       -1,                 counters.getInt("bar"));
+        assertEquals("post-create object get",              Long.valueOf(-1),   counters.get("bar"));
 
         assertEquals("decrement of existing counter",       -2,                 counters.decrement("bar"));
-        assertEquals("post-decrement primitive get",        -2,                 counters.getLong("bar"));
+        assertEquals("post-decrement primitive long get",   -2,                 counters.getLong("bar"));
+        assertEquals("post-decrement primitive int get",    -2,                 counters.getInt("bar"));
         assertEquals("post-decrement object get",           Long.valueOf(-2),   counters.get("bar"));
     }
 
