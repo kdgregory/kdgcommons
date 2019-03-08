@@ -62,6 +62,8 @@ public class TestSelfMock extends TestCase
         assertEquals("argument count, call 1",      1,                      mock.getInvocationArgs("charAt", 1).length);
         assertEquals("argument value, call 1",      Integer.valueOf(15),    mock.getInvocationArgs("charAt", 1)[0]);
         assertEquals("as-type value, call 1",       15,                     mock.getInvocationArg("charAt", 1, 0, Integer.class).intValue());
+
+        assertEquals("argument to most recent call", Integer.valueOf(15),   mock.getMostRecentInvocationArg("charAt", 0, Integer.class));
     }
 
 

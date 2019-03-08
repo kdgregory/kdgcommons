@@ -75,9 +75,9 @@ implements InvocationHandler
      *  not differentiate between overloaded methods: all methods with the same
      *  name is counted together.
      */
-    public long getInvocationCount(String methodName)
+    public int getInvocationCount(String methodName)
     {
-        return invocationCounts.getLong(methodName);
+        return invocationCounts.getInt(methodName);
     }
 
 
@@ -105,6 +105,37 @@ implements InvocationHandler
     public <T> T getInvocationArg(String methodName, int invocationIndex, int argumentIndex, Class<T> argType)
     {
         return argType.cast(getInvocationArgs(methodName, invocationIndex)[argumentIndex]);
+    }
+
+
+    /**
+     *  Returns the arguments passed to the most recent invocation of the named
+     *  method.This is primarily useful when dealing with overloaded methods,
+     *  where you might not know what types the arguments are. If you know the
+     *  arguments, {@link #getInvocationArgAs} is a better choice.
+     *  <p>
+     *  Note: this method returns the actual argument array that was passed to the
+     *  invocation handler. Don't modify it unless you want to invalidate your tests.
+     */
+    public Object[] getMostRecentInvocationArgs(String methodName)
+    {
+        int index = getInvocationCount(methodName) - 1;
+        return (index < 0)
+             ? null
+             : getInvocationArgs(methodName, index);
+    }
+
+
+    /**
+     *  The a specific argument from the most recent invocation, cast to a particular
+     *  type.
+     */
+    public <T> T getMostRecentInvocationArg(String methodName, int argumentIndex, Class<T> argType)
+    {
+        Object[] args = getMostRecentInvocationArgs(methodName);
+        return (args == null)
+             ? null
+             : argType.cast(args[argumentIndex]);
     }
 
 //----------------------------------------------------------------------------
