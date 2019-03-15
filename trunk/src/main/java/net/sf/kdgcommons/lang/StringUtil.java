@@ -362,8 +362,10 @@ public class StringUtil
 
 
     /**
-     *  Generates a random string consisting of characters from the passed
-     *  string.
+     *  Generates a (non-cryptographicaly-) random string consisting of characters
+     *  from the passed string. Useful for generating bogus string fields.
+     *  <p>
+     *  Warning: not threadsafe; uses a shared instance of <code>java.util.Random</code>.
      *
      *  @param  chars       Defines the set of characters used to create the
      *                      returned string.
@@ -381,8 +383,10 @@ public class StringUtil
 
 
     /**
-     *  Generates a string containing random ASCII alphabetic characters
-     *  (A-Za-z).
+     *  Generates a string containing (non-cryptographicaly-) random ASCII alphabetic
+     *  characters (A-Za-z). Useful for generating bogus string fields.
+     *  <p>
+     *  Warning: not threadsafe; uses a shared instance of <code>java.util.Random</code>.
      *
      *  @param  minLength   Minimum length of the returned string.
      *  @param  maxLength   Maximum length of the returned string.
