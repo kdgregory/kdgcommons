@@ -198,6 +198,11 @@ public class TestCollectionUtil extends TestCase
         List<String> l4 = null;
         assertEquals("first(), list is null",   null, CollectionUtil.first(l4));
         assertEquals("last(),  list is null",   null, CollectionUtil.last(l4));
+
+        // this test is just here for coverage; we don't verify behavior
+        List<String> l5 = new LinkedList<String>(Arrays.asList("foo", "bar", "baz"));
+        assertEquals("first(), LinkedList",     "foo", CollectionUtil.first(l5));
+        assertEquals("last(),  LinkedList",     "baz", CollectionUtil.last(l5));
     }
 
 
@@ -926,5 +931,4 @@ public class TestCollectionUtil extends TestCase
                      dest,
                      CollectionUtil.submap(source, Arrays.asList(2), dest));
     }
-
 }

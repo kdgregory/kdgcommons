@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -212,10 +213,14 @@ public class CollectionUtil
 
     /**
      *  Returns the last element of the passed list, <code>null</code> if
-     *  the list is empty or null.
+     *  the list is empty or null. Uses an indexed get unless the list is
+     *  a subclass of <code>java.util.LinkedList</code>
      */
     public static <T> T last(List<T> list) {
-        return isNotEmpty(list) ? list.get(list.size() - 1) : null;
+        if (isEmpty(list))              return null;
+
+        if (list instanceof LinkedList<?>) return ((LinkedList<T>)list).getLast();
+        return list.get(list.size() - 1);
     }
 
 

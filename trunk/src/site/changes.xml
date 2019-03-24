@@ -10,6 +10,9 @@
                 JDBCUtil: add functions to support simple SQL operations
             </action>
             <action dev='kdgregory' type='update'>
+                CollectionUtil.last(): add optimization for linked lists
+            </action>
+            <action dev='kdgregory' type='update'>
                 HashMultimap: Behavior was not public
             </action>
             <action dev='kdgregory' type='update'>
