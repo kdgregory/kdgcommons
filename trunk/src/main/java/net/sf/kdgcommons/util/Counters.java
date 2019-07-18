@@ -166,13 +166,17 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
 
 
     /**
-     *  Returns the current keys in the map. This operation is performed directly on the
-     *  underlying map, so does not involve a performance penalty (other than what the
-     *  map incurs).
+     *  Returns the current keys in the map. Note that this represents a point-in-time
+     *  view of the map, so if you are concurrently adding or removing counters it may
+     *  be missing keys or contain keys that are no longer in the map.
      */
     public Set<K> keySet()
     {
-        return _map.keySet();
+        // in Java 8, ConcurrentHashMap broke binary compatibility for keySet(), returning
+        // a different concrete class; this cast forces the compiler to use an invokeinterface
+        // rather than invokeinstance, so the bytecode remains compatible
+        
+        return ((Map)_map).keySet();
     }
 
 
