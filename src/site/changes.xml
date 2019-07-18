@@ -18,6 +18,10 @@
             <action dev='kdgregory' type='update'>
                 SelfMock: added retention of invocation arguments
             </action>
+            <action dev='kdgregory' type='update'>
+                Counters: work-around signature change in ConcurrentHashMap
+                (was producing an invalid artifact when compiling with JDK 8)
+            </action>
         </release>
 
         <release version="1.0.16" date="2018-07-22"
