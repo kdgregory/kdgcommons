@@ -174,9 +174,9 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
     {
         // in Java 8, ConcurrentHashMap broke binary compatibility for keySet(), returning
         // a different concrete class; this cast forces the compiler to use an invokeinterface
-        // rather than invokeinstance, so the bytecode remains compatible
+        // rather than invokevirtual, so the bytecode remains compatible
         
-        return ((Map)_map).keySet();
+        return ((Map<K,AtomicLong>)_map).keySet();
     }
 
 
