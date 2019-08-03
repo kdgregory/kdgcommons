@@ -136,6 +136,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("unlikely-arg-type")
     public void testContains() throws Exception
     {
         Counters<String> counters = new Counters<String>();
@@ -225,6 +226,22 @@ extends TestCase
         assertEquals("removed key not present",     null,               counters.get("bar"));
         assertEquals("updated value",               Long.valueOf(17),   counters.get("baz"));
     }
+
+
+    public void testToString() throws Exception
+    {
+        Counters<String> counters = new Counters<String>();
+
+        assertEquals("empty counters", "[]", counters.toString());
+
+        counters.put("foo", 12L);
+        assertEquals("single element", "[foo: 12]", counters.toString());
+
+        counters.put("bar", 13L);
+        // note: this is a hashed map, so we need to determine the assertion experimentally
+        assertEquals("multiple elements", "[bar: 13, foo: 12]", counters.toString());
+    }
+
 
 
 }
