@@ -238,8 +238,13 @@ extends TestCase
         assertEquals("single element", "[foo: 12]", counters.toString());
 
         counters.put("bar", 13L);
-        // note: this is a hashed map, so we need to determine the assertion experimentally
-        assertEquals("multiple elements", "[bar: 13, foo: 12]", counters.toString());
+
+        // note: since the map is hashed, the order of elements may change depending
+        //       on Java version, so we'll accept either order
+        String value = counters.toString();
+        boolean order1 = value.equals("[foo: 12, bar: 13]");
+        boolean order2 = value.equals("[bar: 13, foo: 12]");
+        assertTrue("multiple elements (was: " + value + ")", order1 || order2);
     }
 
 
