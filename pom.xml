@@ -2,12 +2,6 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>9</version>
-    </parent>
-
     <groupId>net.sf.kdgcommons</groupId>
     <artifactId>kdgcommons</artifactId>
     <version>1.0.17-SNAPSHOT</version>
@@ -30,6 +24,13 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
+
+    <scm>
+        <connection>scm:svn:svn://svn.code.sf.net/p/kdgcommons/code</connection>
+        <developerConnection>scm:svn:svn+ssh://kdgregory@svn.code.sf.ner/p/kdgcommons/code</developerConnection>
+        <url>http://kdgcommons.svn.sourceforge.net/viewvc/kdgcommons/</url>
+    </scm>
 
 
     <developers>
@@ -74,6 +75,14 @@
                     <source>1.5</source>
                     <target>1.5</target>
                     <compilerArgument>-g</compilerArgument>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <doclint>none</doclint>
                 </configuration>
             </plugin>
             <plugin>
@@ -158,13 +167,6 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-
-    <scm>
-        <connection>scm:svn:svn://svn.code.sf.net/p/kdgcommons/code</connection>
-        <developerConnection>scm:svn:svn+ssh://kdgregory@svn.code.sf.ner/p/kdgcommons/code</developerConnection>
-        <url>http://kdgcommons.svn.sourceforge.net/viewvc/kdgcommons/</url>
-    </scm>
 
 
     <distributionManagement>
