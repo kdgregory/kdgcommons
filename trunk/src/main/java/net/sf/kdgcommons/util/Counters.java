@@ -49,6 +49,32 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
 {
     private ConcurrentHashMap<K,AtomicLong> _map = new ConcurrentHashMap<K,AtomicLong>();
 
+//----------------------------------------------------------------------------
+//  Object overrides
+//----------------------------------------------------------------------------
+
+    /**
+     *  Outputs all counters in the format "[ NAME: VALUE, ...]".
+     */
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder(16384);
+        sb.append("[");
+        for (Map.Entry<K,AtomicLong> entry : _map.entrySet())
+        {
+            if (sb.length() > 1)
+                sb.append(", ");
+
+            sb.append(String.valueOf(entry.getKey()))
+              .append(": ")
+              .append(entry.getValue().longValue());
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+
 
 //----------------------------------------------------------------------------
 //  Implementation of Map
@@ -175,7 +201,7 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
         // in Java 8, ConcurrentHashMap broke binary compatibility for keySet(), returning
         // a different concrete class; this cast forces the compiler to use an invokeinterface
         // rather than invokevirtual, so the bytecode remains compatible
-        
+
         return ((Map<K,AtomicLong>)_map).keySet();
     }
 
@@ -211,7 +237,6 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
         }
         return entries;
     }
-
 
 //----------------------------------------------------------------------------
 //  Additional Public Methods
