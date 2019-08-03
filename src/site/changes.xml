@@ -4,23 +4,26 @@
 	</properties>
 
     <body>
-        <release version="1.0.17" date="TBD"
+        <release version="1.0.17" date="2019-08-03"
             description="TBD">
+            <action dev='kdgregory' type='add'>
+                Counters: add toString()
+            </action>
             <action dev='kdgregory' type='add'>
                 JDBCUtil: add functions to support simple SQL operations
             </action>
             <action dev='kdgregory' type='update'>
-                CollectionUtil.last(): add optimization for linked lists
-            </action>
-            <action dev='kdgregory' type='update'>
-                HashMultimap: Behavior was not public
-            </action>
-            <action dev='kdgregory' type='update'>
-                SelfMock: added retention of invocation arguments
+                CollectionUtil.last(): optimization for linked lists
             </action>
             <action dev='kdgregory' type='update'>
                 Counters: work-around signature change in ConcurrentHashMap
                 (was producing an invalid artifact when compiling with JDK 8)
+            </action>
+            <action dev='kdgregory' type='update'>
+                HashMultimap: Behavior enum was not public
+            </action>
+            <action dev='kdgregory' type='update'>
+                SelfMock: retain invocation arguments
             </action>
         </release>
 
