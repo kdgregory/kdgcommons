@@ -4,8 +4,15 @@
 	</properties>
 
     <body>
+        <release version="1.0.18" date="TBD"
+            description="grab-bag of additions">
+            <action dev='kdgregory' type='add'>
+                Redactor: redacts sensitive text in a string
+            </action>
+        </release>
+        
         <release version="1.0.17" date="2019-08-03"
-            description="TBD">
+            description="work-around for ConcurrentHashMap breaking change; minor additions">
             <action dev='kdgregory' type='add'>
                 Counters: add toString()
             </action>
