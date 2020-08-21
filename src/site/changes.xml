@@ -5,9 +5,12 @@
 
     <body>
         <release version="1.0.18" date="TBD"
-            description="grab-bag of additions">
+            description="add package of geographic helpers, minor updates elsewhere">
             <action dev='kdgregory' type='add'>
                 Redactor: redacts sensitive text in a string
+            </action>
+            <action dev='kdgregory' type='add'>
+                Point: immutable representation of latitude/longitude
             </action>
         </release>
         
