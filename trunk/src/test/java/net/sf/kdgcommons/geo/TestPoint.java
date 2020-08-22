@@ -82,11 +82,13 @@ public class TestPoint extends TestCase
     {
         Point p1 = new Point(39.95229, -75.1657517);
         Point p2 = new Point(39.95229, -75.1657517);
-        Point p3 = new Point(42.3554833,-71.0669649);
+        Point p3 = new Point(39.95230, -75.1657517);
+        Point p4 = new Point(39.95229, -75.165752);
 
         assertTrue("identity", p1.equals(p1));
         assertTrue("equality", p1.equals(p2));
-        assertFalse("inequality", p1.equals(p3));
+        assertFalse("inequality of latitude",  p1.equals(p3));
+        assertFalse("inequality of longitude", p1.equals(p4));
 
         assertEquals("hashcode of equal points", p1.hashCode(), p2.hashCode());
 
@@ -118,8 +120,8 @@ public class TestPoint extends TestCase
         Point p6 = new Point(1, 1);
 
         List<Point> unordered = Arrays.asList(p6, p5, p4, p3, p2, p1);
-        List<Point> toBeOrdered = new ArrayList<Point>(unordered);
-        Collections.sort(toBeOrdered);
-        assertEquals(Arrays.asList(p1, p2, p3, p4, p5, p6), toBeOrdered);
+        List<Point> ordered = new ArrayList<Point>(unordered);
+        Collections.sort(ordered);
+        assertEquals(Arrays.asList(p1, p2, p3, p4, p5, p6), ordered);
     }
 }

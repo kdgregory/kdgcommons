@@ -84,12 +84,12 @@ implements Comparable<Point>
 
 
     /**
-     *  String representation of a Point is "(lat, lon)".
+     *  String representation is "(lat, lon)".
      */
     @Override
     public String toString()
     {
-        return "(" + lat + "," + lon + ")";
+        return "(" + getLat() + "," + getLon() + ")";
     }
 
 
