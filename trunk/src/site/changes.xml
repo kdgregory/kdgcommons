@@ -5,12 +5,15 @@
 
     <body>
         <release version="1.0.18" date="TBD"
-            description="add package of geographic helpers, minor updates elsewhere">
+            description="add geo package, minor updates elsewhere">
             <action dev='kdgregory' type='add'>
                 Redactor: redacts sensitive text in a string
             </action>
             <action dev='kdgregory' type='add'>
-                Point: immutable representation of latitude/longitude
+                geo.DistanceUtil: static functions to calculate distance between points
+            </action>
+            <action dev='kdgregory' type='add'>
+                geo.Point, TimestampedPoint: immutable representation of latitude/longitude
             </action>
         </release>
         
