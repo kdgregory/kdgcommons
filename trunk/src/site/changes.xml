@@ -15,6 +15,9 @@
             <action dev='kdgregory' type='add'>
                 geo.Point, TimestampedPoint: immutable representation of latitude/longitude
             </action>
+            <action dev='kdgregory' type='add'>
+                geo.SegmentUtil: static functions to work with line segments
+            </action>
         </release>
         
         <release version="1.0.17" date="2019-08-03"
