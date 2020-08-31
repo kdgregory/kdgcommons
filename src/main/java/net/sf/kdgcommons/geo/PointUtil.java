@@ -16,12 +16,9 @@ package net.sf.kdgcommons.geo;
 
 
 /**
- *  Utilities to calculate distance between two points on a sphere, nominally
- *  Earth. Provides Pythagorean distance (with corrected longitude length) for
- *  short measurements (up to a few kilometers), and Great Circle distance for
- *  longer measurements.
+ *  Utility functions to work with individual points.
  */
-public class DistanceUtil
+public class PointUtil
 {
     /**
      *  The base length of a degree in meters, used for Pythagorean diestance
@@ -109,5 +106,46 @@ public class DistanceUtil
     public static double greatCircle(Point p1, Point p2)
     {
         return greatCircle(p1.getLat(), p1.getLon(), p2.getLat(), p2.getLon());
+    }
+
+
+    /**
+     *  Determines the velocity, in meters/second, to travel from one point to another
+     *  (calculated using Pythagorean distance).
+     */
+    public static double velocity(TimestampedPoint p1, TimestampedPoint p2)
+    {
+        double distMeters = PointUtil.pythagorean(p1, p2);
+        double elapsed = (p1.getTimestamp() - p2.getTimestamp()) / 1000.0;
+        return Math.abs(distMeters / elapsed);
+    }
+
+
+    /**
+     *  Determines the velocity, in miles/hour, to travel from one point to another
+     *  (calculated using Pythagorean distance).
+     */
+    public static double velocityMPH(TimestampedPoint p1, TimestampedPoint p2)
+    {
+        return velocity(p1, p2) * 39.37 / 12 / 5280 * 3600;
+    }
+
+
+    /**
+     *  Returns the midpoint of the two given points (simple average of lat/lon).
+     */
+    public static Point midpoint(Point p1, Point p2)
+    {
+        double lat = (p2.getLat() + p1.getLat()) / 2;
+        double lon = (p2.getLon() + p1.getLon()) / 2;
+
+        if ((p1 instanceof TimestampedPoint) && (p2 instanceof TimestampedPoint))
+        {
+            long t1 = ((TimestampedPoint)p1).getTimestamp();
+            long t2 = ((TimestampedPoint)p2).getTimestamp();
+            return new TimestampedPoint((t1 + t2) / 2, lat, lon); // this will overflow in the distant future
+        }
+
+        return new Point(lat, lon);
     }
 }
