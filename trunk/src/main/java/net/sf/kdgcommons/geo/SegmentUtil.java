@@ -37,7 +37,7 @@ public class SegmentUtil
         while (itx.hasNext())
         {
             Point cur = itx.next();
-            sum += DistanceUtil.pythagorean(prev, cur);
+            sum += PointUtil.pythagorean(prev, cur);
             prev = cur;
         }
 
@@ -62,7 +62,7 @@ public class SegmentUtil
         while (itx.hasNext())
         {
             Point cur = itx.next();
-            if (DistanceUtil.pythagorean(prev, cur) > minDistanceMeters)
+            if (PointUtil.pythagorean(prev, cur) > minDistanceMeters)
             {
                 result.add(cur);
                 prev = cur;
@@ -180,7 +180,7 @@ public class SegmentUtil
             while (hasNext())
             {
                 Point x = next();
-                if (DistanceUtil.pythagorean(p, x) >= minSeparation)
+                if (PointUtil.pythagorean(p, x) >= minSeparation)
                     return x;
             }
 
@@ -215,14 +215,14 @@ public class SegmentUtil
             while (hasNext())
             {
                 Point x = next();
-                double dx = DistanceUtil.pythagorean(p, x);
+                double dx = PointUtil.pythagorean(p, x);
                 if (dx < maxSeparation)
                 {
                     mark();
                     while (hasNext())
                     {
                         Point y = next();
-                        double dy = DistanceUtil.pythagorean(p, y);
+                        double dy = PointUtil.pythagorean(p, y);
                         if (dy > dx)
                         {
                             returnToMark();
