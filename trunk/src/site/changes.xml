@@ -22,6 +22,9 @@
                 swing.AsynchronousOperation: a better approach to background task handling
             </action>
             <action dev='kdgregory' type='add'>
+                swing.MainFrame: wraps the JFrame class with some default behaviors
+            </action>
+            <action dev='kdgregory' type='add'>
                 swing.SwingUtil: various utility functions for Swing apps
             </action>
         </release>
