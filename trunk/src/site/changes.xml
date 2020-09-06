@@ -5,7 +5,7 @@
 
     <body>
         <release version="1.0.18" date="TBD"
-            description="add geo package, minor updates elsewhere">
+            description="add geo and swing packages, minor updates elsewhere">
             <action dev='kdgregory' type='add'>
                 Redactor: redacts sensitive text in a string
             </action>
@@ -17,6 +17,9 @@
             </action>
             <action dev='kdgregory' type='add'>
                 geo.SegmentUtil: static functions to work with line segments
+            </action>
+            <action dev='kdgregory' type='add'>
+                swing.AsynchronousOperation: a better approach to background task handling
             </action>
         </release>
         
