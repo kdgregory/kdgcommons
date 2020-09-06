@@ -21,6 +21,9 @@
             <action dev='kdgregory' type='add'>
                 swing.AsynchronousOperation: a better approach to background task handling
             </action>
+            <action dev='kdgregory' type='add'>
+                swing.SwingUtil: various utility functions for Swing apps
+            </action>
         </release>
         
         <release version="1.0.17" date="2019-08-03"
