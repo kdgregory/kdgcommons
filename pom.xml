@@ -7,9 +7,6 @@
     <version>1.0.18-SNAPSHOT</version>
 
     <name>KDG Commons</name>
-    <packaging>jar</packaging>
-    <url>http://sourceforge.net/projects/kdgcommons/</url>
-
 
     <description>
         A collection of utility classes for Java, supplementing and in some cases
@@ -27,9 +24,9 @@
 
 
     <scm>
-        <connection>scm:svn:svn://svn.code.sf.net/p/kdgcommons/code</connection>
-        <developerConnection>scm:svn:svn+ssh://kdgregory@svn.code.sf.ner/p/kdgcommons/code</developerConnection>
-        <url>http://kdgcommons.svn.sourceforge.net/viewvc/kdgcommons/</url>
+        <connection>scm:git:https://github.com/kdgregory/kdgcommons.git</connection>
+        <developerConnection>scm:git:git@github.com:kdgregory/kdgcommons.git</developerConnection>
+        <url>https://github.com/kdgregory/kdgcommons</url>
     </scm>
 
 
@@ -42,25 +39,18 @@
     </developers>
 
 
-    <mailingLists>
-        <mailingList>
-            <name>kdgcommons-commits</name>
-            <subscribe>http://lists.sourceforge.net/mailman/listinfo/kdgcommons-commits</subscribe>
-            <unsubscribe>http://lists.sourceforge.net/mailman/listinfo/kdgcommons-commits</unsubscribe>
-            <archive>http://sourceforge.net/mailarchive/forum.php?forum_name=kdgcommons-commits</archive>
-        </mailingList>
-    </mailingLists>
-
-
     <properties>
+        <jdk.version>1.5</jdk.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
         <maven-site-plugin.version>3.7.1</maven-site-plugin.version>
         <maven-changes-plugin.version>2.11</maven-changes-plugin.version>
-        <findbugs-plugin.version>3.0.5</findbugs-plugin.version>
+        <spotbugs.plugin.version>4.2.0</spotbugs.plugin.version>
         <cobertura-plugin.version>2.7</cobertura-plugin.version>
     </properties>
 
@@ -72,10 +62,15 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
                     <compilerArgument>-g</compilerArgument>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -90,6 +85,11 @@
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${maven-site-plugin.version}</version>
             </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs.plugin.version}</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -99,15 +99,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
-                    <bottom>
-                        &lt;a
-                        href="http://sourceforge.net/projects/kdgcommons/"&gt;
-                        &lt;img
-                        src="http://sflogo.sourceforge.net/sflogo.php?group_id=234884&amp;type=3"&gt;
-                        &lt;/a&gt;
-                    </bottom>
                     <doclint>none</doclint>
                 </configuration>
             </plugin>
@@ -132,9 +124,8 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <version>${findbugs-plugin.version}</version>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
                 <configuration>
                     <excludeFilterFile>src/site/findbugs-filter.xml</excludeFilterFile>
                 </configuration>
