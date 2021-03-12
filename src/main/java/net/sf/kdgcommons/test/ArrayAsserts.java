@@ -18,15 +18,13 @@ import junit.framework.Assert;
 
 
 /**
- *  Static methods for asserting array equality. Useful for primitive arrays (where
- *  <code>Arrays.asList()</code> returns a list of arrays), and for large object
- *  arrays (where the output from <code>Arrays.asList</code> would be confusing).
- *  <p>
- *  Performs the following assertions:
+ *  Static methods for asserting array equality. Each method performs the
+ *  following assertions:
  *  <ul>
  *  <li> actual array is not null
- *  <li> arrays have different sizes (with expected and actual)
- *  <li> arrays differ at element X (expected Y, was Z)
+ *  <li> actual array has same size as expected array
+ *  <li> each element in actual array is equal to corresponding element in
+ *       expected array
  *  </ul>
  */
 public class ArrayAsserts
@@ -46,11 +44,11 @@ public class ArrayAsserts
 
 
     /**
-     *  Compares two byte arrays, with default message.
+     *  Compares two byte arrays, with default message prefix.
      */
     public static void assertEquals(byte[] expected, byte[] actual)
     {
-        assertEquals("", expected, actual);
+        assertEquals("array equality", expected, actual);
     }
 
 
@@ -69,11 +67,11 @@ public class ArrayAsserts
 
 
     /**
-     *  Compares two short arrays, with default message.
+     *  Compares two short arrays, with default message prefix.
      */
     public static void assertEquals(short[] expected, short[] actual)
     {
-        assertEquals("", expected, actual);
+        assertEquals("array equality", expected, actual);
     }
 
 
@@ -92,11 +90,11 @@ public class ArrayAsserts
 
 
     /**
-     *  Compares two int arrays, with default message.
+     *  Compares two int arrays, with default message prefix.
      */
     public static void assertEquals(int[] expected, int[] actual)
     {
-        assertEquals("", expected, actual);
+        assertEquals("array equality", expected, actual);
     }
 
 
@@ -115,11 +113,11 @@ public class ArrayAsserts
 
 
     /**
-     *  Compares two long arrays, with default message.
+     *  Compares two long arrays, with default message prefix.
      */
     public static void assertEquals(long[] expected, long[] actual)
     {
-        assertEquals("", expected, actual);
+        assertEquals("array equality", expected, actual);
     }
 
 
@@ -138,11 +136,11 @@ public class ArrayAsserts
 
 
     /**
-     *  Compares two float arrays, with default message.
+     *  Compares two float arrays, with default message prefix.
      */
     public static void assertEquals(float[] expected, float[] actual)
     {
-        assertEquals("", expected, actual);
+        assertEquals("array equality", expected, actual);
     }
 
 
@@ -161,11 +159,11 @@ public class ArrayAsserts
 
 
     /**
-     *  Compares two double arrays, with default message.
+     *  Compares two double arrays, with default message prefix.
      */
     public static void assertEquals(double[] expected, double[] actual)
     {
-        assertEquals("", expected, actual);
+        assertEquals("array equality", expected, actual);
     }
 
 
@@ -184,11 +182,11 @@ public class ArrayAsserts
 
 
     /**
-     *  Compares two char arrays, with default message.
+     *  Compares two char arrays, with default message prefix.
      */
     public static void assertEquals(char[] expected, char[] actual)
     {
-        assertEquals("", expected, actual);
+        assertEquals("array equality", expected, actual);
     }
 
 
@@ -207,10 +205,10 @@ public class ArrayAsserts
 
 
     /**
-     *  Compares two boolean arrays, with default message.
+     *  Compares two boolean arrays, with default message prefix.
      */
     public static void assertEquals(boolean[] expected, boolean[] actual)
     {
-        assertEquals("", expected, actual);
+        assertEquals("array equality", expected, actual);
     }
 }

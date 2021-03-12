@@ -19,10 +19,9 @@ import java.util.Iterator;
 
 /**
  *  Wrapper for an <code>Enumeration</code> that allows it to be used in for-each
- *  loops. This is useful when working with objects that return an iterator rather
- *  than a collection in order to protect access to their state.
+ *  loops.
  *  <p>
- *  Note: this class does not allow re-iteration of the enumeration. Calling {@link
+ *  Warning: this class does not allow re-iteration of the enumeration. Calling {@link
  *  #iterator} multiple times will return iterators that refer to the same source
  *  enumeration.
  *

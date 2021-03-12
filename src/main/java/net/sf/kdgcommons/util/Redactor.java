@@ -35,6 +35,8 @@ import java.util.regex.Pattern;
  *  <p>
  *  Note: the redactor makes use of capturing groups to do its work. Your regexes
  *  should not use groups internally.
+ *
+ *  @since 1.0.18
  */
 public class Redactor
 {

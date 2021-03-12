@@ -24,54 +24,10 @@ import java.util.Set;
 
 
 /**
- *  A replacement for <code>java.beans.Introspector</code> that is tailored to
- *  conversion of bean data into other forms. Uses the following rules to find
- *  the getters and setters of an introspected class:
- *  <dl>
- *  <dt>Identifies multiple accessor methods
- *  <dd><code>javax.beans.Introspector</code> looks at parameter type, and
- *      attempts to match getters and setters. This method looks only at the
- *      method name, and will return any method whose name starts with "get"
- *      or "is".
- *  <dt>Ignores case in name comparison
- *  <dd><code>javax.beans.Introspector</code> has camel-casing rules that do
- *      not always correspond to programmer intent -- in particular, two
- *      initial capitals are not camelcased.
- *  <dt>Resolves multiple setter methods for same property
- *  <dd>In the case where there are multiple getters/setters with the same
- *      name, the following ranking is applied:
- *      <ol>
- *      <li> Methods defined by subclass, over those defined by superclass.
- *           The subclass is assumed to be more specific.
- *      <li> Methods that get/take primitive values.
- *      <li> Methods that get/take primitive wrappers.
- *      <li> Methods that get/take <code>String</code>. Driven by the use of
- *           this introspector to translate to/from a text format.
- *      <li> Methods that get/take arbitrary objects.
- *      </ol>
- *  <dt>Resolves multiple getter methods for same property
- *  <dd>For class hierarchies that define covariant return types, will use
- *      the most specific type.
- *  <dt>Ignores properties defined by <code>Object</code>
- *  <dd><code>javax.beans.Introspector</code> allows specific control over the
- *      parts of the class hierarchy to be introspected; by default, it will
- *      include methods defined by <code>Object</code>. We don't care about
- *      those, but assume any other class in the hierarchy to be important.
- *  <dt>Does not cache introspections.
- *  <dd><code>javax.beans.Introspector</code> maintains its own cache of methods.
- *      Since it is loaded by the bootstrap classloader, and thus never released,
- *      this can wreak havoc when used by a library in an application server. We
- *      separate introspection and caching; see {@link IntrospectionCache} for
- *      the latter.
- *  <dt>Does not rely on <code>setAccessible()</code>
- *  <dd>Introspects only the public getter and setter methods. In a perfect world,
- *      these will be sufficient to marshall and unmarshall an object, and we can
- *      use the introspected methods in a sandbox (applet or security-managed
- *      container). In the real world, you can have a public method on a private
- *      class, and get an access exception if you attempt to invoke that method.
- *      If you live in that world, you can instruct <code>Introspector</code> to
- *      mark each method as accessible (but then you can't run in sandboxes).
- *  </dl>
+ *  Introspects bean-style classes, identifying property names and the methods
+ *  to get/set those properties. Each instance introspects a single bean; you
+ *  can use {@link IntrospectionCache} to hold multiple instances.
+ *
  *  Instances of this class are read-only (and thus threadsafe) once constructed.
  *
  *  @since 1.0.5

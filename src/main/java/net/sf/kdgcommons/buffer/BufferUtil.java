@@ -26,7 +26,7 @@ import net.sf.kdgcommons.lang.StringUtil;
 
 
 /**
- *  Contains static utility methods for working with NIO buffers.
+ *  Static utility methods for working with NIO buffers.
  *  <p>
  *  These methods are not thread-safe unless explicityly marked as such.
  */

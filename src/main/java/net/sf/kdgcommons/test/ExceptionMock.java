@@ -22,9 +22,9 @@ import java.lang.reflect.Proxy;
 /**
  *  Instances of this class act as factories for stub objects that always throw.
  *  It can be used in one of two ways: throwing an explicit exception instance,
- *  or creating a new exception of a given class. The latter is useful when you
+ *  or creating a new exception of a given type. The latter is useful when you
  *  just need to verify that an exception was thrown, the former when you need
- *  to verify that a certain path threw (use <code>assertSame()</code>).
+ *  to verify that a certain path threw (use <code>assertSame()</code> to test).
  *  <p>
  *  To use, construct around the desired exception, and call {@link #getInstance}
  *  to create the stub. Since this class does not maintain any state (other than

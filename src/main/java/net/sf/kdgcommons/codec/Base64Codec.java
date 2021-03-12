@@ -26,8 +26,8 @@ import net.sf.kdgcommons.lang.StringUtil;
  *  Converts binary data to/from a string consisting of base-64 characters.
  *  <p>
  *  There are several standard options for string conversion line breaks, defined
- *  by the {@link #Option} enum. You can also specify your own breaks and maximum
- *  line length.
+ *  by the {@link Base64Codec.Option} enum. You can also specify your own breaks
+ *   and maximum line length.
  *  <p>
  *  Conversion to byte arrays always ignores whitespace, and will also ignore
  *  any specified start/end/separation strings (the separation string may appear
@@ -125,7 +125,7 @@ extends Codec
 
 
     /**
-     *  Default constructor; equivalent to using {@link #Option.UNBROKEN}.
+     *  Default constructor; equivalent to <code>Option.UNBROKEN</code>.
      */
     public Base64Codec()
     {
@@ -134,7 +134,7 @@ extends Codec
 
 
     /**
-     *  Constructs an instance using standard parameters.
+     *  Constructs an instance using predefined output configurations.
      */
     public Base64Codec(Option option)
     {

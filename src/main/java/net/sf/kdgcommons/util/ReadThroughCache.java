@@ -25,7 +25,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *  thread-safe (provided the retriever is thread-safe) and provide a variety of blocking
  *  options for retrieval.
  *  <p>
- *  Note that the cache itself implements the {@link #Retriever} interface; caches may be
+ *  Note that the cache itself implements the {@link Retriever} interface; caches may be
  *  stacked.
  *
  *  @since 1.0.15

@@ -28,7 +28,7 @@ import java.nio.channels.ReadableByteChannel;
  *  <code>InputStreamReader</code>).
  *  <p>
  *  This class does not attempt to replicate channel functionality. The program
- *  shouldmaintain an independent reference to the channel to support operations
+ *  should maintain an independent reference to the channel to support operations
  *  such as <code>position()</code>. See method docs for cases where stream
  *  functionality overlaps channel functionality.
  *  <p>
