@@ -263,7 +263,7 @@ public class CollectionUtil
 
 
     /**
-     *  Verifies that the passed set contains only keys and values of the given
+     *  Verifies that the passed map contains only keys and values of the given
      *  types, and returns it as a parameterized map (does not create a new map).
      *  <p>
      *  This function exists to avoid suppressing warnings in application code.
@@ -378,6 +378,10 @@ public class CollectionUtil
      *  returning <code>dest</code>. This is typically used when you need to combine
      *  collections temporarily for a method argument.
      *
+     *  <p><strong>Warning:</strong> this mutates the provided list. In version 2.0
+     *  it will create a new list, with a variant of <code>addAll()</code> that mutates
+     *  the list.
+     *
      *  @since 1.0.7
      */
     public static <T> List<T> combine(List<T> dest, Collection<T>... src)
@@ -394,6 +398,10 @@ public class CollectionUtil
      *  Adds all elements of the <code>src</code> collections to <code>dest</code>,
      *  returning <code>dest</code>. This is typically used when you need to combine
      *  collections temporarily for a method argument.
+     *
+     *  <p><strong>Warning:</strong> this mutates the provided set. In version 2.0
+     *  it will create a new set, with a variant of <code>addAll()</code> that mutates
+     *  the set.
      *
      *  @since 1.0.7
      */
@@ -414,6 +422,10 @@ public class CollectionUtil
      *  <p>
      *  Note: source maps are added in order; if the same keys are present in multiple
      *  sources, the last one wins.
+     *
+     *  <p><strong>Warning:</strong> this mutates the provided map. In version 2.0
+     *  it will create a new map, with a variant of <code>putAll()</code> that mutates
+     *  the map.
      *
      *  @since 1.0.7
      */
@@ -531,6 +543,25 @@ public class CollectionUtil
     /**
      *  Retrieves a value from a nested collection hierarchy by following a sequence
      *  of keys. Supports arbitrary nesting of maps, arrays, and lists.
+     *  <p>
+     *  Example; given:
+     *  <pre>
+     *      Map&lt;String,Object&gt; bottom = new HashMap&lt;&gt;();
+     *      bottom.put("argle", "bargle");
+     *
+     *      List&lt;Object&gt; middle = new ArrayList&lt;&gt;();
+     *      middle.add(bottom);
+     *
+     *      Map&lt;String,Object&gt; top = new HashMap&lt;&gt;();
+     *      top.put("foo", middle);
+     *  </pre>
+     *  Then:
+     *  <p>
+     *  <ul>
+     *  <li> <code>CollectionUtil.getVia(top, "foo", 0, "argle");</code> returns <code>"bargle"</code>.
+     *  <li> <code>CollectionUtil.getVia(top, "bar", 0, "argle");</code> returns <code>null</code>.
+     *  <li> <code>CollectionUtil.getVia(top, "foo", "junk", "argle");</code> throws <code>IllegalArgumentException</code>.
+     *  </ul>
      *
      *  @param  root    The root object.
      *  @param  keys    One or more keys. The first key is applied to the root object,

@@ -27,10 +27,10 @@ import net.sf.kdgcommons.lang.StringUtil;
 
 
 /**
- *  A simplified command-line processor. Will extract options from an argument
- *  list, with optional parameters, leaving the rest of the arguments for the
- *  caller. Will also generate an invocation message that lists the available
- *  options (and optionally exits with error code 1).
+ *  A simplified command-line processor. Extracts options from an argument list,
+ *  with optional parameters, leaving the rest of the arguments for the caller.
+ *  Will also generate an invocation message that lists the available options
+ *  (and optionally exits with error code 1).
  *  <p>
  *  This class can be used on its own, but is normally subclassed. The subclass is
  *  responsible for defining the set of options and presenting a constructor that
@@ -40,20 +40,22 @@ import net.sf.kdgcommons.lang.StringUtil;
  *  <p>
  *  The {@link SimpleCLIParser.OptionDefinition} nested class is how the caller
  *  defines legal options. Options have two forms:
- *  <dl>
- *  <dt> Enable/disable
- *  <dd> The option always has a value, either enabled or disabled. The user can
+ *  <p>
+ *  <ul>
+ *  <li> <strong> Enable/disable </strong>
+ *  <p>  The option always has a value, either enabled or disabled. The user can
  *       specify distinct strings to enable or disable it, and there is a default
  *       value.
- *  <dt> Parameterized
- *  <dd> The option takes zero or more parameters. These parameters are specified
+ *  <li> <strong> Parameterized </strong>
+ *  <p>  The option takes zero or more parameters. These parameters are specified
  *       as separate command-line arguments (eg: "<code>--opt param</code>"), or as
  *       embedded parameters (eg: "<code>--opt=param</code>"). Parameterized options
  *       may be repeated (eg: "<code>--opt param1 --opt param2</code>"), and embedded
  *       parameters may also be repeated (eg: "<code>--opt param1,param2</code>"). A
  *       parameterized option is considered "enabled" if it appears in the argument
  *       list, with or without parmaeters.
- *  </dl>
+ *  </ul>
+ *  <p>
  *  The non-option command-line arguments are available in a number of ways. They can
  *  be retrieved all at once using the {@link #getParameters} method, or one at a time
  *  using the {@link #shift} method.

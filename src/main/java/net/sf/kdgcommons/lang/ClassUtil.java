@@ -28,16 +28,18 @@ import net.sf.kdgcommons.collections.HashMultimap;
 
 
 /**
- *  Static utility methods for working with class instances.
- *  reflection to do their work.
+ *  Static utility methods for working with class instances. Many are wrappers around
+ *  existing reflection operations, translating checked exceptions into runtime.
  *
  *  @since 1.0.4
  */
 public class ClassUtil
 {
     /**
-     *  Converts the "internal" name of a class (eg: "[Ljava/lang/String;") to its
-     *  "external" representation (eg: "java.lang.String[]").
+     *  Converts the "internal" name of a class (eg: <code>[Ljava/lang/String;</code>)
+     *  to its"external" representation (eg: <code>java.lang.String[]</code>).
+     *
+     *  @since 1.0.6
      */
     public static String internalNameToExternal(String name)
     {
@@ -234,22 +236,21 @@ public class ClassUtil
 
     /**
      *  Returns the most appropriate method to invoke for the specified parameter
-     *  values. This method applies method selection rules described in JLS 15.12
-     *  (http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.12).
-     *  If unable to find a single appropriate method, returns <code>null</code>.
+     *  values. This method applies method selection rules described in <a href=
+     *  "http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.12">
+     *  JLS 15.12</a>. Returns <code>null</code> if unable to find a single method
+     *  that meets the rules.
      *  <p>
      *  Notes:
      *  <ul>
-     *  <li> All <code>null</code> argument values are ignored when attempting to
-     *       resolve methods. This can result in multiple candidate methods, and
-     *       a <code>null</code> return.
+     *  <li> Passed argument values that are <code>null</code> are ignore (because
+     *       their type can't be determined). This can result in multiple candidate
+     *       methods, and a <code>null</code> return.
      *  <li> Unboxing conversions are considered (they have to be, because it's
      *       the only way to pass primitive values). If the same method exists
      *       with primitive and object parameters (eg: <code>foo(Integer)</code>
      *       and <code>foo(int)</code>), the variant with an object parameter is
      *       considered a better match than the variant with a primitive parameter.
-     *  <li> A <code>null</code> argument will never match a primitive parameter
-     *       (the compiler will match as if unboxed, with a runtime NPE).
      *  <li> Variable argument lists are transformed to arrays by the compiler;
      *       you must pass an array of the correct type as the last parameter to
      *       match such methods.
@@ -318,6 +319,8 @@ public class ClassUtil
      *  <p>
      *  Note: does not verify that actual field value matches <code>expectedClass</code>
      *  (this gets tricky when dealing with primitive wrapper classes).
+     *
+     *  @since 1.0.16
      */
     public static <T> T getFieldValue(Object obj, String fieldName, Class<T> expectedClass)
     throws NoSuchFieldException

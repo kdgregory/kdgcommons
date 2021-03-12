@@ -23,11 +23,10 @@ import net.sf.kdgcommons.lang.StringBuilderUtil;
 /**
  *  Utility class to produce formatted hex output from arrays of bytes.
  *  <p>
- *  This output consists of the following three pieces, two of which are
- *  optional:
+ *  Output follows normal conventions, and includes the following parts:
  *  <ul>
  *  <li>    An optional offset, tracking the number of bytes that have been
- *          dumped by this object.
+ *          dumped by this object. Formatted as a hex value.
  *  <li>    One or more two-character hex codes representing the input
  *          bytes, separated by spaces. The number of bytes shown per line
  *          may be limited by a constructor parameter.
@@ -36,6 +35,7 @@ import net.sf.kdgcommons.lang.StringBuilderUtil;
  *          in which case any non-printable/non-ASCII characters are replaced
  *          by a specified character.
  *  </ul>
+ *  <p>
  *  There are also multiple ways to get output:
  *  <ul>
  *  <li>    As a single String, with lines of output separated by newlines.
@@ -43,12 +43,12 @@ import net.sf.kdgcommons.lang.StringBuilderUtil;
  *          containing a line of output.
  *  <li>    Written directly to a Writer.
  *  </ul>
+ *  <p>
  *  The dumper may be invoked with varying input buffers, which may contain more
- *  or less bytes than desired per line. In such cases, the output will be
- *  broken or padded, such that the three segments occupy the same columns in
- *  each line (ie, if you have 16 bytes displayed in one line, and only 8 in
- *  the next, the second line will be padded so that the "printable characters"
- *  line up in both).
+ *  or less bytes than desired per line. In such cases, the output is broken or
+ *  padded, such that the three segments occupy the same columns in each line (ie,
+ *  if you have 16 bytes displayed in one line, and only 8 in the next, the second
+ *  line will be padded so that the "printable characters" line up in both).
  */
 public class HexDump
 {
@@ -111,10 +111,9 @@ public class HexDump
      *  Convenience constructor, which emits 78-character-wide lines with
      *  the following characteristics:
      *  <ul>
-     *  <li> Shows offset, using 8-char wide counter followed by 2 chars
-     *  <li> 16 bytes per line
-     *  <li> Shows characters, limited to ASCII, with replacement by spaces,
-     *       preceeded by 4 spaces
+     *  <li> Offset, as an 8-character hex value, followed by 2 spaces.
+     *  <li> 16 bytes per line, followed by 4 spaces.
+     *  <li> Characters, limited to ASCII, with replacement by spaces.
      *  </ul>
      */
     public HexDump()

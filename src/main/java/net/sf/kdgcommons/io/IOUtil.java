@@ -92,9 +92,10 @@ public class IOUtil
 
 
     /**
-     *  Opens a file. The returned stream will be buffered, and if the file's name
-     *  ends in ".gz" will be wrapped with a <codeGZIPInputStream></code>. If any
-     *  step fails, the underlying file will be closed (preventing leakage of file
+     *  Opens a file, applying common delegates. The returned stream is buffered, and if
+     *  file's name ends in ".gz" it's wrapped with a <codeGZIPInputStream></code>.
+     *  <p>
+     *  If any step fails, the underlying file will be closed (preventing leakage of file
      *  descriptors).
      */
     public static InputStream openFile(File file)
@@ -118,9 +119,11 @@ public class IOUtil
 
 
     /**
-     *  Opens a file. The returned stream will be buffered, and if the file's name
-     *  ends in ".gz" will be wrapped with a <code></code>. If any step fails, the
-     *  underlying file will be closed (preventing leakage of file descriptors).
+     *  Opens a file, applying common delegates. The returned stream is buffered, and if
+     *  file's name ends in ".gz" it's wrapped with a <codeGZIPInputStream></code>.
+     *  <p>
+     *  If any step fails, the underlying file will be closed (preventing leakage of file
+     *  descriptors).
      */
     public static InputStream openFile(String fileName)
     throws IOException
@@ -130,10 +133,11 @@ public class IOUtil
 
 
     /**
-     *  Creates a temporary file in the default temporary-file directory. Unlike the
-     *  similarly-named method in <code>File</code>, this method adds a shutdown hook
-     *  to delete the file, always uses the suffix ".tmp", and will create files of
-     *  arbitrary size. The content of the file will be undefined.
+     *  Creates a temporary file in the default temporary-file directory. Unlike
+     *  the similarly-named method in <code>File</code>, this method adds a shutdown
+     *  hook to delete the file, always uses the suffix ".tmp", and will create files
+     *  of arbitrary size. The content of the file are undefined, per contract of
+     *  <code>RandomAccessFile.setLength()</code>.
      *
      *  @param  prefix  The prefix used to construct the file's name. Must be at least
      *                  three characters long (per <code>File</code> API).
@@ -166,8 +170,8 @@ public class IOUtil
     /**
      *  Creates a temporary file via {@link #createTempFile}, then copies the
      *  contents of the passed stream to it. The input stream will be closed,
-     *  whether or not the method completed normally (including cases where the
-     *  file could not be created).
+     *  whether or not the method completed normally (including cases where
+     *  the file could not be created).
      *
      *  @since 1.0.2
      */

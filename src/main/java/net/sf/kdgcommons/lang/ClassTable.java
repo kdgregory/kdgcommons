@@ -19,11 +19,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- *  A threadsafe <code>Map&lt;Class,T&gt;<code>, in which {@link #get} will walk
- *  the class hiearchy of its argument looking for a mapping (and will cache that
- *  mapping for subsequent use). Primarily useful as a <code>Method</code> cache.
+ *  A threadsafe <code>Map&lt;Class,T&gt;<code>, in which {@link #get} walks the
+ *  class hiearchy of its argument looking for a mapping, and caches that mapping
+ *  for subsequent use). Primarily useful as a <code>Method</code> cache.
  *  <p>
- *  <em>Warning</em:
+ *  <em>Warning</em>:
  *  Normal use of this class involves calling {@link #put} on a base set of classes,
  *  followed by calls to {@link #get} with arbitrary descendents of those classes.
  *  Interspersed calls to <code>get()</code> and <code>put()</code> are discouraged,

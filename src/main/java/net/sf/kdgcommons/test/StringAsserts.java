@@ -21,9 +21,6 @@ import junit.framework.Assert;
 
 /**
  *  A collection of static methods for making JUnit assertions about strings.
- *  <p>
- *  If using JDK 1.5 or above, you can static import everything in this class,
- *  so that the calls look exactly like built-in JUnit assertions.
  */
 public class StringAsserts
 {

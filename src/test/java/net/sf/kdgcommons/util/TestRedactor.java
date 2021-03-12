@@ -22,10 +22,10 @@ import junit.framework.TestCase;
 
 public class TestRedactor extends TestCase
 {
-    public void testSimpleRedactor() throws Exception 
+    public void testSimpleRedactor() throws Exception
     {
         Redactor redactor = new Redactor(false, "\\d{3}-\\d{2}-\\d{4}", "\\d{9}", "A*B");
-    
+
         List<List<String>> testcases = Arrays.asList(
             Arrays.asList(  (String)null,           (String)null),
             Arrays.asList(  "",                     ""),
@@ -36,18 +36,18 @@ public class TestRedactor extends TestCase
             Arrays.asList(  "X123-45-6789X",        "XREDACTEDX"),
             Arrays.asList(  "X123-456789X",         "X123-456789X")
         );
-        
+
         for (List<String> testcase : testcases)
         {
             assertEquals(testcase.get(0), testcase.get(1), redactor.apply(testcase.get(0)));
         }
     }
-    
-    
-    public void testSmartRedactor() throws Exception 
+
+
+    public void testSmartRedactor() throws Exception
     {
         Redactor redactor = new Redactor("\\d{3}-\\d{2}-\\d{4}", "\\d{9}", "A*B");
-    
+
         List<List<String>> testcases = Arrays.asList(
             Arrays.asList(  (String)null,           (String)null),
             Arrays.asList(  "",                     ""),
@@ -58,7 +58,7 @@ public class TestRedactor extends TestCase
             Arrays.asList(  "X123-45-6789X",        "X###-##-####X"),
             Arrays.asList(  "X123-456789X",         "X123-456789X")
         );
-        
+
         for (List<String> testcase : testcases)
         {
             assertEquals(testcase.get(0), testcase.get(1), redactor.apply(testcase.get(0)));

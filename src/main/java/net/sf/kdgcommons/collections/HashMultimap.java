@@ -37,16 +37,14 @@ import java.util.Set;
  *  key and you enable set semantics).
  *  <p>
  *  Partly as a result, this class does <em>not</em> implement <code>Map</code>. I
- *  didn't want to put in the extra effort to create a "live" <code>keySet()</code>.
- *  But more, it would have to be <code>Map&lt;K,Collection&lt;V&gt;&gt;</code>,
- *  which I thought led to methods that weren't particularly useful.
+ *  decided that the parameterization that would be required did not offer anything
+ *  valuable.
  *  <p>
- *  You can configure this multimap to provide eitherSet or List behavior for its
+ *  You can configure this multimap to provide either Set or List behavior for its
  *  values, by passing one of the {@link HashMultimap.Behavior} options to the
  *  constructor. With Set semantics, each key-value pair is stored only once;
- *  subsequent puts of the same pair will be ignored. With List semantics, each
- *  key-value pair may be stored multiple times, and the order of reflects the
- *  sequence of puts.
+ *  subsequent puts of the same pair are ignored. With List semantics, each key-value
+ *  pair may be stored multiple times.
  *  <p>
  *  Null keys are not allowed. Null values are.
  *  <p>
@@ -393,6 +391,8 @@ implements Serializable
     /**
      *  Two instances are equal if they are the same size and have the same
      *  mappings.
+     *
+     *  @since 1.0.13
      */
     public final boolean equals(Object obj)
     {
@@ -419,7 +419,10 @@ implements Serializable
     @Override
     /**
      *  Returns a hashcode for the map. This value is dependent on the current
-     *  mappings, and is expected to change as mappings change.
+     *  mappings, so objects of this class should not be stored in a hashed
+     *  collection.
+     *
+     *  @since 1.0.13
      */
     public final int hashCode()
     {

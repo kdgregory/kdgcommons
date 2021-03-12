@@ -15,7 +15,8 @@
 package net.sf.kdgcommons.lang;
 
 /**
- *  An object whose role is producing other objects. This class exists to allow
+ *  An object whose role is producing other objects. This interface is used by
+ *  {@link net.sf.kdgcommons.collections.DefaultMap} and {@link ObjectUtil#defaultValue}.
  */
 public interface ObjectFactory<T>
 {

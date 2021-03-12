@@ -30,13 +30,18 @@ import java.util.concurrent.atomic.AtomicLong;
  *  Typically used to aggregate information from a stream of data.
  *  <p>
  *  Counters are created explicitly by {@link #put putting} a value, implicitly by
- *  {@link #increment incrementing} a value that has not yet been set. Counters
- *  may be set, retrieved, incremented, decremented, or removed. You can deal with
- *  counters as primitive <code>long</code> values, or as <code>Long</code> objects.
+ *  {@link #increment incrementing} a value that has not yet been set (the implicit
+ *  starting value is zero). Counters may be set, retrieved, incremented, decremented,
+ *  or removed. You can deal with counters as primitive <code>int</code> values,
+ *  primitive <code>long</code> values, or as <code>Long</code> objects.
  *  <p>
- *  Mmappings are stored in a <code>ConcurrentHashMap</code>; behavior of iterators
+ *  In addition to the set views provided by the <code>Map</code> interface, this
+ *  object is also directly iterable; such iteration is equivalent to iterating on
+ *  <code>entrySet()</code>.
+ *  <p>
+ *  Mappings are stored in a <code>ConcurrentHashMap</code>, and behavior of iterators
  *  and set retrieval methods reflect this fact. Note, however, that this class does
- *  <em>not</em> implement <em>ConcurrentMap</code>, because the internal storage is
+ *  <em>not</em> implement <code>ConcurrentMap</code>, because the internal storage is
  *  not conducive to implementing <code>replace()</code> and similar methods (at
  *  least not without adding lots of locks that aren't needed for the common case).
  *  <p>

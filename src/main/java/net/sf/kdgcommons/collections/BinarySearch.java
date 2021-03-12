@@ -16,10 +16,9 @@ package net.sf.kdgcommons.collections;
 
 
 /**
- *  A collection of static methods for searching array-like data structures:
- *  those that can be accessed using an integer index. Examples of such structures
- *  include a <code>java.nio.LongBuffer</code>, or a file consisting of fixed-size
- *  records.
+ *  Static methods for searching array-like data structures: those that can be
+ *  accessed using an integer index. Examples of such structures include
+ *  <code>java.nio.LongBuffer</code>, or a file consisting of fixed-size records.
  *  <p>
  *  There are two ways to search these structures. For structures that are sorted,
  *  you can implement {@link BinarySearch.Accessor}: the search will provide that

@@ -22,7 +22,7 @@ import java.util.Map;
 
 
 /**
- *  A collection of utility methods for working at the JDBC level.
+ * Static utility methods for working at the JDBC level.
  */
 public class JDBCUtil
 {
@@ -30,10 +30,12 @@ public class JDBCUtil
      *  Executes a query and returns the results, ensuring that the created statement
      *  and resultset are closed.
      *
-     *  @param  args    Parameters for the query. May be empty.
+     *  @param  args    Bind values for the query. May be empty.
      *
      *  @return A list of maps, where each entry in the list represents a row from the
      *          results, and the keys in the map represent the column names.
+     *
+     *  @since 1.0.17
      */
     public static List<Map<String,Object>> executeQuery(Connection cxt, String sql, Object... args)
     throws SQLException
@@ -60,6 +62,8 @@ public class JDBCUtil
      *  @param  args    Parameters for the query. May be empty.
      *
      *  @return The number of rows updated by this statement.
+     *
+     *  @since 1.0.17
      */
     public static int executeUpdate(Connection cxt, String sql, Object... args)
     throws SQLException
@@ -78,9 +82,14 @@ public class JDBCUtil
 
 
     /**
-     *  Creates a <code>PreparedStatement</code> from the provided connection.
+     *  Creates a <code>PreparedStatement</code> from the passed SQL statement, populating
+     *  its bind variables.
+     *  <p>
+     *  Caller is responsible for closing the statement after use.
      *
-     *  @param  args    Parameters for the query. May be empty.
+     *  @param  args    Bind values for the query. May be empty.
+     *
+     *  @since 1.0.17
      */
     public static PreparedStatement prepare(Connection cxt, String sql, Object... args)
     throws SQLException
@@ -99,7 +108,9 @@ public class JDBCUtil
      *  <code>Map</code>, where keys are the column names as retrieved from metadata,
      *  and values are the result of calling <code>getObject()</code>.
      *  <p>
-     *  Caller is responsible for closing the <code>ResultSet</code>.
+     *  Caller is responsible for closing the <code>ResultSet</code> after use.
+     *
+     *  @since 1.0.17
      */
     public static List<Map<String,Object>> retrieve(ResultSet rslt)
     throws SQLException

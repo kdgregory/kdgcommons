@@ -19,9 +19,9 @@ import java.util.Random;
 
 
 /**
- *  A collection of static utility methods for working with Strings. All
- *  methods are null-safe; in general they treat <code>null</code> as an
- *  empty string (but see JavaDoc).
+ *  A collection of static utility functions for working with Strings. All are
+ *  null-safe: in general they treat <code>null</code> as an empty string (see
+ *  JavaDoc for any differences).
  */
 public class StringUtil
 {
@@ -38,6 +38,8 @@ public class StringUtil
 
     /**
      *  Tests for equality, where null is equivalent to an empty string.
+     *
+     *  @since 1.0.8
      */
     public static boolean equalOrEmpty(String s1, String s2)
     {
@@ -59,8 +61,7 @@ public class StringUtil
 
 
     /**
-     *  A null-safe check for empty strings, where <code>null</code> is
-     *  considered an empty string.
+     *  Determines whether the passed string is null or zero length.
      */
     public static boolean isEmpty(String str)
     {
@@ -69,8 +70,8 @@ public class StringUtil
 
 
     /**
-     *  A null-safe check for strings that contain only whitespace (if
-     *  anything).
+     *  Determines whether the passed string is null, empty, or contain only
+     *  whitespace (as determined by <code>java.lang.Character</code>).
      */
     public static boolean isBlank(String str)
     {
@@ -86,10 +87,9 @@ public class StringUtil
 
 
     /**
-     *  Removes all whitespace characters (per <code>Character.isWhitespace()
-     *  </code>) from either side of a string. If passed null, will return an
-     *  empty string. Will return the original string if it doesn't need
-     *  trimming.
+     *  Removes all whitespace characters from either side of a string, using
+     *  <code>Character.isWhitespace()</code> to test. Returns an empty string
+     *  if passed null, the original string if it doesn't need trimming.
      */
     public static String trim(String str)
     {
@@ -111,8 +111,8 @@ public class StringUtil
 
 
     /**
-     *  Invokes {@link #trim}, and returns null if the result is an empty string.
-     *  Otherwise returns the trimmed string. This is useful to create flag values.
+     *  Invokes {@link #trim}, and returns null if the result is an empty string
+     *  This is useful to create flag values.
      *
      *  @since 1.0.9
      */
@@ -169,10 +169,10 @@ public class StringUtil
     /**
      *  Determines whether the first string contains the second.
      *  <p>
-     *  Returns <code>true</code> if the second string is an empty string
-     *  or the two strings are equal. Returns <code>false</code> if either
-     *  of the strings are <code>null</code>. Does not care how many times
-     *  the second string appears in the first; only that it appears.
+     *  Returns <code>true</code> if the second string is an empty string or the
+     *  two strings are equal. Returns <code>false</code> if either of the strings
+     *  are <code>null</code>. Does not care how many times the second string
+     *  appears in the first; only that it appears.
      */
     public static boolean contains(String str, String segment)
     {
@@ -185,13 +185,13 @@ public class StringUtil
 
 
     /**
-     *  Determines whether the first string contains the second, ignoring
-     *  case of individual letters.
+     *  Determines whether the first string contains the second, ignoring case
+     *  of individual letters.
      *  <p>
-     *  Returns <code>true</code> if the second string is an empty string
-     *  or the two strings are equal. Returns <code>false</code> if either
-     *  of the strings are <code>null</code>. Does not care how many times
-     *  the second string appears in the first; only that it appears.
+     *  Returns <code>true</code> if the second string is an empty string or the
+     *  two strings are equal. Returns <code>false</code> if either of the strings
+     *  are <code>null</code>. Does not care how many times the second string
+     *  appears in the first; only that it appears.
      */
     public static boolean containsIgnoreCase(String str, String segment)
     {
@@ -215,9 +215,12 @@ public class StringUtil
 
     /**
      *  Converts the string to a UTF-8 byte array, turning the checked exception
-     *  (which should never happen) into a runtime exception.
+     *  (which should never happen) into a runtime exception. Returns an empty
+     *  array if passed <code>null</code>.
      *  <p>
-     *  If passed <code>null</code>, returns an empty array.
+     *  Note: as of JDK 1.7, you can call <code>String.getBytes()</code> with an
+     *  enum from <code>java.nio.charset.StandardCharsets</code>. This function
+     *  is still useful if you want a null-safe converstion.
      */
     public static byte[] toUTF8(String str)
     {
@@ -238,9 +241,11 @@ public class StringUtil
     /**
      *  Converts the passed byte array to a string, using UTF-8 encoding, and
      *  turning the checked exception (which should never happen) into a runtime
-     *  exception.
+     *  exception. If passed <code>null</code>, returns an empty string.
      *  <p>
-     *  If passed <code>null</code>, returns an empty string.
+     *  Note: as of JDK 1.7, you can call <code>new String()</code> with an enum
+     *  from <code>java.nio.charset.StandardCharsets</code>. This function is still
+     *  useful if you want a null-safe converstion.
      */
     public static String fromUTF8(byte[] bytes)
     {
@@ -362,7 +367,7 @@ public class StringUtil
 
 
     /**
-     *  Generates a (non-cryptographicaly-) random string consisting of characters
+     *  Generates a (non-cryptographicaly) random string consisting of characters
      *  from the passed string. Useful for generating bogus string fields.
      *  <p>
      *  Warning: not threadsafe; uses a shared instance of <code>java.util.Random</code>.
@@ -530,15 +535,31 @@ public class StringUtil
 
 
     /**
-     *  A flexible substring that can return left or right substrings, and returns a
-     *  "best effort" result if offset or length are outside the bounds of the string.
+     *  A flexible substring that is null-safe, can return left or right substrings,
+     *  and is not constrained to the boundaries of the original string.
+     *  <p>
+     *  When identifying a the range of characters to return, this function behaves
+     *  as if the string is extended in both directions with "non-characters." The
+     *  starting and ending offsets may point into these extended areas. However,
+     *  the only characters returned will be those from the actual string.
+     *  <p>
+     *  Examples:
+     *  <p>
+     *  <ul>
+     *  <li> <code>substr("foo", 0, 2)</code> is <code>"fo"</code>
+     *  <li> <code>substr("foo", 1, 1000)</code> is <code>"oo"</code>
+     *  <li> <code>substr("foo", 999, 1000)</code> is <code>""</code>
+     *  <li> <code>substr("foo", -1, 2)</code> is <code>"o"</code>
+     *  <li> <code>substr("foo", -3, 2)</code> is <code>"fo"</code>
+     *  <li> <code>substr("foo", -3, 17)</code> is <code>"foo"</code>
+     *  </ul>
      *
      *  @param  src     The source string; <code>null</code> is treated as an
      *                  empty string.
      *  @param  off     The starting offset of the substring. If negative, offset is
      *                  measured from the end of the string (where -1 is the last
      *                  character).
-     *  @parma  len     The maximum number of characters to retrieve from the string.
+     *  @param  len     The maximum number of characters to retrieve from the string.
      *
      *  @return A string containing up to <code>len</code> characters.
      *
@@ -571,6 +592,8 @@ public class StringUtil
      *  the target strings, <code>false</code> otherwise. This will typically
      *  be invoked with a variable <code>str</code> and literal values for
      *  <code>target</code>.
+     *
+     *  @since 1.0.6
      */
     public static boolean isIn(String str, String... targets)
     {
@@ -586,8 +609,10 @@ public class StringUtil
 
 
     /**
-     *  A replacement for <code>String.valueOf()</code> that returns an empty
-     *  string for null.
+     *  A replacement for <code>String.valueOf()</code> that returns an
+     *  empty string for <code>null</code>.
+     *
+     *  @since 1.0.14
      */
     public static String valueOf(Object obj)
     {
