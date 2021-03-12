@@ -88,25 +88,33 @@ public class StringUtil
 
     /**
      *  Removes all whitespace characters from either side of a string, using
-     *  <code>Character.isWhitespace()</code> to test. Returns an empty string
-     *  if passed null, the original string if it doesn't need trimming.
+     *  <code>Character.isWhitespace()</code> to test.
+     *  <p>
+     *  Returns a substring of the original string (ie, sharing backing array),
+     *  unless the result is an empty string. Returns an empty string if passed
+     *  <code>null</code>.
      */
     public static String trim(String str)
     {
-        if (str == null)
+        if ((str == null) || (str.length() == 0))
             return "";
-        else if (str.length() == 0)
-            return "";
-        else if (!Character.isWhitespace(str.charAt(0))
-                && !Character.isWhitespace(str.charAt(str.length() - 1)))
+
+        int frontIdx = 0;
+        int backIdx = str.length() - 1;
+
+        if (!Character.isWhitespace(str.charAt(frontIdx)) && !Character.isWhitespace(str.charAt(backIdx)))
             return str;
 
-        StringBuilder sb = new StringBuilder(str);
-        while ((sb.length() > 0) && Character.isWhitespace(sb.charAt(0)))
-            sb.deleteCharAt(0);
-        while ((sb.length() > 0) && Character.isWhitespace(sb.charAt(sb.length()-1)))
-            sb.deleteCharAt(sb.length()-1);
-        return sb.toString();
+        while ((frontIdx <= backIdx) && Character.isWhitespace(str.charAt(frontIdx)))
+            frontIdx++;
+
+        while ((frontIdx <= backIdx) && Character.isWhitespace(str.charAt(backIdx)))
+            backIdx--;
+
+        if (frontIdx == backIdx)
+            return "";
+
+        return str.substring(frontIdx, backIdx+1);
     }
 
 

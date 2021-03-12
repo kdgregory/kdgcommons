@@ -64,7 +64,7 @@ public class TestStringUtil extends TestCase
     {
         assertEquals("no trimming",         "foo", StringUtil.trimToNull("foo"));
         assertEquals("trimmed non-empty",   "foo", StringUtil.trimToNull("  foo  "));
-        assertEquals("trimmed empty",       null,  StringUtil.trimToNull("    "));
+        assertEquals("trimmed empty",       null,  StringUtil.trimToNull("  \r\t  "));
         assertEquals("initially empty",     null,  StringUtil.trimToNull(""));
         assertEquals("initially null",      null,  StringUtil.trimToNull(null));
     }
