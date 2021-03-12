@@ -33,10 +33,28 @@ import net.sf.kdgcommons.util.Counters;
  *  To use, construct with the interface to be mocked (only one allowed, due to
  *  Java parameterization), then call {@link #getInstance} to create the proxy
  *  instance.
+ *  <pre>
+ *     SelfMock&lt;Map&lt;String,String&gt;&gt; mock = new SelfMock(Map.class)
+ *     {
+ *         public Object get(Object key)
+ *         {
+ *             return "something";
+ *         }
+ *     };
+ *
+ *     Map&lt;String,String&gt; mocked = mock.getInstance();
+ *  </pre>
  *  <p>
- *  By default, all invocations are counted and the invocation arguments retained.
- *  See {@link #getInvocationCount} and {@link #getInvocationArgument} for more
- *  information.
+ *  All invocations are counted and the invocation arguments retained. You can
+ *  retrieve the count and arguments, and perform assertions on them:
+ *  <pre>
+ *      String value = mocked.get("anything");
+ *
+ *      assertEquals(1, mock.getInvocationCount("get"));
+ *      assertEquals("anything", mock.getInvocationArg("get", 0, 0, String.class));
+ *  </pre>
+ *  <p>
+ *  Calls to an unmocked method throw <code>UnsupportedOperationException</code>.
  */
 public abstract class SelfMock<MockedType>
 implements InvocationHandler
@@ -85,7 +103,7 @@ implements InvocationHandler
      *  Returns the arguments passed to a particular invocation of the named method
      *  (using zero-based counting). This is primarily useful when dealing with
      *  overloaded methods, where you might not know what types the arguments are.
-     *  If you know the arguments, {@link #getInvocationArgAs} is a better choice.
+     *  If you know the arguments, {@link #getInvocationArg} is a better choice.
      *  <p>
      *  Note: this method returns the actual argument array that was passed to the
      *  invocation handler. Don't modify it unless you want to invalidate your tests.
@@ -112,7 +130,7 @@ implements InvocationHandler
      *  Returns the arguments passed to the most recent invocation of the named
      *  method.This is primarily useful when dealing with overloaded methods,
      *  where you might not know what types the arguments are. If you know the
-     *  arguments, {@link #getInvocationArgAs} is a better choice.
+     *  arguments, {@link #getMostRecentInvocationArg} is a better choice.
      *  <p>
      *  Note: this method returns the actual argument array that was passed to the
      *  invocation handler. Don't modify it unless you want to invalidate your tests.

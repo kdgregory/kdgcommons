@@ -16,9 +16,9 @@ package net.sf.kdgcommons.lang;
 
 
 /**
- *  A collection of static methods for manipulating StringBuilders. These
- *  methods all return their builder, but beware execution order if you
- *  try to chain operations.
+ *  Static functions for manipulating StringBuilders. All return the underlying
+ *  builder, but beware mixing native methods and external static functions won't
+ *  be that easy.
  */
 public class StringBuilderUtil
 {
@@ -39,8 +39,8 @@ public class StringBuilderUtil
      *  that representation to the buffer, left-zero-padded.
      *
      *  @param buf      The buffer to be updated.
-     * @param value    The value to be converted.
-     * @param width    Size of the field that will hold the value. If the hex
+     * @param value     The value to be converted.
+     * @param width     Size of the field that will hold the value. If the hex
      *                  representation of the value is smaller, it will be
      *                  left-zero-padded; if greater, the high-order bits will
      *                  be truncated.
@@ -72,10 +72,10 @@ public class StringBuilderUtil
 
 
     /**
-     *  Appends the passed string to a <code>StringBuilder</code>, unless
-     *  it ends with the test string. This is useful when constructing a
-     *  string from repeated values, where you want all but the first to
-     *  be separated by a comma.
+     *  Appends the passed string to a <code>StringBuilder</code>, unless it
+     *  ends with the test string. This is useful when constructing a string
+     *  from repeated values, where you want all but the first to be separated
+     *  by a comma.
      *
      *  @param  sb      The builder to be updated.
      *  @param  test    The test string.
@@ -121,5 +121,4 @@ public class StringBuilderUtil
             '0', '1', '2', '3', '4', '5', '6', '7',
             '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
             };
-
 }

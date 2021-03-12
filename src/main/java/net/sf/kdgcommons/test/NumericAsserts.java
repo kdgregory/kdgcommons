@@ -23,7 +23,7 @@ import junit.framework.Assert;
 public class NumericAsserts
 {
     /**
-     *  Asserts that the actual value is within the expected, plus/minus the
+     *  Asserts that the actual value is equal to the expected, plus or minus a
      *  specified percentage (useful for probabilistic testing).
      */
     public static void assertApproximate(int expected, int actual, int deltaPercent)
@@ -33,7 +33,7 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within the expected, plus/minus the
+     *  Asserts that the actual value is equal to the expected, plus or minus a
      *  specified percentage (useful for probabilistic testing). On failure,
      *  prepends the supplied message (if any) to a description of the failure.
      */
@@ -45,7 +45,7 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within the expected, plus/minus the
+     *  Asserts that the actual value is equal to the expected, plus or minus a
      *  specified percentage (useful for probabilistic testing).
      */
     public static void assertApproximate(long expected, long actual, int deltaPercent)
@@ -53,8 +53,9 @@ public class NumericAsserts
         assertApproximate(null, expected, actual, deltaPercent);
     }
 
+
     /**
-     *  Asserts that the actual value is within the expected, plus/minus the
+     *  Asserts that the actual value is equal to the expected, plus or minus a
      *  specified percentage (useful for probabilistic testing). On failure,
      *  prepends the supplied message (if any) to a description of the failure.
      */
@@ -70,7 +71,7 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within the expected, plus/minus the
+     *  Asserts that the actual value is equal to the expected, plus or minus a
      *  specified percentage (useful for probabilistic testing).
      */
     public static void assertApproximate(double expected, double actual, double deltaPercent)
@@ -80,7 +81,7 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within the expected, plus/minus the
+     *  Asserts that the actual value is equal to the expected, plus or minus a
      *  specified percentage (useful for probabilistic testing). On failure,
      *  prepends the supplied message (if any) to a description of the failure.
      */
@@ -92,7 +93,7 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within an arbitrary range +/- the expected value.
+     *  Asserts that the actual value is within an arbitrary range.
      */
     public static void assertInRange(int expectedLow, int expectedHigh, int actual)
     {
@@ -101,8 +102,8 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within an arbitrary range +/- the expected value.
-     *  On failure, prepends the supplied message (if any) to a description of the failure.
+     *  Asserts that the actual value is within an arbitrary range. On failure,
+     *  prepends the supplied message (if any) to a description of the failure.
      */
     public static void assertInRange(String message, int expectedLow, int expectedHigh, int actual)
     {
@@ -118,7 +119,7 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within an arbitrary range +/- the expected value.
+     *  Asserts that the actual value is within an arbitrary range.
      */
     public static void assertInRange(long expectedLow, long expectedHigh, long actual)
     {
@@ -127,8 +128,8 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within an arbitrary range +/- the expected value.
-     *  On failure, prepends the supplied message (if any) to a description of the failure.
+     *  Asserts that the actual value is within an arbitrary range. On failure,
+     *  prepends the supplied message (if any) to a description of the failure.
      */
     public static void assertInRange(String message, long expectedLow, long expectedHigh, long actual)
     {
@@ -144,7 +145,7 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within an arbitrary range +/- the expected value.
+     *  Asserts that the actual value is within an arbitrary range.
      */
     public static void assertInRange(double expectedLow, double expectedHigh, double actual)
     {
@@ -153,7 +154,8 @@ public class NumericAsserts
 
 
     /**
-     *  Asserts that the actual value is within an arbitrary range +/- the expected value.
+     *  Asserts that the actual value is within an arbitrary range. On failure,
+     *  prepends the supplied message (if any) to a description of the failure.
      */
     public static void assertInRange(String message, double expectedLow, double expectedHigh, double actual)
     {

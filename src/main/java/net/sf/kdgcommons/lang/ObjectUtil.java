@@ -18,8 +18,7 @@ import java.lang.reflect.Array;
 
 
 /**
- *  Static utility methods for working with objects. Typically these use
- *  reflection to do their work.
+ *  Static utility methods for working with objects.
  */
 public class ObjectUtil
 {
@@ -148,9 +147,9 @@ public class ObjectUtil
 
 
     /**
-     *  Returns the hashcode of the passed object, 0 if passed <code>null
-     *  </code>. This is a direct replacement for Jakarta's <code>ObjectUtils.
-     *  hashCode()</code> method, existing simply to eliminate a dependency.
+     *  Returns the hashcode of the passed object, 0 if passed <code>null</code>.
+     *  This is a direct replacement for Jakarta's <code>ObjectUtils.hashCode()</code>
+     *  method, existing simply to eliminate a dependency.
      */
     public static int hashCode(Object obj)
     {
@@ -159,8 +158,10 @@ public class ObjectUtil
 
 
     /**
-     *  Null-safe comparison of two arbitrary comparables. Null compares less
-     *  than not-null, two nulls are equal, else <code>v1.compareTo(v2)</code>.
+     *  Null-safe comparison of two arbitrary comparables, in which <code>null</code>
+     *  is considered less than any not-null value.
+     *
+     *  @since 1.0.14
      *
      *  @throws ClassCastException if objects are not directly comparable.
      */
@@ -172,9 +173,10 @@ public class ObjectUtil
 
 
     /**
-     *  Null-safe comparison of two arbitrary comparables. Null will either compare
-     *  higher or lower than not null depending on <code>nullIsLow</code>, two nulls
-     *  are equal, else <code>v1.compareTo(v2)</code>.
+     *  Null-safe comparison of two arbitrary comparables. Null are treated as higher or
+     *  lower than not-null values based on <code>nullIsLow</code>.
+     *
+     *  @since 1.0.14
      *
      *  @throws ClassCastException if objects are not directly comparable.
      */
@@ -208,6 +210,8 @@ public class ObjectUtil
     /**
      *  Returns the passed <code>value</code>, unless it's null, in which case
      *  the <code>defaultValue</code> is returned.
+     *
+     *  @since 1.0.6
      */
     public static <T> T defaultValue(T value, T defaultValue)
     {
@@ -218,6 +222,8 @@ public class ObjectUtil
     /**
      *  Returns the passed <code>value</code>, unless it's null, in which case
      *  the <code>objectFactory</code> is queried for a value.
+     *
+     *  @since 1.0.6
      */
     public static <T> T defaultValue(T value, ObjectFactory<T> fact)
     {

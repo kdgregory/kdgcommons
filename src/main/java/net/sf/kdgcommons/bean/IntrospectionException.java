@@ -16,9 +16,8 @@ package net.sf.kdgcommons.bean;
 
 
 /**
- *  This exception is thrown by methods in {@link Introspection} and
- *  {@link IntrospectionCache}. It typically wraps an underlying reflection
- *  exception.
+ *  This exception exists to transform the checked exceptions thrown by
+ *  reflection classes into a runtime exception.
  *
  *  @since 1.0.5
  */

@@ -18,10 +18,9 @@ import java.util.Map;
 
 
 /**
- *  A simple utility class that allows maps to be created and populated with a
- *  single expression. It takes the base map as a constructor parameter, and
- *  provides a {@link #put} method that can be chained. When you've added all
- *  that you want, call {@link #toMap} to return the original map.
+ *  A utility class that allows maps to be created and populated with a single
+ *  expression. Useful when you want to pass some value to <code>super()</code>,
+ *  or when you just don't want independent calls to <code>put()</code>.
  *
  *  @since 1.0.5
  */
@@ -30,12 +29,18 @@ public class MapBuilder<K,V>
     private Map<K,V> _map;
 
 
+    /**
+     *  Provides the map that will be populated by this object.
+     */
     public MapBuilder(Map<K,V> map)
     {
         _map = map;
     }
 
 
+    /**
+     *  Adds an item to the map, returning <code>this</code> so that calls can be chained.
+     */
     public MapBuilder<K,V> put(K key, V value)
     {
         _map.put(key, value);
@@ -43,6 +48,9 @@ public class MapBuilder<K,V>
     }
 
 
+    /**
+     *  Returns the (now-populated) map.
+     */
     public Map<K,V> toMap()
     {
         return _map;

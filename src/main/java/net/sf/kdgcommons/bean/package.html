@@ -1,0 +1,69 @@
+<html>
+<body>
+
+Introspect bean-style objects.
+<p>
+This package exists to support the PracticalXML conversion code. It fixes
+several problems that I perceived with <code>java.beans.Introspector</code>:
+
+<ul>
+
+<li> <b> Does not cache introspections </b>
+<p>  <code>j.b.I</code> maintains an internal cache of introspections for
+     for future use. While this cache is based on "weak" keys, so does not
+     interfere with class unloading (at least not currently), it does retain
+     the information "forever" unless explicitly flushed.
+
+<li> <b> Ignores case in method names </b>
+<p>  Older versions of <code>j.b.I</code> did not properly handle two initial
+     capitals in a property name (eg: <code>XMLSomething</code>. This appears
+     to have been fixed by JDK 1.8.
+
+<li> <b> Ignores parameter type </b>
+<p>  <code>j.b.I</code> tries to match parameter type on a setter to return value
+     on a getter, and ignores setters where they don't match. For example, if you
+     have <code>int foo</code>, with <code>int getFoo()</code>, <code>j.b.I</code>
+     won't return <code>void setFoo(Integer value)</code> as the setter for this
+     property.
+<p>  By comparison, this introspector only looks at method name when identifying
+     properties. Which means that you could use <code>void setFoo(String)</code>.
+
+<li> <b> Resolves multiple setter methods for same property </b>
+<p>  In the case where there are multiple getters/setters with the same name, the
+     following ranking is applied:
+     <ol>
+     <li> Methods defined by subclass, over those defined by superclass.
+          The subclass is assumed to be more specific.
+     <li> Methods that get/take primitive values.
+     <li> Methods that get/take primitive wrappers.
+     <li> Methods that get/take <code>String</code>. Driven by the use of
+          this introspector to translate to/from a text format.
+     <li> Methods that get/take arbitrary objects.
+     </ol>
+     <p>
+
+<li> <b> Resolves multiple getter methods for same property </b>
+<p>  For class hierarchies that define covariant return types, will use
+     the most specific type.
+
+<li> <b> Ignores properties defined by <code>Object</code> </b>
+<p>  <code>j.b.I.getBeanInfo()</code> provides two variants: one just takes the
+     class to introspect, and the other takes a "stop" class to ignore parts of
+     the inheritance hierarchy. In practice, you need to always call the second
+     variant and provide <code>Object</code>, to avoid including <code>class</code>
+     as a property.
+<p>  By comparison, this introspector optimizes for the common case (been classes
+     that directly extend <code>Object</code>).
+
+<li> <b> Does not rely on <code>setAccessible()</code> </b>
+<p>  By default, this  introspector only identifies public getter and setter
+     methods. For a properly designed bean, these will be sufficient to marshall
+     and unmarshall instances of that bean class. It also means that this class
+     will work in a JVM that has a security manager (at the time of writing, this
+     meant applets).
+<p>  If you do need access to private methods, you can construct the introspector
+     with a flag that enables <code>setAccessible()</code>.
+</ul>
+
+</body>
+</html>
