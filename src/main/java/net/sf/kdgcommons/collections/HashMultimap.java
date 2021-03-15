@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -380,6 +381,32 @@ implements Serializable
     public Iterator<Map.Entry<K,V>> entryIterator()
     {
         return new PublicEntryIterator();
+    }
+
+
+    /**
+     *  Returns a <code>java.util.HashMap</code> containing the entries from this
+     *  multimap. Values in the returned map will be either <code>ArrayList</code>s
+     *  or <code>HashSet</code>s depending on the behavior of this map.
+     */
+    public Map<K,Collection<V>> toMap()
+    {
+        Map<K,Collection<V>> result = new HashMap<K,Collection<V>>();
+        Iterator<Map.Entry<K,V>> entryItx = entryIterator();
+        while (entryItx.hasNext())
+        {
+            Map.Entry<K,V> entry = entryItx.next();
+            Collection<V> coll = result.get(entry.getKey());
+            if (coll == null)
+            {
+                coll = _behavior == Behavior.LIST
+                     ? new ArrayList<V>()
+                     : new HashSet<V>();
+                result.put(entry.getKey(), coll);
+            }
+            coll.add(entry.getValue());
+        }
+        return result;
     }
 
 

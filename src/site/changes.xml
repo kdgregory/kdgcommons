@@ -5,9 +5,12 @@
 
     <body>
         <release version="1.0.18" date="TBD"
-            description="add geo and swing packages, minor updates elsewhere">
+            description="cleanup and various small additions">
             <action dev='kdgregory' type='add'>
                 Redactor: redacts sensitive text in a string
+            </action>
+            <action dev='kdgregory' type='add'>
+                HashMultimap.toMap(): returns a java.util.Map with Collection values
             </action>
         </release>
 

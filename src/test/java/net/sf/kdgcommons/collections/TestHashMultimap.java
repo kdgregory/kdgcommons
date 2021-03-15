@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -412,6 +413,46 @@ extends TestCase
 
 
     // TODO - remove from entry iterator
+
+
+    public void testToMapListBehavior() throws Exception
+    {
+        HashMultimap<String,String> multimap = new HashMultimap<String,String>(Behavior.LIST);
+        multimap.put("argle", "bargle");
+        multimap.put("argle", "wargle");
+        multimap.put("foo", "bar");
+
+        Map<String,Collection<String>> map = multimap.toMap();
+        assertEquals("size", 2, map.size());
+
+        Collection<String> v1 = map.get("argle");
+        assertTrue("collection is a list", v1 instanceof List);
+        assertEquals("collection values", Arrays.asList("bargle", "wargle"), v1);
+
+        Collection<String> v2 = map.get("foo");
+        assertTrue("collection is a list", v2 instanceof List);
+        assertEquals("collection values", Arrays.asList("bar"), v2);
+    }
+
+
+    public void testToMapSetBehavior() throws Exception
+    {
+        HashMultimap<String,String> multimap = new HashMultimap<String,String>(Behavior.SET);
+        multimap.put("argle", "bargle");
+        multimap.put("argle", "wargle");
+        multimap.put("foo", "bar");
+
+        Map<String,Collection<String>> map = multimap.toMap();
+        assertEquals("size", 2, map.size());
+
+        Collection<String> v1 = map.get("argle");
+        assertTrue("collection is a set", v1 instanceof Set);
+        assertEquals("collection values", CollectionUtil.asSet("bargle", "wargle"), v1);
+
+        Collection<String> v2 = map.get("foo");
+        assertTrue("collection is a set", v2 instanceof Set);
+        assertEquals("collection values", CollectionUtil.asSet("bar"), v2);
+    }
 
 
     public void testResize() throws Exception
