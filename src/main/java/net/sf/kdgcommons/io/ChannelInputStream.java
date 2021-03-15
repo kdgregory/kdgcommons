@@ -123,12 +123,8 @@ extends InputStream
 
     /**
      *  Closes this stream, along with the underlying channel.
-     *  <p>
-     *  It is generally a better idea to close the channel explicitly; there is
-     *  no need to close the stream (which is a decorator).
      */
     @Override
-    @Deprecated
     public void close() throws IOException
     {
         _channel.close();
@@ -140,7 +136,6 @@ extends InputStream
      *  available bytes from a generic channel.
      */
     @Override
-    @Deprecated
     public int available() throws IOException
     {
         return 0;
@@ -150,11 +145,10 @@ extends InputStream
     /**
      *  Attempts to skip the specified number of bytes from the channel.
      *  <p>
-     *  This method is deprecated; you should adjust the channel's position
-     *  rather than skipping bytes (the former is guaranteed, unlike the latter).
+     *  Per <code>InputStream</code>, this is a best-effort method. You should either
+     *  use {@link IOUtil#skipFully} or position the channel explicitly.
      */
     @Override
-    @Deprecated
     public long skip(long n) throws IOException
     {
         return super.skip(n);
