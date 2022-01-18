@@ -7,6 +7,9 @@
         <release version="1.0.18" date="TBD"
             description="cleanup and various small additions">
             <action dev='kdgregory' type='add'>
+                CombiningIterable: allow construction from an iterable of iterables
+            </action>
+            <action dev='kdgregory' type='add'>
                 MessageDigestOutputStream: an alternate way to construct a message digest
             </action>
             <action dev='kdgregory' type='add'>

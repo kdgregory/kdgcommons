@@ -69,6 +69,28 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    public void testItrableOfIterables() throws Exception
+    {
+        List<String> list1 = Arrays.asList("foo", "bar");
+        List<String> list2 = Arrays.asList("baz");
+
+        List<List<String>> iterables = new ArrayList<List<String>>();
+        iterables.add(list1);
+        iterables.add(list2);
+
+        CombiningIterable<String> iterable = new CombiningIterable<String>(list1, list2);
+
+        // clearing the source list ensures that we make a defensive copy
+        iterables.clear();
+
+        Iterator<String> itx = iterable.iterator();
+        assertEquals("foo", itx.next());
+        assertEquals("bar", itx.next());
+        assertEquals("baz", itx.next());
+        assertFalse(itx.hasNext());
+    }
+
+
     public void testCanProduceMultipleIndependentIterables() throws Exception
     {
         List<String> list1 = Arrays.asList("foo", "bar");
@@ -137,7 +159,6 @@ public class TestCombiningIterable extends TestCase
             // success
         }
     }
-
 
 
     public void testIteratingOffEndWillThrow() throws Exception

@@ -14,8 +14,10 @@
 
 package net.sf.kdgcommons.collections;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -37,17 +39,41 @@ import java.util.NoSuchElementException;
 public class CombiningIterable<T>
 implements Iterable<T>
 {
-    private Iterable<T>[] _iterables;
+    private List<Iterable<T>> iterables = new ArrayList<Iterable<T>>();
 
+
+    /**
+     *  Constructs an instance from zero or more explicit iterable objects.
+
+     */
     public CombiningIterable(Iterable<T> ... iterables)
     {
-        _iterables = iterables;
+        for (Iterable<T> iterable : iterables)
+        {
+            this.iterables.add(iterable);
+        }
     }
+
+
+    /**
+     *  Constructs an instance from an iterable of iterables.
+     *
+     *  @since 1.0.18
+     */
+    public CombiningIterable(Iterable<Iterable<T>> iterables)
+    {
+        for (Iterable<T> iterable : iterables)
+        {
+            this.iterables.add(iterable);
+        }
+    }
+
+
 
     public Iterator<T> iterator()
     {
         LinkedList<Iterator<T>> iterators = new LinkedList<Iterator<T>>();
-        for (Iterable<T> iterable : _iterables)
+        for (Iterable<T> iterable : iterables)
             iterators.add(iterable.iterator());
         return new CombiningIterator<T>(iterators);
     }
