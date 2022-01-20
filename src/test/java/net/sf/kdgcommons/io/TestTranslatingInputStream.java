@@ -21,8 +21,6 @@ import java.nio.charset.Charset;
 
 import junit.framework.TestCase;
 
-import net.sf.kdgcommons.util.HexDump;
-
 
 public class TestTranslatingInputStream
 extends TestCase
@@ -31,7 +29,7 @@ extends TestCase
 //  Support Code
 //----------------------------------------------------------------------------
 
-    // FIXME - move to TestUtil
+    // TODO - replace loop with function that reads stream to bytes?
     private static void assertStreamContent(byte[] expected, InputStream in)
     throws IOException
     {
@@ -109,15 +107,34 @@ extends TestCase
         byte[] src = "\u2724Some t\u00EBst data\u2734".getBytes("UTF-8");
         byte[] expected = "!Some t\u00EBst data!".getBytes("ISO-8859-1");
 
-        System.out.println("src = " + new HexDump().stringValue(src));
-        System.out.println("exp = " + new HexDump().stringValue(expected));
-
         TranslatingInputStream in = new TranslatingInputStream(
                 new ByteArrayInputStream(src),
                 Charset.forName("UTF-8"),
                 Charset.forName("ISO-8859-1"),
                 '!');
         assertStreamContent(expected, in);
+    }
+
+
+    public void testUtf8ToISO8859ThrowingOnUnmappableCharacters() throws Exception
+    {
+        byte[] src = "\u2724Some t\u00EBst data\u2734".getBytes("UTF-8");
+
+        TranslatingInputStream in = new TranslatingInputStream(
+                new ByteArrayInputStream(src),
+                Charset.forName("UTF-8"),
+                Charset.forName("ISO-8859-1"),
+                true);
+        try
+        {
+            IOUtil.readFully(in, new byte[1024]);
+            fail("should have thrown on unmappable character");
+        }
+        catch (RuntimeException ex)
+        {
+            assertTrue("exception message includes unmappable character (was: " + ex.getMessage() + ")",
+                       ex.getMessage().contains("2724"));
+        }
     }
 
 
@@ -169,6 +186,7 @@ extends TestCase
 
 
     // cross-library regression test
+    @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {
         TranslatingInputStream in = new TranslatingInputStream(

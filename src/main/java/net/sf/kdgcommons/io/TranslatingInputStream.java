@@ -28,47 +28,59 @@ import java.nio.charset.CodingErrorAction;
 
 /**
  *  A decorator stream that translates bytes from one character-set encoding to
- *  another.
+ *  another. Can be configured to throw or replace untranslateable data.
  */
 public class TranslatingInputStream
 extends InputStream
 {
-    private InputStreamReader _delegate;
-    private CharsetEncoder _encoder;
-    private CharBuffer _charBuf;
-    private ByteBuffer _byteBuf;
+    private InputStreamReader delegate;
+    private CharBuffer charBuf;
+    private ByteBuffer byteBuf;
+    private CharsetEncoder encoder;
 
 
     /**
-     *  Creates an instance that reads bytes from <code>delegate</code>  that
-     *  represent characters in the "from" character set, and returning them
-     *  to the caller as characters in the "to" character set. Any characters
-     *  that cannot be represented in the "to" character set will be ignored.
+     *  Base constructor: optionally throws or ignores untranslateable data.
      */
-    public TranslatingInputStream(InputStream delegate, Charset from, Charset to)
+    public TranslatingInputStream(InputStream delegate, Charset from, Charset to, boolean throwOnError)
     {
-        _delegate = new InputStreamReader(delegate, from);
-        _encoder = to.newEncoder();
-        _charBuf = CharBuffer.allocate(2);
-        _byteBuf = ByteBuffer.allocate(4);
+        this.delegate = new InputStreamReader(delegate, from);
+        this.charBuf = CharBuffer.allocate(2);
+        this.byteBuf = ByteBuffer.allocate(4);
+        this.encoder = to.newEncoder();
+        if (throwOnError)
+        {
+            this.encoder.onMalformedInput(CodingErrorAction.REPORT);
+            this.encoder.onUnmappableCharacter(CodingErrorAction.REPORT);
+        }
+        else
+        {
+            this.encoder.onMalformedInput(CodingErrorAction.IGNORE);
+            this.encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
+        }
 
         // this will force first call to read() to pull a byte from source
-        _byteBuf.limit(0);
+        this.byteBuf.limit(0);
     }
 
 
     /**
-     *  Creates an instance that reads bytes from <code>delegate</code>  that
-     *  represent characters in the "from" character set, and returning them
-     *  to the caller as characters in the "to" character set. Any characters
-     *  that cannot be represented in the "to" character set will be replaced
-     *  by <code>replacement</code>
+     *  Creates an instance that ignores any data that can not be translated.
+     */
+    public TranslatingInputStream(InputStream delegate, Charset from, Charset to)
+    {
+        this(delegate, from, to, false);
+    }
+
+
+    /**
+     *  Creates an instance that replaces any data that can not be translated
      */
     public TranslatingInputStream(InputStream delegate, Charset from, Charset to, char replacement)
     {
-        this(delegate, from, to);
-        _encoder.replaceWith(encodeReplacement(to, replacement));
-        _encoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+        this(delegate, from, to, false);
+        encoder.replaceWith(encodeReplacement(to, replacement));
+        encoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
     }
 
 
@@ -79,13 +91,13 @@ extends InputStream
     @Override
     public int read() throws IOException
     {
-        if (_byteBuf.remaining() == 0)
+        if (byteBuf.remaining() == 0)
             fillBuffer();
 
-        if (_byteBuf.remaining() == 0)
+        if (byteBuf.remaining() == 0)
             return -1;
 
-        return _byteBuf.get() & 0xFF;
+        return byteBuf.get() & 0xFF;
     }
 
 
@@ -116,49 +128,59 @@ extends InputStream
     }
 
 
+    /**
+     *  Fills the buffer that's used to satisfy {@link #read}.
+     */
     private void fillBuffer()
     throws IOException
     {
-        _byteBuf.clear();
-        _charBuf.clear();
-
-        while (_byteBuf.position() == 0)
+        byteBuf.clear();
+        while (byteBuf.position() == 0)
         {
             fillCharBuf();
-            if (_charBuf.limit() == 0)
+            if (charBuf.limit() == 0)
             {
-                _byteBuf.limit(0);
+                byteBuf.limit(0);
                 return;
             }
 
-            _encoder.reset();
-            CoderResult rslt = _encoder.encode(_charBuf, _byteBuf, true);
-            // FIXME - optionally throw on malformed input
-            _encoder.flush(_byteBuf);
+            encoder.reset();
+            CoderResult rslt = encoder.encode(charBuf, byteBuf, true);
+            if (rslt.isUnmappable())
+            {
+                StringBuilder sb = new StringBuilder(16);
+                for (int ii = 0 ; ii < charBuf.limit() ; ii++)
+                {
+                    sb.append(Integer.toString(charBuf.get(ii), 16)).append(" ");
+                }
+                throw new RuntimeException("unmappable character: " + sb);
+            }
+            encoder.flush(byteBuf);
         }
 
-        _byteBuf.limit(_byteBuf.position());
-        _byteBuf.position(0);
+        byteBuf.limit(byteBuf.position());
+        byteBuf.position(0);
     }
 
 
     private void fillCharBuf()
     throws IOException
     {
+        charBuf.clear();
         int limit = 0;
         int c = 0;
         do
         {
-            c = _delegate.read();
+            c = delegate.read();
             if (c >= 0)
             {
-                _charBuf.put((char)c);
+                charBuf.put((char)c);
                 limit++;
             }
         }
         while ((c >= 0xD800) && (c <= 0xDBFF));
 
-        _charBuf.position(0);
-        _charBuf.limit(limit);
+        charBuf.position(0);
+        charBuf.limit(limit);
     }
 }

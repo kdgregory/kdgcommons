@@ -18,6 +18,9 @@
             <action dev='kdgregory' type='add'>
                 HashMultimap.toMap(): returns a java.util.Map with Collection values
             </action>
+            <action dev='kdgregory' type='update'>
+                TranslatingInputStream: optionally throw on unmappable byte sequence
+            </action>
         </release>
 
         <release version="1.0.17" date="2019-08-03"
