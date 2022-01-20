@@ -1,0 +1,13 @@
+net.sf.kdgcommons.alt
+net.sf.kdgcommons.bean
+net.sf.kdgcommons.buffer
+net.sf.kdgcommons.codec
+net.sf.kdgcommons.collections
+net.sf.kdgcommons.html
+net.sf.kdgcommons.io
+net.sf.kdgcommons.lang
+net.sf.kdgcommons.sql
+net.sf.kdgcommons.test
+net.sf.kdgcommons.testinternals
+net.sf.kdgcommons.tuple
+net.sf.kdgcommons.util
