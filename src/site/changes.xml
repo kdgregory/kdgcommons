@@ -4,6 +4,10 @@
 	</properties>
 
     <body>
+        <release version="1.0.19" date="TBD"
+            description="final version 1 release: deprecate in preparation for version 2">
+        </release>
+
         <release version="1.0.18" date="2021-01-20"
             description="cleanup and various small additions">
             <action dev='kdgregory' type='add'>
