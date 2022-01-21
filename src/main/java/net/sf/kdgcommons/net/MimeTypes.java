@@ -17,7 +17,12 @@ package net.sf.kdgcommons.net;
 /**
  *  An ever-growing list of MIME types that my applications might use, to avoid
  *  typos. Why doesn't the JDK provide something like this?!?
+ *  
+ *  @deprecated
+ *  This information is now available from multiple commonly-used libraries.
+ *  It will be removed in version 2.0.
  */
+@Deprecated
 public class MimeTypes
 {
     public final static String  TEXT            = "text/plain";
