@@ -6,6 +6,10 @@
     <body>
         <release version="1.0.19" date="TBD"
             description="final version 1 release: deprecate in preparation for version 2">
+            <action dev='kdgregory' type='update'>
+                Deprecated all "functor-like" objects and operations that consume them.
+                These will be replaced by objects from the java.util.function package.
+            </action>
         </release>
 
         <release version="1.0.18" date="2021-01-20"

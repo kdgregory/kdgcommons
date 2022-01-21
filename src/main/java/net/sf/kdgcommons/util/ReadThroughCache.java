@@ -36,7 +36,11 @@ public class ReadThroughCache<K,V>
      *  This interface defines the retrieval operation: given a key, it will return a value.
      *  By contract, the retriever will wait forever; specific implementations may abandon
      *  retrieval after a timeout.
+     *  
+     *  @deprecated
+     *  In version 2.0, this interface will be removed and replaced with a Java8 <code>Function</code>.
      */
+    @Deprecated
     public interface Retriever<KK,VV>
     {
         /**
