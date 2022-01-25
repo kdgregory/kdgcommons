@@ -22,48 +22,6 @@ import junit.framework.TestCase;
 
 public class TestHtmlUtil extends TestCase
 {
-    public void testURLEncodeDecodeNoChange() throws Exception
-    {
-        assertEquals("foo", HtmlUtil.urlEncode("foo"));
-
-        assertEquals("foo", HtmlUtil.urlDecode("foo"));
-    }
-
-
-    public void testURLEncodeDecodeReservedChar() throws Exception
-    {
-        assertEquals("f%26o", HtmlUtil.urlEncode("f&o"));
-
-        assertEquals("f&o", HtmlUtil.urlDecode("f%26o"));
-    }
-
-
-    public void testURLEncodeDecodeNonAscii() throws Exception
-    {
-        assertEquals("F%C2%A2O", HtmlUtil.urlEncode("f\u00A2o").toUpperCase());
-
-        assertEquals("f\u00A2o", HtmlUtil.urlDecode("f%C2%A2o"));
-        assertEquals("f\u00A2o", HtmlUtil.urlDecode("f%c2%a2o"));
-    }
-
-
-    public void testURLEncodeDecodeSpace() throws Exception
-    {
-        assertEquals("f%20o", HtmlUtil.urlEncode("f o"));
-
-        assertEquals("f o", HtmlUtil.urlDecode("f+o"));
-        assertEquals("f o", HtmlUtil.urlDecode("f%20o"));
-    }
-
-
-    public void testURLEncodeDecodeNull() throws Exception
-    {
-        assertEquals("", HtmlUtil.urlEncode(null));
-
-        assertEquals("", HtmlUtil.urlDecode(null));
-    }
-
-
     public void testEscape() throws Exception
     {
         assertEquals("", HtmlUtil.escape(null));

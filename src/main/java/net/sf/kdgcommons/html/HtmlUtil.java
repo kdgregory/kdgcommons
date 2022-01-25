@@ -34,7 +34,11 @@ public class HtmlUtil
      *  never be thrown), and encodes spaces as "%20" rather than "+".
      *  <p>
      *  If passed null, will return an empty string.
+     *
+     *  @deprecated
+     *  This function has been moved to <code>UrlBuilder</code>
      */
+    @Deprecated
     public static String urlEncode(String src)
     {
         if (src == null)
@@ -60,7 +64,11 @@ public class HtmlUtil
      *  (that should never be thrown).
      *  <p>
      *  If passed null, will return an empty string.
+     *
+     *  @deprecated
+     *  This function has been moved to <code>UrlBuilder</code>
      */
+    @Deprecated
     public static String urlDecode(String src)
     {
         if (src == null)

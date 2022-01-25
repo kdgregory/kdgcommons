@@ -14,6 +14,10 @@
 
 package net.sf.kdgcommons.html;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
 import net.sf.kdgcommons.lang.StringBuilderUtil;
 import net.sf.kdgcommons.lang.StringUtil;
 
@@ -105,7 +109,7 @@ public final class URLBuilder
     {
         if (StringBuilderUtil.lastChar(_path) != '/')
             _path.append("/");
-        _path.append(HtmlUtil.urlEncode(pathElement));
+        _path.append(urlEncode(pathElement));
         return this;
     }
 
@@ -118,9 +122,9 @@ public final class URLBuilder
     {
         if (_query.length() > 0)
             _query.append("&");
-        _query.append(HtmlUtil.urlEncode(name))
+        _query.append(urlEncode(name))
               .append("=")
-              .append(HtmlUtil.urlEncode(value));
+              .append(urlEncode(value));
         return this;
     }
 
@@ -147,5 +151,57 @@ public final class URLBuilder
         return (_query.length() > 0)
              ? _path.toString() + "?" + _query.toString()
              : _path.toString();
+    }
+
+//----------------------------------------------------------------------------
+//  Static methods
+//----------------------------------------------------------------------------
+
+    /**
+     *  A wrapper around <code>URLEncoder</code> that always encodes to UTF-8,
+     *  replaces its checked exception with a RuntimeException (that should
+     *  never be thrown), and encodes spaces as "%20" rather than "+".
+     *  <p>
+     *  If passed null, will return an empty string.
+     */
+    public static String urlEncode(String src)
+    {
+        if (src == null)
+            return "";
+
+        try
+        {
+            String encoded = URLEncoder.encode(src, "UTF-8");
+            if (encoded.indexOf('+') >= 0)
+                encoded = encoded.replace((CharSequence)"+", (CharSequence)"%20");
+            return encoded;
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new RuntimeException("this JVM doesn't support UTF-8!", e);
+        }
+    }
+
+
+    /**
+     *  A wrapper around <code>URLDecoder</code> that always decodes as
+     *  UTF-8, and replaces its checked exception with a RuntimeException
+     *  (that should never be thrown).
+     *  <p>
+     *  If passed null, will return an empty string.
+     */
+    public static String urlDecode(String src)
+    {
+        if (src == null)
+            return "";
+
+        try
+        {
+            return URLDecoder.decode(src, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new RuntimeException("this JVM doesn't support UTF-8!", e);
+        }
     }
 }
