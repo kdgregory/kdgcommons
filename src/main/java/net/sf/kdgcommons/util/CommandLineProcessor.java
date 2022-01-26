@@ -35,11 +35,9 @@ import java.util.TreeMap;
  *  However, since they will be passed to the subclass' default method,
  *  it can handle them if needed.
  *
- *  @deprecated {@link SimpleCLIParser} is my current preferred implementation.
- *              It's a lot simpler: there's no need for handler objects,
- *              and the options are processed by the constructor. However,
- *              I still have code that depends on this class, so it will
- *              stick around until the (never expected) 2.0 release.
+ *  @deprecated 
+ *  This class has been replaced by {@link SimpleCLIParser}, which is
+ *  much simpler to use. It will be removed in version 2.0.
  */
 @Deprecated
 public abstract class CommandLineProcessor
