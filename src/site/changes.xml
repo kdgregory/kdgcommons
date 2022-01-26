@@ -4,6 +4,22 @@
 	</properties>
 
     <body>
+        <release version="1.0.19" date="2021-01-26"
+            description="final version 1 release: deprecate in preparation for version 2">
+            <action dev='kdgregory' type='update'>
+                Deprecated all "functor-like" objects and operations that consume them:
+                these should be replaced by objects from the java.util.function package.
+            </action>
+            <action dev='kdgregory' type='update'>
+                Deprecate the "net" and "html" packages: former will be removed, contents
+                of latter will move to "util".
+            </action>
+            <action dev='kdgregory' type='update'>
+                Deprecate StringUtil.intern(): it solved a problem that didn't exist by
+                the time it was written, and definitely doesn't exist now.
+            </action>
+        </release>
+
         <release version="1.0.18" date="2021-01-20"
             description="cleanup and various small additions">
             <action dev='kdgregory' type='add'>

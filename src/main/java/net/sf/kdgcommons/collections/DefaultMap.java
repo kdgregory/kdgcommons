@@ -43,7 +43,12 @@ import net.sf.kdgcommons.lang.ObjectFactory;
  *  Note that {@link #get} is the <em>only</em> method overridden by this class. The
  *  "contains" methods would be mostly useless if they considered default values, and
  *  the behavior of iterators would be difficult to define.
+ *  
+ *  @deprecated
+ *  This functionality is now part of the base <code>Map</code> interface in Java8.
+ *  Will be removed in version 2.0.
  */
+@Deprecated
 public class DefaultMap<K,V>
 implements Map<K,V>, Serializable
 {
@@ -56,12 +61,16 @@ implements Map<K,V>, Serializable
     /**
      *  Base constructor, allowing full configuration.
      *
+     *  @deprecated
+     *  This constructor has been made obsolete by Java8. It will be replaced in version 2.0.
+     *
      *  @param  delegate    The underlying <code>Map</code>.
      *  @param  factory     A factory for new values.
      *  @param  update      Pass <code>true</code> to update the map when a default
      *                      value is returned, <code>false</code> to return the value
      *                      and leave the mapping missing.
      */
+    @Deprecated
     public DefaultMap(Map<K,V> delegate, ObjectFactory<V> factory, boolean update)
     {
         _delegate = delegate;
@@ -87,9 +96,13 @@ implements Map<K,V>, Serializable
      *  Constructs an instance that returns a dynamic value and will update
      *  the underlying map.
      *
+     *  @deprecated
+     *  This constructor has been made obsolete by Java8. It will be replaced in version 2.0.
+     *
      *  @param  delegate    The underlying <code>Map</code>.
      *  @param  factory     A factory for new values.
      */
+    @Deprecated
     public DefaultMap(Map<K,V> delegate, ObjectFactory<V> factory)
     {
         this(delegate, factory, true);
@@ -102,7 +115,11 @@ implements Map<K,V>, Serializable
 
     /**
      *  This interface defines a factory for default values.
+     *
+     *  @deprecated
+     *  This interface has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public interface ValueFactory<T>
     extends ObjectFactory<T>
     {
@@ -114,7 +131,11 @@ implements Map<K,V>, Serializable
      *  An implementation of the {@link DefaultMap.ValueFactory} interface for
      *  static values. Used for testing, exposed in case you want an updating map
      *  with a static value (although why you'd want that, I don't know).
+     *
+     *  @deprecated
+     *  This interface has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public static class StaticValueFactory<T>
     implements ValueFactory<T>, Serializable
     {
@@ -177,8 +198,15 @@ implements Map<K,V>, Serializable
 
     /**
      *  Two instances are equal if their delegate maps and value factories are equal.
+     *
+     *  @deprecated
+     *  This behavior will change in version 2.0: two maps will be equal if their
+     *  delegates are equal and they have <em>the same</em> object factory. This
+     *  method will also support comparing a <code>DefaultMap</code> to a normal
+     *  <code>Map</code>.
      */
     @Override
+    @Deprecated
     public final boolean equals(Object obj)
     {
         if (this == obj)
@@ -200,7 +228,6 @@ implements Map<K,V>, Serializable
     {
         return _delegate.hashCode();
     }
-
 
 //----------------------------------------------------------------------------
 //  Everything else

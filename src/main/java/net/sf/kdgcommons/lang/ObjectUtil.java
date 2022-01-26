@@ -224,7 +224,11 @@ public class ObjectUtil
      *  the <code>objectFactory</code> is queried for a value.
      *
      *  @since 1.0.6
+     *
+     *  @deprecated
+     *  This function has been made obsolete by Java8. It will be replaced in version 2.0.
      */
+    @Deprecated
     public static <T> T defaultValue(T value, ObjectFactory<T> fact)
     {
         return (value != null) ? value : fact.newInstance();

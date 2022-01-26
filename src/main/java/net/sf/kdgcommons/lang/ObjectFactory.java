@@ -17,7 +17,11 @@ package net.sf.kdgcommons.lang;
 /**
  *  An object whose role is producing other objects. This interface is used by
  *  {@link net.sf.kdgcommons.collections.DefaultMap} and {@link ObjectUtil#defaultValue}.
+ *
+ *  @deprecated
+ *  This interface has been made obsolete by Java8. It will be removed in version 2.0.
  */
+@Deprecated
 public interface ObjectFactory<T>
 {
     /**

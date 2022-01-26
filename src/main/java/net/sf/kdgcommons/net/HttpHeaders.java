@@ -17,7 +17,12 @@ package net.sf.kdgcommons.net;
 
 /**
  *  Static defines for standard HTTP headers, to prevent typos.
+ *  
+ *  @deprecated
+ *  This information is now available from multiple commonly-used libraries.
+ *  It will be removed in version 2.0.
  */
+@Deprecated
 public class HttpHeaders
 {
     public final static String  ACCEPT                  = "Accept";

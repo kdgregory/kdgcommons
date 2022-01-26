@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package net.sf.kdgcommons.html;
+package net.sf.kdgcommons.util;
 
 import junit.framework.TestCase;
 
@@ -114,4 +114,45 @@ public class TestURLBuilder extends TestCase
         assertEquals("/", builder2.toString());
     }
 
+
+    public void testURLEncodeDecodeNoChange() throws Exception
+    {
+        assertEquals("foo", URLBuilder.urlEncode("foo"));
+
+        assertEquals("foo", URLBuilder.urlDecode("foo"));
+    }
+
+
+    public void testURLEncodeDecodeReservedChar() throws Exception
+    {
+        assertEquals("f%26o", URLBuilder.urlEncode("f&o"));
+
+        assertEquals("f&o", URLBuilder.urlDecode("f%26o"));
+    }
+
+
+    public void testURLEncodeDecodeNonAscii() throws Exception
+    {
+        assertEquals("F%C2%A2O", URLBuilder.urlEncode("f\u00A2o").toUpperCase());
+
+        assertEquals("f\u00A2o", URLBuilder.urlDecode("f%C2%A2o"));
+        assertEquals("f\u00A2o", URLBuilder.urlDecode("f%c2%a2o"));
+    }
+
+
+    public void testURLEncodeDecodeSpace() throws Exception
+    {
+        assertEquals("f%20o", URLBuilder.urlEncode("f o"));
+
+        assertEquals("f o", URLBuilder.urlDecode("f+o"));
+        assertEquals("f o", URLBuilder.urlDecode("f%20o"));
+    }
+
+
+    public void testURLEncodeDecodeNull() throws Exception
+    {
+        assertEquals("", URLBuilder.urlEncode(null));
+
+        assertEquals("", URLBuilder.urlDecode(null));
+    }
 }

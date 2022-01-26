@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package net.sf.kdgcommons.html;
+package net.sf.kdgcommons.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -25,13 +25,7 @@ import net.sf.kdgcommons.lang.StringUtil;
 
 /**
  *  Static methods for working with HTML content, typically in a string.
- *
- *  @deprecated
- *  This class is now in the <code>util</code> package; it will be removed
- *  (with the rest of the <code>html</code> package) in version 2.0. Note
- *  that some functions are separately deprecated.
  */
-@Deprecated
 public class HtmlUtil
 {
     /**

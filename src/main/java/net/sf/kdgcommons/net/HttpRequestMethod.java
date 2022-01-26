@@ -17,7 +17,12 @@ package net.sf.kdgcommons.net;
 
 /**
  *  All valid HTTP methods.
+ *  
+ *  @deprecated
+ *  This information is now available from multiple commonly-used libraries.
+ *  It will be removed in version 2.0.
  */
+@Deprecated
 public enum HttpRequestMethod
 {
     HEAD,

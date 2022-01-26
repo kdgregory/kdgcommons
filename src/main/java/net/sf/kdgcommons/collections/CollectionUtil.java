@@ -641,7 +641,11 @@ public class CollectionUtil
      *  which provides detailed information and partial work.
      *
      *  @since 1.0.10
+     *
+     *  @deprecated
+     *  This function has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public static <V,R> List<R> map(Collection<V> coll, IndexValueMapFunctor<V,R> functor)
     {
         List<R> result = new ArrayList<R>(coll.size());
@@ -678,7 +682,11 @@ public class CollectionUtil
      *  collection element to cause an exception.
      *
      *  @since 1.0.10
+     *
+     *  @deprecated
+     *  This function has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public static <V,R> List<R> map(ExecutorService threadpool, Collection<V> values, final IndexValueMapFunctor<V,R> functor)
     throws InterruptedException
     {
@@ -740,7 +748,11 @@ public class CollectionUtil
      *  previous value.
      *
      *  @since 1.0.10
+     *
+     *  @deprecated
+     *  This function has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public static <V,R> R reduce(Collection<V> coll, IndexValueReduceFunctor<V,R> functor)
     {
         R pendingResult = null;
@@ -770,7 +782,11 @@ public class CollectionUtil
      *  which provides detailed information and partial work.
      *
      *  @since 1.0.11
+     *
+     *  @deprecated
+     *  This function has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public static <V> List<V> filter(Collection<V> coll, Predicate<V> predicate)
     {
         List<V> result = new ArrayList<V>(coll.size());
@@ -807,7 +823,11 @@ public class CollectionUtil
      *  @param  include If <code>true</code>, strings that match are copied
      *                  to the output list; if <code>false</code>, strings
      *                  that don't match are copied.
+     *
+     *  @deprecated
+     *  This function has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public static <T> List<T> filter(List<T> list, String regex, final boolean include)
     {
         final Pattern pattern = Pattern.compile(regex);
@@ -898,7 +918,11 @@ public class CollectionUtil
      *  The implementation is permitted to throw anything, checked or not.
      *
      *  @since 1.0.10
+     *
+     *  @deprecated
+     *  This interface has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public interface IndexValueMapFunctor<V,R>
     {
         public R invoke(int index, V value)
@@ -914,7 +938,11 @@ public class CollectionUtil
      *  subclasses (JLS 8.1.2), the value and results are held as <code>Object</code>s.
      *
      *  @since 1.0.10
+     *
+     *  @deprecated
+     *  This class has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public static class MapException
     extends RuntimeException
     {
@@ -970,7 +998,11 @@ public class CollectionUtil
      *  returned from the previous invocation.
      *
      *  @since 1.0.10
+     *
+     *  @deprecated
+     *  This interface has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public interface IndexValueReduceFunctor<V, R>
     {
         public R invoke(int index, V value, R pendingResult)
@@ -986,7 +1018,11 @@ public class CollectionUtil
      *  subclasses (JLS 8.1.2), the value and results are held as <code>Object</code>s.
      *
      *  @since 1.0.10
+     *
+     *  @deprecated
+     *  This class has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public static class ReduceException
     extends RuntimeException
     {
@@ -1041,7 +1077,11 @@ public class CollectionUtil
      *  order.
      *
      *  @since 1.0.11
+     *
+     *  @deprecated
+     *  This interface has been made obsolete by Java8. It will be removed in version 2.0.
      */
+    @Deprecated
     public interface Predicate<V>
     {
         public boolean invoke(int index, V value)
@@ -1056,8 +1096,12 @@ public class CollectionUtil
      *  Note: because Java does not allow parameterization of <code>Throwable</code>
      *  subclasses (JLS 8.1.2), the value and results are held as <code>Object</code>s.
      *
+     *  @deprecated
+     *  This class has been made obsolete by Java8. It will be removed in version 2.0.
+     *
      *  @since 1.0.11
      */
+    @Deprecated
     public static class FilterException
     extends RuntimeException
     {

@@ -24,7 +24,9 @@ import net.sf.kdgcommons.codec.Base64Codec;
  *  of existing <code>byte[]</code>s. These are meant to be used with buffers
  *  created and filled by the calling code.
  *
- *  @deprecated Replaced by {@link net.sf.kdgcommons.codec.Base64Codec}
+ *  @deprecated
+ *  Replaced by {@link net.sf.kdgcommons.codec.Base64Codec}. Will be removed
+ *  in version 2.0.
  */
 @Deprecated
 public class Base64Converter

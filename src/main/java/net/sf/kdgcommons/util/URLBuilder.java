@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package net.sf.kdgcommons.html;
+package net.sf.kdgcommons.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -38,12 +38,7 @@ import net.sf.kdgcommons.lang.StringUtil;
  *  <p>
  *  All public methods follow the Builder pattern, so that you can string
  *  calls together.
- *
- *  @deprecated
- *  This class is now in the <code>util</code> package; it will be removed
- *  (with the rest of the <code>html</code> package) in version 2.0.
  */
-@Deprecated
 public final class URLBuilder
 {
     private StringBuilder _path = new StringBuilder(256);
