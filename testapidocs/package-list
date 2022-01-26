@@ -3,7 +3,6 @@ net.sf.kdgcommons.bean
 net.sf.kdgcommons.buffer
 net.sf.kdgcommons.codec
 net.sf.kdgcommons.collections
-net.sf.kdgcommons.html
 net.sf.kdgcommons.io
 net.sf.kdgcommons.lang
 net.sf.kdgcommons.sql
