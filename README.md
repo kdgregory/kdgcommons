@@ -2,10 +2,12 @@
 
 This library is a collection of utility functions that I've written over the years. It exists [because I found
 myself rewriting the same classes for each job](https://blog.kdgregory.com/2009/12/why-write-open-source-libraries.html).
+At present I don't use Java much, so updates are few and far between.
 
-At present supports JDK 1.5 -- although I haven't actually tested on a 1.5 JVM in years. At some point this spring
-I'll do a major update, to support JDK 1.8 (this involves removing many classes that are now supported via lambdas).
-I don't expect it to ever progress beyond that point, in part because I don't use Java that much any more.
+The library currently supports JDK 1.5 -- I still have a 1.5 JVM installed on my main development box.
+However, this is the last version that will do so. The next release will use Java8, and will remove any
+classes/methods that replicate functionality found in Java8. This version deprecates everything that
+will be removed.
 
 
 ## Usage
