@@ -291,22 +291,6 @@ public class TestStringUtil extends TestCase
     }
 
 
-    public void testIntern() throws Exception
-    {
-        String s1 = new String("foo");
-        String s2 = new String("foo");
-        assertNotSame(s1, s2);
-
-        String s3 = StringUtil.intern(s1);
-        String s4 = StringUtil.intern(s2);
-        assertSame(s3, s4);
-
-        // to fully validate the behavior of intern(), we need to force a
-        // garbage collection that actually cleans up the weak references
-        // ... that's really difficult to do reliable, so we'll punt
-    }
-
-
     public void testExtract() throws Exception
     {
         // the happy path

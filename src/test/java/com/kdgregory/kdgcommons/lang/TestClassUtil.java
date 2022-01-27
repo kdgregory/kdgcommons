@@ -269,37 +269,6 @@ public class TestClassUtil extends TestCase
     }
 
 
-    @SuppressWarnings("deprecation")
-    public void testGetAllMethods() throws Exception
-    {
-        Method[] methods = ClassUtil.getAllMethods(Child.class);
-
-        // rather than an absolute count, assert that we got methods from all
-        // classes in the inheritance tree, including a protected method
-        HashMultimap<String,Method> methodMap = methods2map(methods);
-        assertTrue("public child - baz",    methodMap.containsKey("baz"));
-        assertTrue("override child - bar",  methodMap.containsKey("bar"));
-        assertTrue("public parent - foo",   methodMap.containsKey("foo"));
-        assertTrue("toString()",            methodMap.containsKey("toString"));
-        assertTrue("clone()",               methodMap.containsKey("clone"));
-
-        // and we want to verify that subclasses override superclasses
-        assertEquals("bar() count", 1,          methodMap.getAll("bar").size());
-        assertEquals("bar() defined by child",  Child.class.getDeclaredMethod("bar"),
-                                                methodMap.get("bar"));
-    }
-
-
-    @SuppressWarnings("deprecation")
-    public void testGetAllMethodsWithOverload() throws Exception
-    {
-        Method[] methods = ClassUtil.getAllMethods(Grandchild.class);
-        HashMultimap<String,Method> methodMap = methods2map(methods);
-
-        assertEquals("bar() count", 2,          methodMap.getAll("bar").size());
-    }
-
-
     public void testGetDeclaredMethodsByAccess() throws Exception
     {
         // WARNING - JaCoCo (EclEmma) code coverage adds methods to class, causes this

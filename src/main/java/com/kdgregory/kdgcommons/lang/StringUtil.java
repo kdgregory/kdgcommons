@@ -357,22 +357,6 @@ public class StringUtil
 
 
     /**
-     *  Interns a string using a static instance of {@link StringCanon}.
-     *  This is often more useful than creating a task-specific instance.
-     *  
-     *  @deprecated
-     *  This method was created due to a belief that the permgen string pool
-     *  was never garbage-collected. That belief was incorrect at the time of
-     *  1.5, and no longer relevant in modern JVMs. Will be removed in 2.0.
-     */
-    @Deprecated
-    public static String intern(String str)
-    {
-        return _canon.intern(str);
-    }
-
-
-    /**
      *  Generates a (non-cryptographicaly) random string consisting of characters
      *  from the passed string. Useful for generating bogus string fields.
      *  <p>
@@ -629,9 +613,6 @@ public class StringUtil
 //----------------------------------------------------------------------------
 //  Internals
 //----------------------------------------------------------------------------
-
-    // used by intern()
-    private static StringCanon _canon = new StringCanon();
 
     // used by randomString()
     private static Random _RNG = new Random(System.currentTimeMillis());

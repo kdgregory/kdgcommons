@@ -108,34 +108,6 @@ public class ClassUtil
 
 
     /**
-     *  Returns all methods defined by the class and its superclasses, without
-     *  regard to access modifiers. Equivalent to recursively calling
-     *  <code>Class.getDeclaredMethods()</code>.
-     *
-     *  @deprecated - In retrospect, there are few if any good reasons for
-     *                calling this method. {@link #getVisibleMethods} is the
-     *                better choice.
-     */
-    @Deprecated
-    public static Method[] getAllMethods(Class<?> klass)
-    {
-        if (klass == null)
-            return new Method[0];
-
-        Method[] myMethods = klass.getDeclaredMethods();
-        Method[] parentMethods = getAllMethods(klass.getSuperclass());
-        ArrayList<Method> combined = new ArrayList<Method>(myMethods.length + parentMethods.length);
-        combined.addAll(Arrays.asList(myMethods));
-        for (Method method : parentMethods)
-        {
-            if (!isOverridden(method, myMethods))
-                combined.add(method);
-        }
-        return combined.toArray(new Method[combined.size()]);
-    }
-
-
-    /**
      *  Returns the declared methods of the specified class that have the desired
      *  access modifiers. Note that this method does not look at superclass methods.
      *

@@ -14,9 +14,6 @@
 
 package com.kdgregory.kdgcommons.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,63 +25,6 @@ import com.kdgregory.kdgcommons.lang.StringUtil;
  */
 public class HtmlUtil
 {
-    /**
-     *  A wrapper around <code>URLEncoder</code> that always encodes to UTF-8,
-     *  replaces its checked exception with a RuntimeException (that should
-     *  never be thrown), and encodes spaces as "%20" rather than "+".
-     *  <p>
-     *  If passed null, will return an empty string.
-     *
-     *  @deprecated
-     *  This function has been moved to <code>UrlBuilder</code>
-     */
-    @Deprecated
-    public static String urlEncode(String src)
-    {
-        if (src == null)
-            return "";
-
-        try
-        {
-            String encoded = URLEncoder.encode(src, "UTF-8");
-            if (encoded.indexOf('+') >= 0)
-                encoded = encoded.replace((CharSequence)"+", (CharSequence)"%20");
-            return encoded;
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new RuntimeException("this JVM doesn't support UTF-8!", e);
-        }
-    }
-
-
-    /**
-     *  A wrapper around <code>URLDecoder</code> that always decodes as
-     *  UTF-8, and replaces its checked exception with a RuntimeException
-     *  (that should never be thrown).
-     *  <p>
-     *  If passed null, will return an empty string.
-     *
-     *  @deprecated
-     *  This function has been moved to <code>UrlBuilder</code>
-     */
-    @Deprecated
-    public static String urlDecode(String src)
-    {
-        if (src == null)
-            return "";
-
-        try
-        {
-            return URLDecoder.decode(src, "UTF-8");
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            throw new RuntimeException("this JVM doesn't support UTF-8!", e);
-        }
-    }
-
-
     /**
      *  Replaces characters in the passed string with entities:
      *  <ul>
@@ -265,7 +205,7 @@ public class HtmlUtil
             buf.append(buf.length() > 0 ? "&" : "")
                .append(name)
                .append("=")
-               .append(urlEncode(value));
+               .append(URLBuilder.urlEncode(value));
         }
         return buf.toString();
     }
@@ -310,7 +250,7 @@ public class HtmlUtil
             String value = param.substring(delimIdx + 1);
 
             if ((value.length() > 0) || !ignoreEmpty)
-                result.put(name, urlDecode(value));
+                result.put(name, URLBuilder.urlDecode(value));
         }
 
         return result;
