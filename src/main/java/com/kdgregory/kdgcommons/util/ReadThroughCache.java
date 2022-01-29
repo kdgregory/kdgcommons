@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Function;
 
 
 /**
@@ -60,13 +61,70 @@ public class ReadThroughCache<K,V>
 
 
 //----------------------------------------------------------------------------
+//  Constructors and instance variables
+//----------------------------------------------------------------------------
+
+    private Function<K,V> retriever;
+    private Object cacheLock = new Object();
+    private Map<K,V> cache = null;
+
+    /**
+     *  Base constructor.
+     *
+     *  @param size         Maximum number of items in the cache; the least recently used
+     *                      item will be evicted if retrieval would exceed this limit. To
+     *                      prevent resizing the underlying hash table, this value is also
+     *                      used as the map's capacity.
+     *  @param retriever    The function to retrieve items.
+     *  @param syncOpt      The synchronization strategy.
+     */
+    public ReadThroughCache(final int size, Function<K,V> retriever, Synchronization syncOpt)
+    {
+        switch (syncOpt)
+        {
+            case NONE :
+                this.retriever = new UnsynchronizedRetriever(retriever);
+                break;
+            case BY_KEY :
+                this.retriever = new ByKeyRetriever(retriever);
+                break;
+            case SINGLE_THREADED:
+                this.retriever = new SingleThreadedRetriever(retriever);
+                break;
+            default :
+                throw new IllegalArgumentException("invalid synchronization option: " + syncOpt);
+        }
+
+
+        cache = new LinkedHashMap<K,V>(size, 0.75f, true)
+        {
+             private static final long serialVersionUID = 1L;
+
+             @Override
+             protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
+                return this.size() > size;
+             }
+        };
+    }
+
+
+    /**
+     *  Convenience constructor: creates an instance with specified size and retriever,
+     *  using per-key synchronization.
+     */
+    public ReadThroughCache(int size, Function<K,V> retriever)
+    {
+        this(size, retriever, Synchronization.BY_KEY);
+    }
+
+//----------------------------------------------------------------------------
 //  Public methods
 //----------------------------------------------------------------------------
 
     public V retrieve(K key) throws InterruptedException
     {
         // all the intelligence happens in the retriever decorators
-        return retriever.retrieve(key);
+        return retriever.apply(key);
     }
 
 
@@ -94,111 +152,61 @@ public class ReadThroughCache<K,V>
     }
 
 //----------------------------------------------------------------------------
-//  Constructors and instance variables
-//----------------------------------------------------------------------------
-
-    private Retriever<K,V> retriever;
-    private Object cacheLock = new Object();
-    private Map<K,V> cache = null;
-
-    /**
-     *  Base constructor.
-     *
-     *  @param size         Maximum number of items in the cache; the least recently used
-     *                      item will be evicted if retrieval would exceed this limit. To
-     *                      prevent resizing the underlying hash table, this value is also
-     *                      used as the map's capacity.
-     *  @param retriever    The function to retrieve items.
-     *  @param syncOpt      The synchronization strategy.
-     */
-    public ReadThroughCache(final int size, Retriever<K,V> retriever, Synchronization syncOpt)
-    {
-        switch (syncOpt)
-        {
-            case NONE :
-                this.retriever = new UnsynchronizedRetriever(retriever);
-                break;
-            case BY_KEY :
-                this.retriever = new ByKeyRetriever(retriever);
-                break;
-            case SINGLE_THREADED :
-//                this.retriever = new UnsynchronizedRetriever(retriever);
-                this.retriever = new SingleThreadedRetriever(retriever);
-                break;
-            default :
-                throw new IllegalArgumentException("invalid synchronization option: " + syncOpt);
-        }
-
-        cache = new LinkedHashMap<K,V>(size, 0.75f, true)
-        {
-             private static final long serialVersionUID = 1L;
-
-             @Override
-             protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
-                return this.size() > size;
-             }
-        };
-    }
-
-
-    /**
-     *  Convenience constructor: creates an instance with specified size and retriever,
-     *  using per-key synchronization.
-     */
-    public ReadThroughCache(int size, Retriever<K,V> retriever)
-    {
-        this(size, retriever, Synchronization.BY_KEY);
-    }
-
-
-//----------------------------------------------------------------------------
 //  Internals
 //----------------------------------------------------------------------------
 
     private abstract class AbstractDelegatingRetriever
-    implements Retriever<K,V>
+    implements Function<K,V>
     {
-        protected Retriever<K,V> delegate;
+        protected Function<K,V> delegate;
 
-        protected AbstractDelegatingRetriever(Retriever<K,V> delegate)
+        protected AbstractDelegatingRetriever(Function<K,V> delegate)
         {
             this.delegate = delegate;
         }
 
-        public V retrieve(K key) throws InterruptedException
+        @Override
+        public V apply(K key)
         {
             synchronized (cacheLock)
             {
                 if (cache.containsKey(key))
                     return cache.get(key);
             }
-            return retrieve0(key);
+            return delegate.apply(key);
         }
 
-        public abstract V retrieve0(K key) throws InterruptedException;
+
+        protected V cache(K key, V value)
+        {
+            synchronized (cacheLock)
+            {
+                cache.put(key, value);
+                return value;
+            }
+        }
     }
 
 
     private class UnsynchronizedRetriever
     extends AbstractDelegatingRetriever
     {
-        public UnsynchronizedRetriever(Retriever<K,V> delegate)
+        public UnsynchronizedRetriever(Function<K,V> delegate)
         {
             super(delegate);
         }
 
         @Override
-        public V retrieve0(K key) throws InterruptedException
+        public V apply(K key)
         {
-            V value = delegate.retrieve(key);
+            V value = super.apply(key);
 
             synchronized (cacheLock)
             {
                 if (cache.containsKey(key))
                     return cache.get(key);
-
-                cache.put(key, value);
-                return value;
+                else
+                    return cache(key, value);
             }
         }
     }
@@ -210,76 +218,72 @@ public class ReadThroughCache<K,V>
         private Object internalLock = new Object();
         private Map<K,ReentrantLock> keyLocks = new HashMap<K,ReentrantLock>();
 
-        public ByKeyRetriever(Retriever<K,V> delegate)
+        public ByKeyRetriever(Function<K,V> delegate)
         {
             super(delegate);
         }
 
         @Override
-        public V retrieve0(K key) throws InterruptedException
+        public V apply(K key)
         {
-            ReentrantLock keyLock = getOrCreateLock(key);
-            if (keyLock == null)
+            ReentrantLock lock = null;
+            try
             {
-                return doRetrieve(key);
+                lock = acquireLock(key);
             }
-            else
+            catch (InterruptedException ex)
             {
-                keyLock.lockInterruptibly();
-                keyLock.unlock();
-                synchronized (cacheLock)
-                {
-                    V value = cache.get(key);
-                    if ((value != null) || cache.containsKey(key))
-                        return value;
-                }
+                throw new RuntimeException("interrupted while waiting for lock");
+            }
 
-                // if we fall through to here, it means that the blocking process has
-                // thrown an exception and it's up to us to retrieve the data; we'll
-                // assume that *someone* will retrieve the value before we blow stack
-                return retrieve0(key);
+            try
+            {
+                V value = super.apply(key);
+                return cache(key, value);
+            }
+            finally
+            {
+                releaseLock(lock, key);
             }
         }
 
-        private ReentrantLock getOrCreateLock(K key) throws InterruptedException
-        {
-            synchronized (internalLock)
-            {
-                ReentrantLock lock = keyLocks.get(key);
-                if (lock != null)
-                    return lock;
-
-                lock = new ReentrantLock();
-                lock.lockInterruptibly();
-                keyLocks.put(key, lock);
-                return null;
-            }
-        }
-
-        private void removeLock(K key)
+        private ReentrantLock acquireLock(K key) throws InterruptedException
         {
             ReentrantLock lock = null;
             synchronized (internalLock)
             {
-                lock = keyLocks.remove(key);
+                lock = keyLocks.get(key);
+                if (lock == null)
+                {
+                    lock = new ReentrantLock();
+                    keyLocks.put(key, lock);
+                    lock.lock();
+                    return lock;
+                }
             }
-            lock.unlock();
+
+            // here's a race condition here that I don't think I can fix: if T1 deletes
+            // the map entry between the time that T2 gets the lock and locks it, then
+            // T3 can come in and think that nobody is locking the key.
+            //
+            // the only guaranteed solution is to make the keylocks have the same lifetime as
+            // entries in the cache, but that would mean that the cache could no longer be
+            // written to take a Function for retrieval; it would have to be a custom class
+
+            lock.lockInterruptibly();
+            return lock;
         }
 
-        private V doRetrieve(K key) throws InterruptedException
+
+        private void releaseLock(ReentrantLock lock, K key)
         {
-            try
+            synchronized (internalLock)
             {
-                V value = delegate.retrieve(key);
-                synchronized (cacheLock)
+                if (! lock.hasQueuedThreads())
                 {
-                    cache.put(key, value);
+                    keyLocks.remove(key);
                 }
-                return value;
-            }
-            finally
-            {
-                removeLock(key);
+                lock.unlock();
             }
         }
     }
@@ -288,24 +292,16 @@ public class ReadThroughCache<K,V>
     private class SingleThreadedRetriever
     extends AbstractDelegatingRetriever
     {
-        public SingleThreadedRetriever(Retriever<K,V> delegate)
+        public SingleThreadedRetriever(Function<K,V> delegate)
         {
             super(delegate);
         }
 
         @Override
-        public synchronized V retrieve0(K key) throws InterruptedException
+        public synchronized V apply(K key)
         {
-            V value = delegate.retrieve(key);
-
-            synchronized (cacheLock)
-            {
-                if (cache.containsKey(key))
-                    return cache.get(key);
-
-                cache.put(key, value);
-                return value;
-            }
+            V value = super.apply(key);
+            return cache(key, value);
         }
     }
 }

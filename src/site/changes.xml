@@ -4,6 +4,17 @@
 	</properties>
 
     <body>
+        <release version="2.0.1" date="TBD"
+            description="removal/replacement of deprecated functionality">
+            <action dev='kdgregory' type='update'>
+                Removed all functions and classes that had been deprecated in version 1.x.
+            </action>
+            <action dev='kdgregory' type='update'>
+                ReadThroughCache: use a java.util.function.Function rather than the custom
+                Retriever class.
+            </action>
+        </release>
+
         <release version="1.0.19" date="2021-01-26"
             description="final version 1 release: deprecate in preparation for version 2">
             <action dev='kdgregory' type='update'>

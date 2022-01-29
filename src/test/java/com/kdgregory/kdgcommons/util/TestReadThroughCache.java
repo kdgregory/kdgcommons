@@ -17,10 +17,10 @@ package com.kdgregory.kdgcommons.util;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
+import java.util.function.Function;
 
 import junit.framework.TestCase;
 
-import com.kdgregory.kdgcommons.util.ReadThroughCache.Retriever;
 import com.kdgregory.kdgcommons.util.ReadThroughCache.Synchronization;
 
 
@@ -55,9 +55,10 @@ extends TestCase
      *  A retriever that returns distinct Integer objects based on the provided key.
      */
     private static class DistinctValueRetriever
-    implements Retriever<Integer,Integer>
+    implements Function<Integer,Integer>
     {
-        public Integer retrieve(Integer key) throws InterruptedException
+        @Override
+        public Integer apply(Integer key)
         {
             return new Integer(key.intValue());
         }
@@ -70,7 +71,7 @@ extends TestCase
      *  it has to depend on the task to manage any state (including locks).
      */
     private static class ConcurrentRetriever
-    implements Retriever<Object,Object>
+    implements Function<Object,Object>
     {
         private Map<Thread,ConcurrentRetrieveTask> configMap = new HashMap<Thread,ConcurrentRetrieveTask>();
 
@@ -81,10 +82,18 @@ extends TestCase
             return thread;
         }
 
-        public Object retrieve(Object key) throws InterruptedException
+        @Override
+        public Object apply(Object key)
         {
             ConcurrentRetrieveTask task = configMap.get(Thread.currentThread());
-            return task.retrieve();
+            try
+            {
+                return task.retrieve();
+            }
+            catch (InterruptedException e)
+            {
+                throw new RuntimeException("task was interrupted");
+            }
         }
     }
 
@@ -136,9 +145,11 @@ extends TestCase
             waitForRetrieve();
             Thread.sleep(retrieveDelay);
             retrieveExitTimestamp = System.currentTimeMillis();
+
             return value;
         }
 
+        @Override
         public void run()
         {
             try
@@ -182,6 +193,7 @@ extends TestCase
             throw new RuntimeException("oops!");
         }
 
+        @Override
         public void uncaughtException(Thread t, Throwable e)
         {
             exception = e;
@@ -318,15 +330,15 @@ extends TestCase
         task1.releaseRetrieve();    // task 1 is done -- task2 is now unblocked, but should be fulfilled by cache
         join(thread1, thread2, thread3);
 
-        assertTrue("thread 1 should start before thread 2",     task1.startTimestamp < task2.startTimestamp);
-        assertTrue("thread 1 should finish at/before thread 2", task1.finishTimestmap <= task2.finishTimestmap);
-        assertTrue("thread 1 should start before thread 3",     task1.startTimestamp < task3.startTimestamp);
-        assertTrue("thread 1 should finish after thread 3",     task1.finishTimestmap > task3.finishTimestmap);
-        assertTrue("thread 2 should never enter retrieve",      task2.retrieveEntryTimestamp == 0);
+        assertTrue("task 1 should start before task 2",         task1.startTimestamp < task2.startTimestamp);
+        assertTrue("task 1 should finish at/before task 2",     task1.finishTimestmap <= task2.finishTimestmap);
+        assertTrue("task 1 should start before task 3",         task1.startTimestamp < task3.startTimestamp);
+        assertTrue("task 1 should finish after task 3",         task1.finishTimestmap > task3.finishTimestmap);
+        assertTrue("task 2 should never enter retrieve",        task2.retrieveEntryTimestamp == 0);
 
-        assertTrue("thread 1 should have thread 1's object", task1.result == task1.value);
-        assertTrue("thread 2 should have thread 1's object", task2.result == task1.value);
-        assertTrue("thread 3 should get its own object",     task3.result == task3.value);
+        assertTrue("task 1 should have its own object",         task1.result == task1.value);
+        assertTrue("task 2 should have task 1's object",        task2.result == task1.value);
+        assertTrue("task 3 should have its own object",         task3.result == task3.value);
     }
 
 
