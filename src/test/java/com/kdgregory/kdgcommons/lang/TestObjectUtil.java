@@ -14,6 +14,8 @@
 
 package com.kdgregory.kdgcommons.lang;
 
+import java.util.function.Supplier;
+
 import junit.framework.TestCase;
 
 public class TestObjectUtil extends TestCase
@@ -99,13 +101,7 @@ public class TestObjectUtil extends TestCase
 
     public void testDefaultValueFromFactory() throws Exception
     {
-        ObjectFactory<String> fact = new ObjectFactory<String>()
-        {
-            public String newInstance()
-            {
-                return "bar";
-            }
-        };
+        Supplier<String> fact = () -> "bar";
 
         assertEquals("non-default", "foo", ObjectUtil.defaultValue("foo", fact));
         assertEquals("default",     "bar", ObjectUtil.defaultValue(null, fact));

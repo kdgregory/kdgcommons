@@ -15,6 +15,7 @@
 package com.kdgregory.kdgcommons.lang;
 
 import java.lang.reflect.Array;
+import java.util.function.Supplier;
 
 
 /**
@@ -216,5 +217,17 @@ public class ObjectUtil
     public static <T> T defaultValue(T value, T defaultValue)
     {
         return (value != null) ? value : defaultValue;
+    }
+
+
+    /**
+     *  Returns the passed <code>value</code>, unless it's null, in which case
+     *  the supplier operation is called.
+     *
+     *  @since 2.0.0
+     */
+    public static <T> T defaultValue(T value, Supplier<T> factory)
+    {
+        return (value != null) ? value : factory.get();
     }
 }

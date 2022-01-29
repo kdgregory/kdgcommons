@@ -10,8 +10,12 @@
                 Removed all functions and classes that had been deprecated in version 1.x.
             </action>
             <action dev='kdgregory' type='update'>
-                ReadThroughCache: use a java.util.function.Function rather than the custom
-                Retriever class.
+                ObjectUtil.defaultValue(): now uses a java.util.function.Supplier rather
+                than the custom ObjectFactory class.
+            </action>
+            <action dev='kdgregory' type='update'>
+                ReadThroughCache: now uses a java.util.function.Function rather than the
+                custom Retriever class.
             </action>
         </release>
 
