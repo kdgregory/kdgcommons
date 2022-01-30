@@ -28,17 +28,19 @@ implements Iterable<Object>, Serializable
 {
         private static final long serialVersionUID = 1L;
 
-        private Object[] _components;
-        private int _hashCode;
-        private String _stringValue;
+        private Object[] components;
+        private int hashCode;
+        private String stringValue;
+
 
         public CompoundKey(Object... components)
         {
-            _components = components;
-            for (Object component : components)
+            // FIXME - make a defensive copy
+            this.components = components;
+            for (Object obj : components)
             {
-                if (component != null)
-                    _hashCode = _hashCode * 37 + component.hashCode();
+                if (obj != null)
+                    this.hashCode = hashCode * 37 + obj.hashCode();
             }
         }
 
@@ -46,9 +48,10 @@ implements Iterable<Object>, Serializable
         /**
          *  Returns an iterator over the components of this key.
          */
+        @Override
         public Iterator<Object> iterator()
         {
-            return Arrays.asList(_components).iterator();
+            return Arrays.asList(components).iterator();
         }
 
 
@@ -59,23 +62,21 @@ implements Iterable<Object>, Serializable
         @Override
         public String toString()
         {
-            if (_stringValue == null)
+            if (stringValue == null)
             {
-                StringBuilder buf = new StringBuilder(_components.length * 16);
+                StringBuilder buf = new StringBuilder(components.length * 16);
                 buf.append("[");
-                for (Object comp : _components)
+                for (Object comp : components)
                 {
                     if (buf.length() > 1)
                         buf.append(",");
                     buf.append(comp);
                 }
                 buf.append("]");
-                _stringValue = buf.toString();
+                stringValue = buf.toString();
             }
-            return _stringValue;
+            return stringValue;
         }
-
-
 
 
         @Override
@@ -86,7 +87,7 @@ implements Iterable<Object>, Serializable
 
             if (obj instanceof CompoundKey)
             {
-                return Arrays.equals(_components, ((CompoundKey)obj)._components);
+                return Arrays.equals(components, ((CompoundKey)obj).components);
             }
             return false;
         }
@@ -95,6 +96,6 @@ implements Iterable<Object>, Serializable
         @Override
         public int hashCode()
         {
-            return _hashCode;
+            return hashCode;
         }
 }

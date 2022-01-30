@@ -52,15 +52,15 @@ import com.kdgregory.kdgcommons.lang.StringBuilderUtil;
  */
 public class HexDump
 {
-    private int _bytesPerLine;
-    private boolean _showOffset;
-    private int _offset;
-    private int _offsetWidth;
-    private int _spacesAfterOffset;
-    private boolean _showChars;
-    private int _spacesBeforeChars;
-    private boolean _replaceNonAscii;
-    private char _replacement;
+    private int bytesPerLine;
+    private boolean showOffset;
+    private int offset;
+    private int offsetWidth;
+    private int spacesAfterOffset;
+    private boolean showChars;
+    private int spacesBeforeChars;
+    private boolean replaceNonAscii;
+    private char replacement;
 
 
     /**
@@ -95,15 +95,15 @@ public class HexDump
                    boolean replaceNonAscii, char replacement
                    )
     {
-        _bytesPerLine = bytesPerLine;
-        _showOffset = showOffset;
-        _offset = 0;
-        _offsetWidth = offsetWidth;
-        _spacesAfterOffset = spacesAfterOffset;
-        _showChars = showChars;
-        _spacesBeforeChars = spacesBeforeChars;
-        _replaceNonAscii = replaceNonAscii;
-        _replacement = replacement;
+        this.bytesPerLine = bytesPerLine;
+        this.showOffset = showOffset;
+        this.offset = 0;
+        this.offsetWidth = offsetWidth;
+        this.spacesAfterOffset = spacesAfterOffset;
+        this.showChars = showChars;
+        this.spacesBeforeChars = spacesBeforeChars;
+        this.replaceNonAscii = replaceNonAscii;
+        this.replacement = replacement;
     }
 
 
@@ -132,7 +132,7 @@ public class HexDump
      */
     public void setOffset(int value)
     {
-        _offset = value;
+        offset = value;
     }
 
 
@@ -172,8 +172,8 @@ public class HexDump
      */
     public String stringValue(byte[] buf, int off, int len)
     {
-        int capacity = ((len / _bytesPerLine) + 1)
-                     * (1 + _offsetWidth + _spacesAfterOffset + 4 * _bytesPerLine);
+        int capacity = ((len / bytesPerLine) + 1)
+                     * (1 + offsetWidth + spacesAfterOffset + 4 * bytesPerLine);
         StringBuilder result = new StringBuilder(capacity);
         Iterator<String> itx = iterator(buf, off, len);
         while (itx.hasNext())
@@ -228,78 +228,81 @@ public class HexDump
     private class Dumper
     implements Iterator<String>
     {
-        private byte[] _buf;
-        private int _off;
-        private int _len;
-        private int _lenThisTime;
+        private byte[] buf;
+        private int off;
+        private int len;
+        private int lenThisTime;
 
         public Dumper(byte[] buf, int off, int len)
         {
-            _buf = buf;
-            _off = off;
-            _len = len;
+            this.buf = buf;
+            this.off = off;
+            this.len = len;
         }
 
+        @Override
         public boolean hasNext()
         {
-            return _len > 0;
+            return len > 0;
         }
 
+        @Override
         public String next()
         {
-            StringBuilder buf = new StringBuilder();
-            if (_showOffset)
-                appendOffset(buf);
-            appendBytes(buf);
-            if (_showChars)
-                appendChars(buf);
+            StringBuilder sb = new StringBuilder();
+            if (showOffset)
+                appendOffset(sb);
+            appendBytes(sb);
+            if (showChars)
+                appendChars(sb);
             updateOffsets();
-            return buf.toString();
+            return sb.toString();
         }
 
+        @Override
         public void remove()
         {
             throw new UnsupportedOperationException(
                     "this iterator isn't backed by a collection");
         }
 
-        private void appendOffset(StringBuilder buf)
+        private void appendOffset(StringBuilder sb)
         {
-            StringBuilderUtil.appendHex(buf, _offset, _offsetWidth);
-            StringBuilderUtil.appendRepeat(buf, ' ', _spacesAfterOffset);
+            StringBuilderUtil.appendHex(sb, offset, offsetWidth);
+            StringBuilderUtil.appendRepeat(sb, ' ', spacesAfterOffset);
         }
 
-        private void appendBytes(StringBuilder buf)
+        private void appendBytes(StringBuilder sb)
         {
-            _lenThisTime = Math.min(_bytesPerLine, _len);
-            for (int ii = 0 ; ii < _lenThisTime ; ii++)
+            lenThisTime = Math.min(bytesPerLine, len);
+            for (int ii = 0 ; ii < lenThisTime ; ii++)
             {
                 if (ii > 0)
-                    buf.append(' ');
-                StringBuilderUtil.appendHex(buf, _buf[_off + ii], 2);
+                    sb.append(' ');
+                StringBuilderUtil.appendHex(sb, buf[off + ii], 2);
             }
         }
 
-        private void appendChars(StringBuilder buf)
+        private void appendChars(StringBuilder sb)
         {
-            int spaceThisTime = (_bytesPerLine - _lenThisTime) * 3 + _spacesBeforeChars;
-            StringBuilderUtil.appendRepeat(buf, ' ', spaceThisTime);
+            int spaceThisTime = (bytesPerLine - lenThisTime) * 3 + spacesBeforeChars;
+            StringBuilderUtil.appendRepeat(sb, ' ', spaceThisTime);
 
-            for (int ii = 0 ; ii < _lenThisTime ; ii++)
+            for (int ii = 0 ; ii < lenThisTime ; ii++)
             {
-                byte b = _buf[_off + ii];
-                if (_replaceNonAscii && ((b < 32) || (b > 126)))
-                    buf.append(_replacement);
+                byte b = buf[off + ii];
+                if (replaceNonAscii && ((b < 32) || (b > 126)))
+                    sb.append(replacement);
                 else
-                    buf.append((char)(b & 0xFF));
+                    sb.append((char)(b & 0xFF));
             }
         }
 
         private void updateOffsets()
         {
-            _offset += _lenThisTime;
-            _off += _lenThisTime;
-            _len -= _lenThisTime;
+            offset += lenThisTime;
+            off += lenThisTime;
+            len -= lenThisTime;
         }
     }
 }

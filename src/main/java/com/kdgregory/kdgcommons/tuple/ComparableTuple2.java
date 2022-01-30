@@ -32,11 +32,11 @@ implements Comparable<Tuple2<A,B>>
         super(val0, val1);
     }
 
-
 //----------------------------------------------------------------------------
 //  Implementation of Comparable
 //----------------------------------------------------------------------------
 
+    @Override
     public int compareTo(Tuple2<A,B> that)
     {
         int cmp = ObjectUtil.compare(this.get0(), that.get0());

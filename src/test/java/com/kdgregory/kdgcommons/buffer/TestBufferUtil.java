@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import com.kdgregory.kdgcommons.test.ArrayAsserts;
 
+
 public class TestBufferUtil extends TestCase
 {
 //----------------------------------------------------------------------------
@@ -60,9 +61,10 @@ public class TestBufferUtil extends TestCase
 
         File file = File.createTempFile("TestIOUtil", ".tmp");
         file.deleteOnExit();
-        FileOutputStream out = new FileOutputStream(file);
-        out.write(testData);
-        out.close();
+        try (FileOutputStream out = new FileOutputStream(file))
+        {
+            out.write(testData);
+        }
 
         // test 1: verify that a whole-file mapping is equivalent to our test data
 

@@ -26,27 +26,29 @@ package com.kdgregory.kdgcommons.collections;
  */
 public class IdentityKey
 {
-    Object _realKey;
+    Object realKey;
+
 
     public IdentityKey(Object key)
     {
-        _realKey = key;
+        realKey = key;
     }
+
 
     @Override
     public final boolean equals(Object obj)
     {
         if (obj instanceof IdentityKey)
         {
-            return _realKey == ((IdentityKey)obj)._realKey;
+            return realKey == ((IdentityKey)obj).realKey;
         }
         return false;
-
     }
+
 
     @Override
     public final int hashCode()
     {
-        return System.identityHashCode(_realKey);
+        return System.identityHashCode(realKey);
     }
 }

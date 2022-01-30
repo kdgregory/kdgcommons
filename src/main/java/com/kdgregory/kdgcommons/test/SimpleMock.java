@@ -38,8 +38,8 @@ import junit.framework.Assert;
 public class SimpleMock
 implements InvocationHandler
 {
-    private ArrayList<String> _calls = new ArrayList<String>();
-    private ArrayList<Object[]> _args = new ArrayList<Object[]>();
+    private ArrayList<String> calls = new ArrayList<String>();
+    private ArrayList<Object[]> invocationArguments = new ArrayList<Object[]>();
 
     public <T> T getInstance(Class<T> classToMock)
     {
@@ -51,13 +51,14 @@ implements InvocationHandler
     }
 
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args)
     throws Throwable
     {
-        _calls.add(method.getName());
+        calls.add(method.getName());
         if (args == null)
             args = new Object[0];
-        _args.add(args);
+        invocationArguments.add(args);
         return null;
     }
 
@@ -67,7 +68,7 @@ implements InvocationHandler
      */
     public void assertCallCount(int expected)
     {
-        Assert.assertEquals("call count", expected, _calls.size());
+        Assert.assertEquals("call count", expected, calls.size());
     }
 
 
@@ -77,9 +78,9 @@ implements InvocationHandler
      */
     public void assertCall(int callNum, String methodName, Object... args)
     {
-        Assert.assertEquals("incorrect method", methodName, _calls.get(callNum));
-        Assert.assertEquals("argument count", args.length, _args.get(callNum).length);
+        Assert.assertEquals("incorrect method", methodName, calls.get(callNum));
+        Assert.assertEquals("argument count", args.length, invocationArguments.get(callNum).length);
         for (int ii = 0 ; ii < args.length ; ii++)
-            Assert.assertEquals("argument " + ii, args[ii], _args.get(callNum)[ii]);
+            Assert.assertEquals("argument " + ii, args[ii], invocationArguments.get(callNum)[ii]);
     }
 }

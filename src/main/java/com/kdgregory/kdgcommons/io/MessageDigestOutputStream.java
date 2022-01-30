@@ -25,7 +25,7 @@ import com.kdgregory.kdgcommons.codec.HexCodec;
 /**
  *  An alternative approach to computing a message digest. This is simpler to
  *  write when simultaneously writing to a stream, as it uses the same methods.
- *  
+ *
  *  @since 1.0.18
  */
 public class MessageDigestOutputStream
@@ -53,7 +53,7 @@ extends OutputStream
     }
 
 //----------------------------------------------------------------------------
-//  InputStream overrides
+//  OutputStream
 //----------------------------------------------------------------------------
 
     @Override
@@ -94,7 +94,6 @@ extends OutputStream
     {
         digest();
     }
-
 
 //----------------------------------------------------------------------------
 //  Other public methods

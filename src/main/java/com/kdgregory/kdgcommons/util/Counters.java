@@ -52,7 +52,7 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Counters<K>
 implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
 {
-    private ConcurrentHashMap<K,AtomicLong> _map = new ConcurrentHashMap<K,AtomicLong>();
+    private ConcurrentHashMap<K,AtomicLong> map = new ConcurrentHashMap<K,AtomicLong>();
 
 //----------------------------------------------------------------------------
 //  Object overrides
@@ -66,7 +66,7 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
     {
         StringBuilder sb = new StringBuilder(16384);
         sb.append("[");
-        for (Map.Entry<K,AtomicLong> entry : _map.entrySet())
+        for (Map.Entry<K,AtomicLong> entry : map.entrySet())
         {
             if (sb.length() > 1)
                 sb.append(", ");
@@ -79,8 +79,6 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
         return sb.toString();
     }
 
-
-
 //----------------------------------------------------------------------------
 //  Implementation of Map
 //----------------------------------------------------------------------------
@@ -88,27 +86,30 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
     /**
      *  Returns the number of mappings (distinct keys) in this object.
      */
+    @Override
     public int size()
     {
-        return _map.size();
+        return map.size();
     }
 
 
     /**
      *  Returns <code>true</code> if the underlying map is empty.
      */
+    @Override
     public boolean isEmpty()
     {
-        return _map.isEmpty();
+        return map.isEmpty();
     }
 
 
     /**
      *  Returns <code>true</code> if the underlying map contains the specified key.
      */
+    @Override
     public boolean containsKey(Object key)
     {
-        return _map.containsKey(key);
+        return map.containsKey(key);
     }
 
 
@@ -121,10 +122,11 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
      *  reflect concurrent updates (of course, why anyone would test for a value at
      *  the same time they're updating the map is a mystery to me).
      */
+    @Override
     public boolean containsValue(Object value)
     {
         long test = ((Number)value).longValue();
-        for (AtomicLong entry : _map.values())
+        for (AtomicLong entry : map.values())
         {
             if (test == entry.get())
                 return true;
@@ -138,9 +140,10 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
      *  there is not a mapping for the key. Note that this behavior differs from
      *  {@link #getLong}, which returns 0 if there is no mapping for the key.
      */
+    @Override
     public Long get(Object key)
     {
-        AtomicLong value = _map.get(key);
+        AtomicLong value = map.get(key);
         return translate(value);
     }
 
@@ -152,12 +155,13 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
      *  map at the same time; concurrent calls could return the same old value. If
      *  this is a problem for you, call {@link #putIfAbsent}.
      */
+    @Override
     public Long put(K key, Long newValue)
     {
-        AtomicLong value = _map.get(key);
+        AtomicLong value = map.get(key);
         Long oldValue = translate(value);
         if (value == null)
-            _map.put(key, new AtomicLong(newValue.longValue()));
+            map.put(key, new AtomicLong(newValue.longValue()));
         else
             value.set(newValue.longValue());
 
@@ -169,9 +173,10 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
      *  Removes a mapping and returns it. If called concurrently, only one call will
      *  actually remove the value.
      */
+    @Override
     public Long remove(Object key)
     {
-        AtomicLong oldValue = _map.remove(key);
+        AtomicLong oldValue = map.remove(key);
         return translate(oldValue);
     }
 
@@ -181,18 +186,20 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
      *  each value is added individually, and other threads are allowed to update the
      *  map concurrently.
      */
-    public void putAll(Map<? extends K,? extends Long> map)
+    @Override
+    public void putAll(Map<? extends K,? extends Long> src)
     {
-        for (Map.Entry<? extends K,? extends Long> entry : map.entrySet())
+        for (Map.Entry<? extends K,? extends Long> entry : src.entrySet())
         {
             put(entry.getKey(), entry.getValue());
         }
     }
 
 
+    @Override
     public void clear()
     {
-        _map.clear();
+        map.clear();
     }
 
 
@@ -201,13 +208,14 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
      *  view of the map, so if you are concurrently adding or removing counters it may
      *  be missing keys or contain keys that are no longer in the map.
      */
+    @Override
     public Set<K> keySet()
     {
         // in Java 8, ConcurrentHashMap broke binary compatibility for keySet(), returning
         // a different concrete class; this cast forces the compiler to use an invokeinterface
         // rather than invokevirtual, so the bytecode remains compatible
 
-        return ((Map<K,AtomicLong>)_map).keySet();
+        return ((Map<K,AtomicLong>)map).keySet();
     }
 
 
@@ -217,10 +225,11 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
      *  uses the underlying map iterator to work, the returned collection may not reflect
      *  concurrent updates.
      */
+    @Override
     public Collection<Long> values()
     {
-        List<Long> result = new ArrayList<Long>(_map.size());
-        for (AtomicLong value : _map.values())
+        List<Long> result = new ArrayList<Long>(map.size());
+        for (AtomicLong value : map.values())
         {
             result.add(Long.valueOf(value.get()));
         }
@@ -233,6 +242,7 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
      *  representation, so is relatively inefficient; if you want to iterate the
      *  map, call {@link #iterator}.
      */
+    @Override
     public Set<Map.Entry<K,Long>> entrySet()
     {
         Set<Map.Entry<K,Long>> entries = new HashSet<Map.Entry<K,Long>>();
@@ -243,20 +253,18 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
         return entries;
     }
 
-//----------------------------------------------------------------------------
-//  Additional Public Methods
-//----------------------------------------------------------------------------
 
     /**
      *  Adds a mapping for the value, if one does not already exist. See the
      *  JavaDoc for <code>ConcurrentMap.putIfAbsent()</code> for behavior.
      */
+    @Override
     public Long putIfAbsent(K key, Long value)
     {
-        AtomicLong oldValue = _map.get(key);
+        AtomicLong oldValue = map.get(key);
         if (oldValue == null)
         {
-            oldValue = _map.putIfAbsent(key, new AtomicLong(value.longValue()));
+            oldValue = map.putIfAbsent(key, new AtomicLong(value.longValue()));
         }
 
         return translate(oldValue);
@@ -264,12 +272,27 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
 
 
     /**
+     *  Returns an iterator for the entries in the map. The returned iterator
+     *  represents a point in time; it is not subject to concurrent modification
+     *  exceptions, but does not reflect any changes after it is retrieved.
+     */
+    @Override
+    public Iterator<Map.Entry<K,Long>> iterator()
+    {
+        return new MyIterator(map.entrySet().iterator());
+    }
+
+//----------------------------------------------------------------------------
+//  Additional Public Methods
+//----------------------------------------------------------------------------
+
+    /**
      *  Retrieves the value of the specified key as a primitive long. If there is no
      *  mapping for the key, returns 0.
      */
     public long getLong(K key)
     {
-        AtomicLong mapping = _map.get(key);
+        AtomicLong mapping = map.get(key);
         return (mapping == null) ? 0 : mapping.get();
     }
 
@@ -282,7 +305,7 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
      */
     public int getInt(K key)
     {
-        AtomicLong mapping = _map.get(key);
+        AtomicLong mapping = map.get(key);
         return (mapping == null) ? 0 : (int)mapping.get();
     }
 
@@ -324,18 +347,6 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
         return counter.decrementAndGet();
     }
 
-
-    /**
-     *  Returns an iterator for the entries in the map. The returned iterator
-     *  represents a point in time; it is not subject to concurrent modification
-     *  exceptions, but does not reflect any changes after it is retrieved.
-     */
-    public Iterator<Map.Entry<K,Long>> iterator()
-    {
-        return new MyIterator(_map.entrySet().iterator());
-    }
-
-
 //----------------------------------------------------------------------------
 //  Internals
 //----------------------------------------------------------------------------
@@ -348,39 +359,42 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
 
     private AtomicLong getOrCreate(K key)
     {
-        AtomicLong value = _map.get(key);
+        AtomicLong value = map.get(key);
         if (value != null)
             return value;
 
-        _map.putIfAbsent(key, new AtomicLong());
-        return _map.get(key);
+        map.putIfAbsent(key, new AtomicLong());
+        return map.get(key);
     }
 
 
     private class MyIterator
     implements Iterator<Map.Entry<K,Long>>
     {
-        private Iterator<Map.Entry<K,AtomicLong>> _baseItx;
+        private Iterator<Map.Entry<K,AtomicLong>> baseItx;
 
         public MyIterator(Iterator<Map.Entry<K,AtomicLong>> baseItx)
         {
-            _baseItx = baseItx;
+            this.baseItx = baseItx;
         }
 
+        @Override
         public boolean hasNext()
         {
-            return _baseItx.hasNext();
+            return baseItx.hasNext();
         }
 
+        @Override
         public Map.Entry<K,Long> next()
         {
-            Map.Entry<K,AtomicLong> next = _baseItx.next();
+            Map.Entry<K,AtomicLong> next = baseItx.next();
             return new MyMapEntry(next.getKey(), next.getValue());
         }
 
+        @Override
         public void remove()
         {
-            _baseItx.remove();
+            baseItx.remove();
         }
     }
 
@@ -388,32 +402,32 @@ implements Map<K,Long>, Iterable<Map.Entry<K,Long>>
     private class MyMapEntry
     implements Map.Entry<K,Long>
     {
-        private K _key;
-        private AtomicLong _value;
+        private K key;
+        private AtomicLong value;
 
         public MyMapEntry(K key, AtomicLong value)
         {
-            _key = key;
-            _value = value;
+            this.key = key;
+            this.value = value;
         }
 
+        @Override
         public K getKey()
         {
-            return _key;
+            return key;
         }
 
+        @Override
         public Long getValue()
         {
-            return Long.valueOf(_value.longValue());
+            return Long.valueOf(value.longValue());
         }
 
+        @Override
         public Long setValue(Long value)
         {
-            long oldValue = _value.getAndSet(value.longValue());
+            long oldValue = this.value.getAndSet(value.longValue());
             return Long.valueOf(oldValue);
         }
     }
-
-
-
 }

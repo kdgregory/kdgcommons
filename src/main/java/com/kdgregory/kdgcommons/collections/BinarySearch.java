@@ -84,7 +84,6 @@ public class BinarySearch
         public int compare(T value, int index);
     }
 
-
 //----------------------------------------------------------------------------
 //  Public Methods
 //----------------------------------------------------------------------------
@@ -164,7 +163,6 @@ public class BinarySearch
         return search(new IndexedAccessor<T>(index, cmp), value);
     }
 
-
 //----------------------------------------------------------------------------
 //  Internals
 //----------------------------------------------------------------------------
@@ -172,28 +170,31 @@ public class BinarySearch
     private static class IndexedAccessor<T>
     implements Accessor<T>
     {
-        private int[] _array;
-        private IndexedComparator<T> _cmp;
+        private int[] array;
+        private IndexedComparator<T> cmp;
 
         public IndexedAccessor(int[] array, IndexedComparator<T> cmp)
         {
-            _array = array;
-            _cmp = cmp;
+            this.array = array;
+            this.cmp = cmp;
         }
 
+        @Override
         public int start()
         {
             return 0;
         }
 
+        @Override
         public int end()
         {
-            return _array.length;
+            return array.length;
         }
 
+        @Override
         public int compare(T value, int index)
         {
-            return _cmp.compare(value, _array[index]);
+            return cmp.compare(value, array[index]);
         }
     }
 }

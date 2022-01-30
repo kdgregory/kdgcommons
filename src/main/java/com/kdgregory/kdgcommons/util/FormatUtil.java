@@ -32,6 +32,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class FormatUtil
 {
+    private FormatUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Formats a date using a <code>SimpleDateFormat</code> instance with the
      *  current locale's timezone.

@@ -37,12 +37,12 @@ public abstract class InaccessibleClass
     static class InaccessibleClassImpl
     extends InaccessibleClass
     {
-        private String _value;
+        private String value;
 
         @Override
-        public String getValue()            { return _value; }
+        public String getValue()                { return value; }
 
         @Override
-        public void setValue(String value)  { _value = value; }
+        public void setValue(String newValue)   { value = newValue; }
     }
 }

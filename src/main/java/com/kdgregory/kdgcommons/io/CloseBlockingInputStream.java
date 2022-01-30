@@ -29,46 +29,49 @@ import java.io.InputStream;
 public class CloseBlockingInputStream
 extends InputStream
 {
-    private InputStream _delegate;
+    private InputStream delegate;
 
     public CloseBlockingInputStream(InputStream delegate)
     {
-        _delegate = delegate;
+        this.delegate = delegate;
     }
 
+//----------------------------------------------------------------------------
+//  InputStream
+//----------------------------------------------------------------------------
 
     @Override
     public int read() throws IOException
     {
-        return _delegate.read();
+        return delegate.read();
     }
 
 
     @Override
     public int read(byte[] b) throws IOException
     {
-        return _delegate.read(b);
+        return delegate.read(b);
     }
 
 
     @Override
     public int read(byte[] b, int off, int len) throws IOException
     {
-        return _delegate.read(b, off, len);
+        return delegate.read(b, off, len);
     }
 
 
     @Override
     public long skip(long n) throws IOException
     {
-        return _delegate.skip(n);
+        return delegate.skip(n);
     }
 
 
     @Override
     public int available() throws IOException
     {
-        return _delegate.available();
+        return delegate.available();
     }
 
     @Override
@@ -81,21 +84,20 @@ extends InputStream
     @Override
     public synchronized void mark(int readlimit)
     {
-        _delegate.mark(readlimit);
+        delegate.mark(readlimit);
     }
 
 
     @Override
     public synchronized void reset() throws IOException
     {
-        _delegate.reset();
+        delegate.reset();
     }
 
 
     @Override
     public boolean markSupported()
     {
-        return _delegate.markSupported();
+        return delegate.markSupported();
     }
-
 }

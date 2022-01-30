@@ -35,19 +35,19 @@ extends TestCase
 
     public static class Bean1
     {
-        private String _sVal;
+        private String sVal;
 
-        public String getSVal()             { return _sVal; }
-        public void setSVal(String val)     { _sVal = val; }
+        public String getSVal()             { return sVal; }
+        public void setSVal(String val)     { sVal = val; }
     }
 
 
     public static class Bean2
     {
-        private String _sVal;
+        private String sVal;
 
-        public String getSVal()             { return _sVal; }
-        public void setSVal(String val)     { _sVal = val; }
+        public String getSVal()             { return sVal; }
+        public void setSVal(String val)     { sVal = val; }
     }
 
 //----------------------------------------------------------------------------

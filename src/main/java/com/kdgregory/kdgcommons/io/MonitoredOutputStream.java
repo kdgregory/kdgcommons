@@ -26,22 +26,25 @@ import java.io.OutputStream;
 public class MonitoredOutputStream
 extends OutputStream
 {
-    private OutputStream _delegate;
-    private long _totalBytes;
+    private OutputStream delegate;
+    private long total;
 
     public MonitoredOutputStream(OutputStream delegate)
     {
-        _delegate = delegate;
+        this.delegate = delegate;
     }
 
+//----------------------------------------------------------------------------
+//  OutputStream
+//----------------------------------------------------------------------------
 
     @Override
     public void write(int b) throws IOException
     {
-        _delegate.write(b);
+        delegate.write(b);
 
-        _totalBytes++;
-        progress(1, _totalBytes);
+        total++;
+        progress(1, total);
     }
 
 
@@ -55,35 +58,38 @@ extends OutputStream
     @Override
     public void write(byte[] b, int off, int len) throws IOException
     {
-        _delegate.write(b, off, len);
+        delegate.write(b, off, len);
 
-        _totalBytes += len;
-        progress(len, _totalBytes);
+        total += len;
+        progress(len, total);
     }
 
 
     @Override
     public void flush() throws IOException
     {
-        _delegate.flush();
+        delegate.flush();
     }
 
 
     @Override
     public void close() throws IOException
     {
-        _delegate.close();
+        delegate.close();
     }
 
 
+//----------------------------------------------------------------------------
+//  OutputStream
+//----------------------------------------------------------------------------
     /**
-     *  Called after each operation that writes bytes, to report the number of
-     *  bytes written. The default implementation of this method is a no-op.
+     *  Subclasses override this to monitor progress. The default implementation
+     *  of this method is a no-op.
      *
      *  @param  lastWrite   Number of bytes in last write operation. Note that
      *                      this may be 0.
-     *  @param  totalBytes  Total number of bytes read or skipped since this
-     *                      class was instantiated.
+     *  @param  totalBytes  Total number of bytes written since this object was
+     *                      instantiated.
      */
     public void progress(long lastWrite, long totalBytes)
     {

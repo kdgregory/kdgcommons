@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ClassTable<T>
 {
-    private volatile ConcurrentHashMap<Class<?>,T> _map = new ConcurrentHashMap<Class<?>,T>();
+    private volatile ConcurrentHashMap<Class<?>,T> map = new ConcurrentHashMap<Class<?>,T>();
 
 
     /**
@@ -40,7 +40,7 @@ public class ClassTable<T>
      */
     public int size()
     {
-        return _map.size();
+        return map.size();
     }
 
 
@@ -50,7 +50,7 @@ public class ClassTable<T>
      */
     public void put(Class<?> klass, T object)
     {
-        _map.put(klass, object);
+        map.put(klass, object);
     }
 
 
@@ -61,7 +61,7 @@ public class ClassTable<T>
      */
     public T get(Class<?> klass)
     {
-        T result = _map.get(klass);
+        T result = map.get(klass);
         if (result != null)
             return result;
 
@@ -71,7 +71,7 @@ public class ClassTable<T>
 
         result = get(superclass);
         if (result != null)
-            _map.put(klass, result);
+            map.put(klass, result);
 
         return result;
     }
@@ -94,13 +94,13 @@ public class ClassTable<T>
     public void replace(Class<?> klass, T value)
     {
         ConcurrentHashMap<Class<?>,T> newMap = new ConcurrentHashMap<Class<?>,T>();
-        for (Map.Entry<Class<?>,T> entry : _map.entrySet())
+        for (Map.Entry<Class<?>,T> entry : map.entrySet())
         {
             if (klass.isAssignableFrom(entry.getKey()))
                 newMap.put(entry.getKey(), value);
             else
                 newMap.put(entry.getKey(), entry.getValue());
         }
-        _map = newMap;
+        map = newMap;
     }
 }

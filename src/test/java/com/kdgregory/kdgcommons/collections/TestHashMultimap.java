@@ -494,11 +494,12 @@ extends TestCase
         map.put("foo", "baz");
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(bos);
-        oos.writeObject(map);
-        oos.close();
+        try (ObjectOutputStream oos = new ObjectOutputStream(bos))
+        {
+            oos.writeObject(map);
+        }
 
-        ByteArrayInputStream bis= new ByteArrayInputStream(bos.toByteArray());
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
         ObjectInputStream ois = new ObjectInputStream(bis);
 
         HashMultimap<String,String> ret = (HashMultimap<String,String>)ois.readObject();

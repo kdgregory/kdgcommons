@@ -33,25 +33,25 @@ public class TestGeneratedInputStream extends TestCase
     private static class TestStream
     extends GeneratedInputStream
     {
-        private int _bufferSize;
-        private int _numCalls;
-        private int _curByte = 0;
+        private int bufferSize;
+        private int numCalls;
+        private int curByte = 0;
 
         public TestStream(int bufferSize, int numCalls)
         {
-            _bufferSize = bufferSize;
-            _numCalls = numCalls;
+            this.bufferSize = bufferSize;
+            this.numCalls = numCalls;
         }
 
         @Override
         protected byte[] nextBuffer()
         {
-            if (_numCalls-- <= 0)
+            if (numCalls-- <= 0)
                 return null;
 
-            byte[] buf = new byte[_bufferSize];
-            for (int ii = 0 ; ii < _bufferSize ; ii++)
-                buf[ii] = (byte)('A' + _curByte++ % 26);
+            byte[] buf = new byte[bufferSize];
+            for (int ii = 0 ; ii < bufferSize ; ii++)
+                buf[ii] = (byte)('A' + curByte++ % 26);
             return buf;
         }
     }

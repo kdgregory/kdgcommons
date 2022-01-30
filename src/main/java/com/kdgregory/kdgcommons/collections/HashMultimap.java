@@ -65,19 +65,19 @@ implements Serializable
 //  Instance variables and Constructors
 //----------------------------------------------------------------------------
 
-    private Behavior _behavior;
+    private Behavior behavior;
 
-    private int _size = 0;
-    private int _modCount = 0;
+    private int size = 0;
+    private int modCount = 0;
 
-    private HashEntry<K,V>[] _table;
-    private int _mask;
+    private HashEntry<K,V>[] table;
+    private int mask;
 
-    private int _resizeThreshold;
-    private int _filledSlots;
+    private int resizeThreshold;
+    private int filledSlots;
 
     // this is updated by calls to findEntry()
-    private HashEntry<K,V> _prev;
+    private HashEntry<K,V> prev;
 
 
     /**
@@ -92,7 +92,7 @@ implements Serializable
      */
     public HashMultimap(Behavior behavior, int initialCapacity, double loadFactor)
     {
-        _behavior = behavior;
+        this.behavior = behavior;
 
         int realCapacity = 8;
         while (initialCapacity > 8)
@@ -101,10 +101,10 @@ implements Serializable
             initialCapacity >>= 1;
         }
 
-        _mask = realCapacity - 1;
-        _table = new HashEntry[realCapacity];
+        this.mask = realCapacity - 1;
+        this.table = new HashEntry[realCapacity];
 
-        _resizeThreshold = (int)(_table.length * loadFactor);
+        this.resizeThreshold = (int)(table.length * loadFactor);
     }
 
 
@@ -127,7 +127,6 @@ implements Serializable
         this(Behavior.SET, 8, .75);
     }
 
-
 //----------------------------------------------------------------------------
 //  Public Methods
 //----------------------------------------------------------------------------
@@ -137,7 +136,7 @@ implements Serializable
      */
     public int size()
     {
-        return _size;
+        return size;
     }
 
 
@@ -156,10 +155,10 @@ implements Serializable
      */
     public void clear()
     {
-        _modCount++;
-        _size = 0;
-        for (int ii = 0 ; ii < _table.length ; ii++)
-            _table[ii] = null;
+        modCount++;
+        size = 0;
+        for (int ii = 0 ; ii < table.length ; ii++)
+            table[ii] = null;
     }
 
 
@@ -168,24 +167,24 @@ implements Serializable
      */
     public void put(K key, V value)
     {
-        if (_filledSlots >= _resizeThreshold)
+        if (filledSlots >= resizeThreshold)
             resize();
 
         int index = index(key);
-        HashEntry<K,V> current = findEntry(_table[index], key, value);
-        if ((current != null) && (_behavior == Behavior.SET))
+        HashEntry<K,V> current = findEntry(table[index], key, value);
+        if ((current != null) && (behavior == Behavior.SET))
             return;
 
         if (current == null)
-            current = _table[index];
+            current = table[index];
         current = skipToEnd(current);
 
-        _size++;
-        _modCount++;
+        size++;
+        modCount++;
         if (current == null)
         {
-            _table[index] = new HashEntry<K,V>(key, value, null);
-            _filledSlots++; // won't actually resize until next put()
+            table[index] = new HashEntry<K,V>(key, value, null);
+            filledSlots++; // won't actually resize until next put()
         }
         else
             current.next = new HashEntry<K,V>(key, value, null);
@@ -210,7 +209,7 @@ implements Serializable
      */
     public Collection<V> getAll(K key)
     {
-        Collection<V> result = (_behavior == Behavior.LIST)
+        Collection<V> result = (behavior == Behavior.LIST)
                              ? new ArrayList<V>()
                              : new HashSet<V>();
 
@@ -399,7 +398,7 @@ implements Serializable
             Collection<V> coll = result.get(entry.getKey());
             if (coll == null)
             {
-                coll = _behavior == Behavior.LIST
+                coll = behavior == Behavior.LIST
                      ? new ArrayList<V>()
                      : new HashSet<V>();
                 result.put(entry.getKey(), coll);
@@ -408,7 +407,6 @@ implements Serializable
         }
         return result;
     }
-
 
 //----------------------------------------------------------------------------
 //  Object overrides
@@ -506,16 +504,19 @@ implements Serializable
             + "]";
         }
 
+        @Override
         public KK getKey()
         {
             return key;
         }
 
+        @Override
         public VV getValue()
         {
             return value;
         }
 
+        @Override
         public VV setValue(VV value)
         {
             throw new UnsupportedOperationException();
@@ -525,32 +526,32 @@ implements Serializable
 
     private int index(K key)
     {
-        return key.hashCode() & _mask;
+        return key.hashCode() & mask;
     }
 
 
     private HashEntry<K,V> findFirstEntry(K key)
     {
-        return findEntry(_table[index(key)], key);
+        return findEntry(table[index(key)], key);
     }
 
 
     private HashEntry<K,V> findFirstEntry(K key, V value)
     {
-        return findEntry(_table[index(key)], key, value);
+        return findEntry(table[index(key)], key, value);
     }
 
 
     private HashEntry<K,V> findEntry(HashEntry<K,V> current, K key)
     {
-        _prev = null;
+        prev = null;
         while (current != null)
         {
             if (current.isEqualTo(key))
                 return current;
             else
             {
-                _prev = current;
+                prev = current;
                 current = current.next;
             }
         }
@@ -560,14 +561,14 @@ implements Serializable
 
     private HashEntry<K,V> findEntry(HashEntry<K,V> current, K key, V value)
     {
-        _prev = null;
+        prev = null;
         while (current != null)
         {
             if (current.isEqualTo(key, value))
                 return current;
             else
             {
-                _prev = current;
+                prev = current;
                 current = current.next;
             }
         }
@@ -586,19 +587,19 @@ implements Serializable
     private void resize()
     {
         // there might come a time where we can't resize
-        if ((_mask & 0x40000000) != 0)
+        if ((mask & 0x40000000) != 0)
         {
             // and if we ever it this, well, time to write a new class
-            _resizeThreshold = Integer.MAX_VALUE;
+            resizeThreshold = Integer.MAX_VALUE;
             return;
         }
 
-        HashEntry<K,V>[] oldTable = _table;
+        HashEntry<K,V>[] oldTable = table;
 
-        _modCount++;
-        _table = new HashEntry[oldTable.length * 2];
-        _mask = (_mask << 1) | 1;
-        _resizeThreshold *= 2;
+        modCount++;
+        table = new HashEntry[oldTable.length * 2];
+        mask = (mask << 1) | 1;
+        resizeThreshold *= 2;
 
         // the entries are already in the correct order, we just need to assign
         // them to new buckets; rather than pay the cost of walking destination
@@ -609,9 +610,9 @@ implements Serializable
             // we'll lazily update the "next" pointers, which makes this loop easy
             for (HashEntry<K,V> current = oldTable[ii] ; current != null ; current = current.next)
             {
-                int newSlot = current.key.hashCode() & _mask;
-                if (_table[newSlot] == null)
-                    _table[newSlot] = current;
+                int newSlot = current.key.hashCode() & mask;
+                if (table[newSlot] == null)
+                    table[newSlot] = current;
 
                 if (tmpTable[newSlot] != null)
                 {
@@ -622,13 +623,13 @@ implements Serializable
         }
 
         // now we have to cap the new chains, and update the slot count as a bonus
-        _filledSlots = 0;
+        filledSlots = 0;
         for (int ii = 0 ; ii < tmpTable.length ; ii++)
         {
             if (tmpTable[ii] != null)
             {
                 tmpTable[ii].next = null;
-                _filledSlots++;
+                filledSlots++;
             }
         }
     }
@@ -641,17 +642,17 @@ implements Serializable
     private class KeyIterable
     implements Iterable<V>
     {
-        private K _myKey;
+        private K myKey;
 
         public KeyIterable(K key)
         {
-            _myKey = key;
+            myKey = key;
         }
 
-
+        @Override
         public Iterator<V> iterator()
         {
-            return new KeyIterator(_myKey);
+            return new KeyIterator(myKey);
         }
     }
 
@@ -659,52 +660,55 @@ implements Serializable
     private class KeyIterator
     implements Iterator<V>
     {
-        protected int _myModCount;
-        protected K _myKey;
-        protected HashEntry<K,V> _pred;           // predecessor of _current
-        protected HashEntry<K,V> _current;        // to be returned by next()
-        protected HashEntry<K,V> _last;           // previously returned by next()
+        protected int myModCount;
+        protected K myKey;
+        protected HashEntry<K,V> pred;           // predecessor of current
+        protected HashEntry<K,V> current;        // to be returned by next()
+        protected HashEntry<K,V> last;           // previously returned by next()
 
         public KeyIterator(K key)
         {
-            _myModCount = _modCount;
-            _myKey = key;
-            _current = findFirstEntry(key);
-            _pred = _prev;
+            this.myModCount = modCount;
+            this.myKey = key;
+            this.current = findFirstEntry(key);
+            this.pred = prev;
         }
 
+        @Override
         public boolean hasNext()
         {
-            if (_myModCount != _modCount)
+            if (myModCount != modCount)
                 throw new ConcurrentModificationException();
 
-            return _current != null;
+            return current != null;
         }
 
+        @Override
         public V next()
         {
             if (!hasNext())
-                throw new NoSuchElementException("no more values for: " + _myKey);
+                throw new NoSuchElementException("no more values for: " + myKey);
 
-            if (_current != null)
+            if (current != null)
             {
-                _last = _current;
-                _pred = _prev;
-                _current = findEntry(_current.next, _myKey);
+                last = current;
+                pred = prev;
+                current = findEntry(current.next, myKey);
             }
-            return _last.value;
+            return last.value;
         }
 
+        @Override
         public void remove()
         {
-            if (_last == null)
+            if (last == null)
                 throw new IllegalStateException("must call next()");
-            if (_pred == null)
-                _table[index(_myKey)] = _last.next;
+            if (pred == null)
+                table[index(myKey)] = last.next;
             else
-                _pred.next = _last.next;
-            _size--;
-            _myModCount = ++_modCount;
+                pred.next = last.next;
+            size--;
+            myModCount = ++modCount;
         }
     }
 
@@ -713,29 +717,29 @@ implements Serializable
     extends KeyIterator
     implements Iterator<V>
     {
-        private V _myValue;
+        private V myValue;
 
         public KeyValueIterator(K key, V value)
         {
             super(key);
-            _myValue = value;
-            _current = findFirstEntry(key, value);
-            _pred = _prev;
+            myValue = value;
+            current = findFirstEntry(key, value);
+            pred = prev;
         }
 
         @Override
         public V next()
         {
             if (!hasNext())
-                throw new NoSuchElementException("no more values for: " + _myKey);
+                throw new NoSuchElementException("no more values for: " + myKey);
 
-            if (_current != null)
+            if (current != null)
             {
-                _last = _current;
-                _pred = _prev;
-                _current = findEntry(_current.next, _myKey, _myValue);
+                last = current;
+                pred = prev;
+                current = findEntry(current.next, myKey, myValue);
             }
-            return _last.value;
+            return last.value;
         }
     }
 
@@ -743,35 +747,38 @@ implements Serializable
     private class InternalEntryIterator
     implements Iterator<HashEntry<K,V>>
     {
-        protected int _myModCount;
-        protected int _tableIndex;
-        protected HashEntry<K,V> _current;
+        protected int myModCount;
+        protected int tableIndex;
+        protected HashEntry<K,V> current;
 
         public InternalEntryIterator()
         {
-            _myModCount = _modCount;
-            _tableIndex = 0;
+            myModCount = modCount;
+            tableIndex = 0;
             findNext();
         }
 
+        @Override
         public boolean hasNext()
         {
-            if (_myModCount != _modCount)
+            if (myModCount != modCount)
                 throw new ConcurrentModificationException();
 
-            return _current != null;
+            return current != null;
         }
 
+        @Override
         public HashEntry<K,V> next()
         {
             if (!hasNext())
                 throw new NoSuchElementException("end of entry iterator");
 
-            HashEntry<K,V> ret = _current;
+            HashEntry<K,V> ret = current;
             findNext();
             return ret;
         }
 
+        @Override
         public void remove()
         {
             throw new UnsupportedOperationException();
@@ -779,11 +786,11 @@ implements Serializable
 
         private void findNext()
         {
-            if (_current != null)
-                _current = _current.next;
+            if (current != null)
+                current = current.next;
 
-            while ((_current == null) && (_tableIndex < _table.length))
-                _current = _table[_tableIndex++];
+            while ((current == null) && (tableIndex < table.length))
+                current = table[tableIndex++];
         }
     }
 
@@ -792,21 +799,24 @@ implements Serializable
     private class PublicEntryIterator
     implements Iterator<Map.Entry<K,V>>
     {
-        private InternalEntryIterator _realItx = new InternalEntryIterator();
+        private InternalEntryIterator realItx = new InternalEntryIterator();
 
+        @Override
         public boolean hasNext()
         {
-            return _realItx.hasNext();
+            return realItx.hasNext();
         }
 
+        @Override
         public Entry<K,V> next()
         {
-            return _realItx.next();
+            return realItx.next();
         }
 
+        @Override
         public void remove()
         {
-            _realItx.remove();
+            realItx.remove();
         }
     }
 
@@ -817,6 +827,6 @@ implements Serializable
 
     protected int getTableSize()
     {
-        return _table.length;
+        return table.length;
     }
 }

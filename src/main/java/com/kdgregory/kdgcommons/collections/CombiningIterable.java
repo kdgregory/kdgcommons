@@ -69,7 +69,7 @@ implements Iterable<T>
     }
 
 
-
+    @Override
     public Iterator<T> iterator()
     {
         LinkedList<Iterator<T>> iterators = new LinkedList<Iterator<T>>();
@@ -86,46 +86,49 @@ implements Iterable<T>
     public static class CombiningIterator<E>
     implements Iterator<E>
     {
-        private LinkedList<Iterator<E>> _iterators;
-        private Iterator<E> _curItx;
+        private LinkedList<Iterator<E>> iterators;
+        private Iterator<E> curItx;
 
         public CombiningIterator(Iterator<E>... iterators)
         {
-            _iterators = new LinkedList<Iterator<E>>();
+            this.iterators = new LinkedList<Iterator<E>>();
             for (Iterator<E> itx : iterators)
-                _iterators.add(itx);
+                this.iterators.add(itx);
         }
 
         public CombiningIterator(LinkedList<Iterator<E>> iterators)
         {
-            _iterators = iterators;
+            this.iterators = iterators;
         }
 
+        @Override
         public boolean hasNext()
         {
-            if ((_curItx != null) && _curItx.hasNext())
+            if ((curItx != null) && curItx.hasNext())
                 return true;
 
-            if (_iterators.size() == 0)
+            if (iterators.size() == 0)
                 return false;
 
-            _curItx = _iterators.removeFirst();
+            curItx = iterators.removeFirst();
             return hasNext();
 
         }
 
+        @Override
         public E next()
         {
             if (hasNext())
-                return _curItx.next();
+                return curItx.next();
             else
                 throw new NoSuchElementException();
         }
 
+        @Override
         public void remove()
         {
-            if (_curItx != null)
-                _curItx.remove();
+            if (curItx != null)
+                curItx.remove();
         }
     }
 }

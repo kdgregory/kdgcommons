@@ -28,39 +28,39 @@ import java.io.OutputStream;
 public class CloseBlockingOutputStream
 extends OutputStream
 {
-    private OutputStream _delegate;
+    private OutputStream delegate;
 
     public CloseBlockingOutputStream(OutputStream delegate)
     {
-        _delegate = delegate;
+        this.delegate = delegate;
     }
 
 
     @Override
     public void write(int b) throws IOException
     {
-        _delegate.write(b);
+        delegate.write(b);
     }
 
 
     @Override
     public void write(byte[] b) throws IOException
     {
-        _delegate.write(b);
+        delegate.write(b);
     }
 
 
     @Override
     public void write(byte[] b, int off, int len) throws IOException
     {
-        _delegate.write(b, off, len);
+        delegate.write(b, off, len);
     }
 
 
     @Override
     public void flush() throws IOException
     {
-        _delegate.flush();
+        delegate.flush();
     }
 
 

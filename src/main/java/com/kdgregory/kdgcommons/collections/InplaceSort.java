@@ -35,6 +35,12 @@ import java.util.List;
  */
 public class InplaceSort
 {
+    private InplaceSort()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Implementations of this class compare two primitive <code>int</code>s,
      *  returning the same values as <code>java.util.Comparator</code>.
@@ -331,39 +337,43 @@ public class InplaceSort
     private static class IntArrayAccessor
     implements Accessor
     {
-        private int[] _array;
-        private int _start;
-        private int _end;
-        private IntComparator _comparator;
+        private int[] array;
+        private int start;
+        private int end;
+        private IntComparator comparator;
 
         public IntArrayAccessor(int[] array, int start, int end, IntComparator comparator)
         {
-            _array = array;
-            _start = start;
-            _end = end;
-            _comparator = comparator;
+            this.array = array;
+            this.start = start;
+            this.end = end;
+            this.comparator = comparator;
         }
 
+        @Override
         public int start()
         {
-            return _start;
+            return start;
         }
 
+        @Override
         public int end()
         {
-            return _end;
+            return end;
         }
 
+        @Override
         public int compare(int index1, int index2)
         {
-            return _comparator.compare(_array[index1], _array[index2]);
+            return comparator.compare(array[index1], array[index2]);
         }
 
+        @Override
         public void swap(int index1, int index2)
         {
-            int tmp = _array[index1];
-            _array[index1] = _array[index2];
-            _array[index2] = tmp;
+            int tmp = array[index1];
+            array[index1] = array[index2];
+            array[index2] = tmp;
         }
     }
 
@@ -374,39 +384,43 @@ public class InplaceSort
     private static class ObjectArrayAccessor<T extends Object>
     implements Accessor
     {
-        private T[] _array;
-        private int _start;
-        private int _end;
-        private Comparator<T> _comparator;
+        private T[] array;
+        private int start;
+        private int end;
+        private Comparator<T> comparator;
 
         public ObjectArrayAccessor(T[] array, int start, int end, Comparator<T> comparator)
         {
-            _array = array;
-            _start = start;
-            _end = end;
-            _comparator = comparator;
+            this.array = array;
+            this.start = start;
+            this.end = end;
+            this.comparator = comparator;
         }
 
+        @Override
         public int start()
         {
-            return _start;
+            return start;
         }
 
+        @Override
         public int end()
         {
-            return _end;
+            return end;
         }
 
+        @Override
         public int compare(int index1, int index2)
         {
-            return _comparator.compare(_array[index1], _array[index2]);
+            return comparator.compare(array[index1], array[index2]);
         }
 
+        @Override
         public void swap(int index1, int index2)
         {
-            T tmp = _array[index1];
-            _array[index1] = _array[index2];
-            _array[index2] = tmp;
+            T tmp = array[index1];
+            array[index1] = array[index2];
+            array[index2] = tmp;
         }
     }
 
@@ -417,39 +431,43 @@ public class InplaceSort
     private static class ListAccessor<T extends Object>
     implements Accessor
     {
-        private List<T> _list;
-        private int _start;
-        private int _end;
-        private Comparator<T> _comparator;
+        private List<T> list;
+        private int start;
+        private int end;
+        private Comparator<T> comparator;
 
         public ListAccessor(List<T> list, int start, int end, Comparator<T> comparator)
         {
-            _list = list;
-            _start = start;
-            _end = end;
-            _comparator = comparator;
+            this.list = list;
+            this.start = start;
+            this.end = end;
+            this.comparator = comparator;
         }
 
+        @Override
         public int start()
         {
-            return _start;
+            return start;
         }
 
+        @Override
         public int end()
         {
-            return _end;
+            return end;
         }
 
+        @Override
         public int compare(int index1, int index2)
         {
-            return _comparator.compare(_list.get(index1), _list.get(index2));
+            return comparator.compare(list.get(index1), list.get(index2));
         }
 
+        @Override
         public void swap(int index1, int index2)
         {
-            T tmp = _list.get(index1);
-            _list.set(index1, _list.get(index2));
-            _list.set(index2, tmp);
+            T tmp = list.get(index1);
+            list.set(index1, list.get(index2));
+            list.set(index2, tmp);
         }
     }
 
@@ -463,6 +481,7 @@ public class InplaceSort
     {
         private static final long serialVersionUID = 1L;
 
+        @Override
         public int compare(T o1, T o2)
         {
             return o1.compareTo(o2);

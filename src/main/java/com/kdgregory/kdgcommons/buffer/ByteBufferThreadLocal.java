@@ -33,16 +33,18 @@ import java.nio.ByteBuffer;
 public class ByteBufferThreadLocal
 extends ThreadLocal<ByteBuffer>
 {
-    private ByteBuffer _src;
+    private ByteBuffer src;
+
 
     public ByteBufferThreadLocal(ByteBuffer src)
     {
-        _src = src;
+        this.src = src;
     }
+
 
     @Override
     protected synchronized ByteBuffer initialValue()
     {
-        return _src.duplicate();
+        return src.duplicate();
     }
 }

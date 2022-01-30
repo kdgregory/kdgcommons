@@ -125,7 +125,6 @@ public class BufferFacadeFactory
         return new MappedFileBufferTLFacade(buf, (int)base);
     }
 
-
 //----------------------------------------------------------------------------
 //  Facade Implementation Classes
 //----------------------------------------------------------------------------
@@ -136,119 +135,138 @@ public class BufferFacadeFactory
     public static class ByteBufferFacade
     implements BufferFacade
     {
-        private ByteBuffer _buf;
-        private int _base;
+        private ByteBuffer buf;
+        private int base;
 
         public ByteBufferFacade(ByteBuffer buf)
         {
-            _buf = buf;
+            this.buf = buf;
         }
 
         public ByteBufferFacade(ByteBuffer buf, int base)
         {
             this(buf);
-            _base = base;
+            this.base = base;
         }
 
+        @Override
         public byte get(long index)
         {
-            return _buf.get((int)index + _base);
+            return buf.get((int)index + base);
         }
 
+        @Override
         public void put(long index, byte value)
         {
-            _buf.put((int)index + _base, value);
+            buf.put((int)index + base, value);
         }
 
+        @Override
         public short getShort(long index)
         {
-            return _buf.getShort((int)index + _base);
+            return buf.getShort((int)index + base);
         }
 
+        @Override
         public void putShort(long index, short value)
         {
-            _buf.putShort((int)index + _base, value);
+            buf.putShort((int)index + base, value);
         }
 
+        @Override
         public int getInt(long index)
         {
-            return _buf.getInt((int)index + _base);
+            return buf.getInt((int)index + base);
         }
 
+        @Override
         public void putInt(long index, int value)
         {
-            _buf.putInt((int)index + _base, value);
+            buf.putInt((int)index + base, value);
         }
 
+        @Override
         public long getLong(long index)
         {
-            return _buf.getLong((int)index + _base);
+            return buf.getLong((int)index + base);
         }
 
+        @Override
         public void putLong(long index, long value)
         {
-            _buf.putLong((int)index + _base, value);
+            buf.putLong((int)index + base, value);
         }
 
+        @Override
         public float getFloat(long index)
         {
-            return _buf.getFloat((int)index + _base);
+            return buf.getFloat((int)index + base);
         }
 
+        @Override
         public void putFloat(long index, float value)
         {
-            _buf.putFloat((int)index + _base, value);
+            buf.putFloat((int)index + base, value);
         }
 
+        @Override
         public double getDouble(long index)
         {
-            return _buf.getDouble((int)index + _base);
+            return buf.getDouble((int)index + base);
         }
 
+        @Override
         public void putDouble(long index, double value)
         {
-            _buf.putDouble((int)index + _base, value);
+            buf.putDouble((int)index + base, value);
         }
 
+        @Override
         public char getChar(long index)
         {
-            return _buf.getChar((int)index + _base);
+            return buf.getChar((int)index + base);
         }
 
+        @Override
         public void putChar(long index, char value)
         {
-            _buf.putChar((int)index + _base, value);
+            buf.putChar((int)index + base, value);
         }
 
+        @Override
         public byte[] getBytes(long index, int len)
         {
-            _buf.position((int)index + _base);
+            buf.position((int)index + base);
 
             byte[] ret = new byte[len];
-            _buf.get(ret);
+            buf.get(ret);
             return ret;
         }
 
+        @Override
         public void putBytes(long index, byte[] value)
         {
-            _buf.position((int)index + _base);
-            _buf.put(value);
+            buf.position((int)index + base);
+            buf.put(value);
         }
 
+        @Override
         public ByteBuffer slice(long index)
         {
-            _buf.position((int)index + _base);
-            return _buf.slice();
+            buf.position((int)index + base);
+            return buf.slice();
         }
 
+        @Override
         public long capacity()
         {
-            return _buf.capacity() - _base;
+            return buf.capacity() - base;
         }
 
+        @Override
         public long limit()
         {
-            return _buf.limit() - _base;
+            return buf.limit() - base;
         }
     }
 
@@ -260,122 +278,141 @@ public class BufferFacadeFactory
     public static class ByteBufferTLFacade
     implements BufferFacade
     {
-        private ByteBufferThreadLocal _tl;
-        private int _base;
+        private ByteBufferThreadLocal tl;
+        private int base;
 
         public ByteBufferTLFacade(ByteBuffer buf)
         {
-            _tl = new ByteBufferThreadLocal(buf);
+            this.tl = new ByteBufferThreadLocal(buf);
         }
 
         public ByteBufferTLFacade(ByteBuffer buf, int base)
         {
             this(buf);
-            _base = base;
+            this.base = base;
         }
 
+        @Override
         public byte get(long index)
         {
-            return _tl.get().get((int)index + _base);
+            return tl.get().get((int)index + base);
         }
 
+        @Override
         public void put(long index, byte value)
         {
-            _tl.get().put((int)index + _base, value);
+            tl.get().put((int)index + base, value);
         }
 
+        @Override
         public short getShort(long index)
         {
-            return _tl.get().getShort((int)index + _base);
+            return tl.get().getShort((int)index + base);
         }
 
+        @Override
         public void putShort(long index, short value)
         {
-            _tl.get().putShort((int)index + _base, value);
+            tl.get().putShort((int)index + base, value);
         }
 
+        @Override
         public int getInt(long index)
         {
-            return _tl.get().getInt((int)index + _base);
+            return tl.get().getInt((int)index + base);
         }
 
+        @Override
         public void putInt(long index, int value)
         {
-            _tl.get().putInt((int)index + _base, value);
+            tl.get().putInt((int)index + base, value);
         }
 
+        @Override
         public long getLong(long index)
         {
-            return _tl.get().getLong((int)index + _base);
+            return tl.get().getLong((int)index + base);
         }
 
+        @Override
         public void putLong(long index, long value)
         {
-            _tl.get().putLong((int)index + _base, value);
+            tl.get().putLong((int)index + base, value);
         }
 
+        @Override
         public float getFloat(long index)
         {
-            return _tl.get().getFloat((int)index + _base);
+            return tl.get().getFloat((int)index + base);
         }
 
+        @Override
         public void putFloat(long index, float value)
         {
-            _tl.get().putFloat((int)index + _base, value);
+            tl.get().putFloat((int)index + base, value);
         }
 
+        @Override
         public double getDouble(long index)
         {
-            return _tl.get().getDouble((int)index + _base);
+            return tl.get().getDouble((int)index + base);
         }
 
+        @Override
         public void putDouble(long index, double value)
         {
-            _tl.get().putDouble((int)index + _base, value);
+            tl.get().putDouble((int)index + base, value);
         }
 
+        @Override
         public char getChar(long index)
         {
-            return _tl.get().getChar((int)index + _base);
+            return tl.get().getChar((int)index + base);
         }
 
+        @Override
         public void putChar(long index, char value)
         {
-            _tl.get().putChar((int)index + _base, value);
+            tl.get().putChar((int)index + base, value);
         }
 
+        @Override
         public byte[] getBytes(long index, int len)
         {
-            ByteBuffer buf = _tl.get();
-            buf.position((int)index + _base);
+            ByteBuffer buf = tl.get();
+            buf.position((int)index + base);
 
             byte[] ret = new byte[len];
             buf.get(ret);
             return ret;
         }
 
+        @Override
         public void putBytes(long index, byte[] value)
         {
-            ByteBuffer buf = _tl.get();
-            buf.position((int)index + _base);
+            ByteBuffer buf = tl.get();
+            buf.position((int)index + base);
             buf.put(value);
         }
 
+        @Override
         public ByteBuffer slice(long index)
         {
-            ByteBuffer buf = _tl.get();
-            buf.position((int)index + _base);
+            ByteBuffer buf = tl.get();
+            buf.position((int)index + base);
             return buf.slice();
         }
 
+        @Override
         public long capacity()
         {
-            return _tl.get().capacity() - _base;
+            return tl.get().capacity() - base;
         }
 
+        @Override
         public long limit()
         {
-            return  _tl.get().limit() - _base;
+            return  tl.get().limit() - base;
         }
     }
 
@@ -388,113 +425,132 @@ public class BufferFacadeFactory
     private static class MappedFileBufferFacade
     implements BufferFacade
     {
-        private MappedFileBuffer _buf;
-        private long _base;
+        private MappedFileBuffer buf;
+        private long base;
 
         public MappedFileBufferFacade(MappedFileBuffer buf)
         {
-            _buf = buf;
+            this.buf = buf;
         }
 
         public MappedFileBufferFacade(MappedFileBuffer buf, long base)
         {
             this(buf);
-            _base = base;
+            this.base = base;
         }
 
+        @Override
         public byte get(long index)
         {
-            return _buf.get(index + _base);
+            return buf.get(index + base);
         }
 
+        @Override
         public void put(long index, byte value)
         {
-            _buf.put(index + _base, value);
+            buf.put(index + base, value);
         }
 
+        @Override
         public short getShort(long index)
         {
-            return _buf.getShort(index + _base);
+            return buf.getShort(index + base);
         }
 
+        @Override
         public void putShort(long index, short value)
         {
-            _buf.putShort(index + _base, value);
+            buf.putShort(index + base, value);
         }
 
+        @Override
         public int getInt(long index)
         {
-            return _buf.getInt(index + _base);
+            return buf.getInt(index + base);
         }
 
+        @Override
         public void putInt(long index, int value)
         {
-            _buf.putInt(index + _base, value);
+            buf.putInt(index + base, value);
         }
 
+        @Override
         public long getLong(long index)
         {
-            return _buf.getLong(index + _base);
+            return buf.getLong(index + base);
         }
 
+        @Override
         public void putLong(long index, long value)
         {
-            _buf.putLong(index + _base, value);
+            buf.putLong(index + base, value);
         }
 
+        @Override
         public float getFloat(long index)
         {
-            return _buf.getFloat(index + _base);
+            return buf.getFloat(index + base);
         }
 
+        @Override
         public void putFloat(long index, float value)
         {
-            _buf.putFloat(index + _base, value);
+            buf.putFloat(index + base, value);
         }
 
+        @Override
         public double getDouble(long index)
         {
-            return _buf.getDouble(index + _base);
+            return buf.getDouble(index + base);
         }
 
+        @Override
         public void putDouble(long index, double value)
         {
-            _buf.putDouble(index + _base, value);
+            buf.putDouble(index + base, value);
         }
 
+        @Override
         public char getChar(long index)
         {
-            return _buf.getChar(index + _base);
+            return buf.getChar(index + base);
         }
 
+        @Override
         public void putChar(long index, char value)
         {
-            _buf.putChar(index + _base, value);
+            buf.putChar(index + base, value);
         }
 
+        @Override
         public byte[] getBytes(long index, int len)
         {
-            return _buf.getBytes(index + _base, len);
+            return buf.getBytes(index + base, len);
         }
 
+        @Override
         public void putBytes(long index, byte[] value)
         {
-            _buf.putBytes(index + _base, value);
+            buf.putBytes(index + base, value);
         }
 
+        @Override
         public ByteBuffer slice(long index)
         {
-            return _buf.slice(index + _base);
+            return buf.slice(index + base);
         }
 
+        @Override
         public long capacity()
         {
-            return _buf.capacity() - _base;
+            return buf.capacity() - base;
         }
 
+        @Override
         public long limit()
         {
-            return  _buf.limit() - _base;
+            return  buf.limit() - base;
         }
     }
 
@@ -506,113 +562,132 @@ public class BufferFacadeFactory
     public static class MappedFileBufferTLFacade
     implements BufferFacade
     {
-        private MappedFileBufferThreadLocal _tl;
-        private long _base;
+        private MappedFileBufferThreadLocal tl;
+        private long base;
 
         public MappedFileBufferTLFacade(MappedFileBuffer buf)
         {
-            _tl = new MappedFileBufferThreadLocal(buf);
+            this.tl = new MappedFileBufferThreadLocal(buf);
         }
 
         public MappedFileBufferTLFacade(MappedFileBuffer buf, long base)
         {
             this(buf);
-            _base = base;
+            this.base = base;
         }
 
+        @Override
         public byte get(long index)
         {
-            return _tl.get().get(index + _base);
+            return tl.get().get(index + base);
         }
 
+        @Override
         public void put(long index, byte value)
         {
-            _tl.get().put(index + _base, value);
+            tl.get().put(index + base, value);
         }
 
+        @Override
         public short getShort(long index)
         {
-            return _tl.get().getShort(index + _base);
+            return tl.get().getShort(index + base);
         }
 
+        @Override
         public void putShort(long index, short value)
         {
-            _tl.get().putShort(index + _base, value);
+            tl.get().putShort(index + base, value);
         }
 
+        @Override
         public int getInt(long index)
         {
-            return _tl.get().getInt(index + _base);
+            return tl.get().getInt(index + base);
         }
 
+        @Override
         public void putInt(long index, int value)
         {
-            _tl.get().putInt(index + _base, value);
+            tl.get().putInt(index + base, value);
         }
 
+        @Override
         public long getLong(long index)
         {
-            return _tl.get().getLong(index + _base);
+            return tl.get().getLong(index + base);
         }
 
+        @Override
         public void putLong(long index, long value)
         {
-            _tl.get().putLong(index + _base, value);
+            tl.get().putLong(index + base, value);
         }
 
+        @Override
         public float getFloat(long index)
         {
-            return _tl.get().getFloat(index + _base);
+            return tl.get().getFloat(index + base);
         }
 
+        @Override
         public void putFloat(long index, float value)
         {
-            _tl.get().putFloat(index + _base, value);
+            tl.get().putFloat(index + base, value);
         }
 
+        @Override
         public double getDouble(long index)
         {
-            return _tl.get().getDouble(index + _base);
+            return tl.get().getDouble(index + base);
         }
 
+        @Override
         public void putDouble(long index, double value)
         {
-            _tl.get().putDouble(index + _base, value);
+            tl.get().putDouble(index + base, value);
         }
 
+        @Override
         public char getChar(long index)
         {
-            return _tl.get().getChar(index + _base);
+            return tl.get().getChar(index + base);
         }
 
+        @Override
         public void putChar(long index, char value)
         {
-            _tl.get().putChar(index + _base, value);
+            tl.get().putChar(index + base, value);
         }
 
+        @Override
         public byte[] getBytes(long index, int len)
         {
-            return _tl.get().getBytes(index + _base, len);
+            return tl.get().getBytes(index + base, len);
         }
 
+        @Override
         public void putBytes(long index, byte[] value)
         {
-            _tl.get().putBytes(index + _base, value);
+            tl.get().putBytes(index + base, value);
         }
 
+        @Override
         public ByteBuffer slice(long index)
         {
-            return _tl.get().slice(index + _base);
+            return tl.get().slice(index + base);
         }
 
+        @Override
         public long capacity()
         {
-            return _tl.get().capacity() - _base;
+            return tl.get().capacity() - base;
         }
 
+        @Override
         public long limit()
         {
-            return  _tl.get().limit() - _base;
+            return  tl.get().limit() - base;
         }
     }
 }

@@ -35,6 +35,12 @@ import com.kdgregory.kdgcommons.collections.HashMultimap;
  */
 public class ClassUtil
 {
+    private ClassUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Converts the "internal" name of a class (eg: <code>[Ljava/lang/String;</code>)
      *  to its"external" representation (eg: <code>java.lang.String[]</code>).

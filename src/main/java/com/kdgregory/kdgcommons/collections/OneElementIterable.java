@@ -25,37 +25,41 @@ import java.util.NoSuchElementException;
 public class OneElementIterable<T>
 implements Iterable<T>
 {
-    private T _value;
+    private T value;
 
 
     public OneElementIterable(T value)
     {
-        _value = value;
+        this.value = value;
     }
 
 
+    @Override
     public Iterator<T> iterator()
     {
         return new Iterator<T>()
         {
             private boolean hasNext = true;
 
+            @Override
             public boolean hasNext()
             {
                 return hasNext;
             }
 
+            @Override
             public T next()
             {
                 if (hasNext)
                 {
                     hasNext = false;
-                    return _value;
+                    return value;
                 }
                 else
                     throw new NoSuchElementException();
             }
 
+            @Override
             public void remove()
             {
                 throw new UnsupportedOperationException("read-only collection");

@@ -24,39 +24,39 @@ public class TestTeeInputStream extends TestCase
 {
     private final static String TEST_DATA = "Hello, World";
 
-    private ByteArrayInputStream _base;
-    private ByteArrayOutputStream _tee;
-    private TeeInputStream _test;
+    private ByteArrayInputStream base;
+    private ByteArrayOutputStream tee;
+    private TeeInputStream test;
 
 
     @Override
     protected void setUp() throws Exception
     {
-        _base = new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"));
-        _tee = new ByteArrayOutputStream();
-        _test = new TeeInputStream(_base, _tee);
+        base = new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"));
+        tee = new ByteArrayOutputStream();
+        test = new TeeInputStream(base, tee);
     }
 
 
     public void testAvailable() throws Exception
     {
-        assertEquals(_base.available(), _test.available());
+        assertEquals(base.available(), test.available());
     }
 
 
     public void testReadSingleBytes() throws Exception
     {
-        int b = _test.read();
+        int b = test.read();
         assertEquals((int)TEST_DATA.charAt(0), b);
 
-        byte[] out = _tee.toByteArray();
+        byte[] out = tee.toByteArray();
         assertEquals(1, out.length);
         assertEquals((int)TEST_DATA.charAt(0), (int)out[0]);
 
-        int b2 = _test.read();
+        int b2 = test.read();
         assertEquals((int)TEST_DATA.charAt(1), b2);
 
-        byte[] out2 = _tee.toByteArray();
+        byte[] out2 = tee.toByteArray();
         assertEquals(2, out2.length);
         assertEquals((int)TEST_DATA.charAt(0), (int)out2[0]);
         assertEquals((int)TEST_DATA.charAt(1), (int)out2[1]);
@@ -65,18 +65,18 @@ public class TestTeeInputStream extends TestCase
 
     public void testReadSingleByteAtEOF() throws Exception
     {
-        _test = new TeeInputStream(new ByteArrayInputStream(new byte[0]),
-                                   _tee);
-        int b = _test.read();
+        test = new TeeInputStream(new ByteArrayInputStream(new byte[0]),
+                                   tee);
+        int b = test.read();
         assertEquals(-1, b);
 
-        byte[] out = _tee.toByteArray();
+        byte[] out = tee.toByteArray();
         assertEquals(0, out.length);
 
-        int b2 = _test.read();
+        int b2 = test.read();
         assertEquals(-1, b2);
 
-        byte[] out2 = _tee.toByteArray();
+        byte[] out2 = tee.toByteArray();
         assertEquals(0, out2.length);
     }
 
@@ -84,12 +84,12 @@ public class TestTeeInputStream extends TestCase
     public void testReadIntoBuffer() throws Exception
     {
         byte[] buf = new byte[3];
-        assertEquals(3, _test.read(buf));
+        assertEquals(3, test.read(buf));
         assertEquals((byte)TEST_DATA.charAt(0), buf[0]);
         assertEquals((byte)TEST_DATA.charAt(1), buf[1]);
         assertEquals((byte)TEST_DATA.charAt(2), buf[2]);
 
-        byte[] out = _tee.toByteArray();
+        byte[] out = tee.toByteArray();
         assertEquals(3, out.length);
         assertEquals((byte)TEST_DATA.charAt(0), out[0]);
         assertEquals((byte)TEST_DATA.charAt(1), out[1]);
@@ -100,9 +100,9 @@ public class TestTeeInputStream extends TestCase
     public void testReadIntoOversizedBuffer() throws Exception
     {
         byte[] buf = new byte[1024];
-       assertEquals(TEST_DATA.length(), _test.read(buf));
+       assertEquals(TEST_DATA.length(), test.read(buf));
 
-        byte[] out = _tee.toByteArray();
+        byte[] out = tee.toByteArray();
         assertEquals(TEST_DATA.length(), out.length);
     }
 
@@ -110,14 +110,14 @@ public class TestTeeInputStream extends TestCase
     public void testReadIntoBufferWithOffset() throws Exception
     {
         byte[] buf = new byte[5];
-        assertEquals(3, _test.read(buf, 1, 3));
+        assertEquals(3, test.read(buf, 1, 3));
         assertEquals((byte)0, buf[0]);
         assertEquals((byte)TEST_DATA.charAt(0), buf[1]);
         assertEquals((byte)TEST_DATA.charAt(1), buf[2]);
         assertEquals((byte)TEST_DATA.charAt(2), buf[3]);
         assertEquals((byte)0, buf[4]);
 
-        byte[] out = _tee.toByteArray();
+        byte[] out = tee.toByteArray();
         assertEquals(3, out.length);
         assertEquals((byte)TEST_DATA.charAt(0), out[0]);
         assertEquals((byte)TEST_DATA.charAt(1), out[1]);
@@ -127,23 +127,23 @@ public class TestTeeInputStream extends TestCase
 
     public void testMarkAndReset() throws Exception
     {
-        assertTrue(_test.markSupported());
+        assertTrue(test.markSupported());
 
         byte[] buf = new byte[3];
 
-        _test.mark(10);
-        assertEquals(3, _test.read(buf));
+        test.mark(10);
+        assertEquals(3, test.read(buf));
         assertEquals((byte)TEST_DATA.charAt(0), buf[0]);
         assertEquals((byte)TEST_DATA.charAt(1), buf[1]);
         assertEquals((byte)TEST_DATA.charAt(2), buf[2]);
 
-        _test.reset();
-        assertEquals(3, _test.read(buf));
+        test.reset();
+        assertEquals(3, test.read(buf));
         assertEquals((byte)TEST_DATA.charAt(0), buf[0]);
         assertEquals((byte)TEST_DATA.charAt(1), buf[1]);
         assertEquals((byte)TEST_DATA.charAt(2), buf[2]);
 
-        byte[] out = _tee.toByteArray();
+        byte[] out = tee.toByteArray();
         assertEquals(6, out.length);
         assertEquals((byte)TEST_DATA.charAt(0), out[0]);
         assertEquals((byte)TEST_DATA.charAt(1), out[1]);
@@ -158,19 +158,19 @@ public class TestTeeInputStream extends TestCase
     {
         byte[] buf = new byte[3];
 
-        assertEquals(2, _test.skip(2L));
-        assertEquals(3, _test.read(buf));
+        assertEquals(2, test.skip(2L));
+        assertEquals(3, test.read(buf));
         assertEquals((byte)TEST_DATA.charAt(2), buf[0]);
         assertEquals((byte)TEST_DATA.charAt(3), buf[1]);
         assertEquals((byte)TEST_DATA.charAt(4), buf[2]);
 
-        assertEquals(4, _test.skip(4L));
-        assertEquals(3, _test.read(buf));
+        assertEquals(4, test.skip(4L));
+        assertEquals(3, test.read(buf));
         assertEquals((byte)TEST_DATA.charAt(9), buf[0]);
         assertEquals((byte)TEST_DATA.charAt(10), buf[1]);
         assertEquals((byte)TEST_DATA.charAt(11), buf[2]);
 
-        byte[] out = _tee.toByteArray();
+        byte[] out = tee.toByteArray();
         assertEquals(6, out.length);
         assertEquals((byte)TEST_DATA.charAt(2), out[0]);
         assertEquals((byte)TEST_DATA.charAt(3), out[1]);
@@ -184,15 +184,15 @@ public class TestTeeInputStream extends TestCase
     // cross-library regression test
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {
-        _base = new ByteArrayInputStream(new byte[] { 0x01, (byte)0xFF, 0x02 });
-        _test = new TeeInputStream(_base, _tee);
+        base = new ByteArrayInputStream(new byte[] { 0x01, (byte)0xFF, 0x02 });
+        test = new TeeInputStream(base, tee);
 
-        assertEquals(0x01, _test.read());
-        assertEquals(0xFF, _test.read());
-        assertEquals(0x02, _test.read());
-        assertEquals(-1, _test.read());
+        assertEquals(0x01, test.read());
+        assertEquals(0xFF, test.read());
+        assertEquals(0x02, test.read());
+        assertEquals(-1, test.read());
 
-        byte[] bytes = _tee.toByteArray();
+        byte[] bytes = tee.toByteArray();
         assertEquals(3, bytes.length);
         assertEquals(0x01, bytes[0]);
         assertEquals(0xFF, bytes[1] & 0xFF);

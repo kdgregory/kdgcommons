@@ -36,8 +36,8 @@ import com.kdgregory.kdgcommons.util.HexDump;
 public class HexDumpOutputStream
 extends OutputStream
 {
-    private HexDump _dumper;
-    private PrintWriter _out;
+    private HexDump dumper;
+    private PrintWriter out;
 
 
     /**
@@ -50,8 +50,8 @@ extends OutputStream
      */
     public HexDumpOutputStream(PrintWriter out, char replacement)
     {
-        _dumper = new HexDump(16, true, 8, 2, true, 4, true, replacement);
-        _out = out;
+        this.dumper = new HexDump(16, true, 8, 2, true, 4, true, replacement);
+        this.out = out;
     }
 
 
@@ -65,7 +65,7 @@ extends OutputStream
     }
 
 //----------------------------------------------------------------------------
-//  Implementation of OutputStream
+//  OutputStream
 //----------------------------------------------------------------------------
 
     /**
@@ -74,14 +74,14 @@ extends OutputStream
     @Override
     public void close() throws IOException
     {
-        _out.close();
+        out.close();
     }
 
 
     @Override
     public void write(byte[] b, int off, int len) throws IOException
     {
-        _dumper.write(_out, b, off, len);
+        dumper.write(out, b, off, len);
     }
 
 

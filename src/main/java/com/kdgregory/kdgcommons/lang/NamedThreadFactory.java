@@ -33,11 +33,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class NamedThreadFactory
 implements ThreadFactory
 {
-    private String _prefix;
-    private ThreadGroup _group;
-    private int _priority;
-    private boolean _isDaemon;
-    private AtomicInteger _counter = new AtomicInteger(0);
+    private String prefix;
+    private ThreadGroup group;
+    private int priority;
+    private boolean isDaemon;
+    private AtomicInteger counter = new AtomicInteger(0);
 
 
     /**
@@ -62,23 +62,23 @@ implements ThreadFactory
      */
     public NamedThreadFactory(String prefix, ThreadGroup group, int priority, boolean isDaemon)
     {
-        _prefix = prefix;
-        _group = group;
-        _priority = priority;
-        _isDaemon = isDaemon;
+        this.prefix = prefix;
+        this.group = group;
+        this.priority = priority;
+        this.isDaemon = isDaemon;
     }
-
 
 //----------------------------------------------------------------------------
 //  ThreadFactory
 //----------------------------------------------------------------------------
 
+    @Override
     public Thread newThread(Runnable r)
     {
-        String name = _prefix + "-thread-" + _counter.getAndIncrement();
-        Thread ret = new Thread(_group, r, name);
-        ret.setPriority(_priority);
-        ret.setDaemon(_isDaemon);
+        String name = prefix + "-thread-" + counter.getAndIncrement();
+        Thread ret = new Thread(group, r, name);
+        ret.setPriority(priority);
+        ret.setDaemon(isDaemon);
         return ret;
     }
 }

@@ -22,6 +22,12 @@ package com.kdgregory.kdgcommons.lang;
  */
 public class StringBuilderUtil
 {
+    private StringBuilderUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Appends N copies of the same character to the end of a builder.
      */

@@ -29,6 +29,12 @@ import junit.framework.Assert;
  */
 public class ArrayAsserts
 {
+    private ArrayAsserts()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Compares two byte arrays, with user-defined message prefix.
      */

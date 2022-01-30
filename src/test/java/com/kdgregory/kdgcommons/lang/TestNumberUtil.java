@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 
 public class TestNumberUtil extends TestCase
 {
-
     public void testParse() throws Exception
     {
         String str = "123";

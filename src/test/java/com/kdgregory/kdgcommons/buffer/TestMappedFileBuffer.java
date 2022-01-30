@@ -26,13 +26,11 @@ import java.util.Random;
 
 import junit.framework.TestCase;
 
-import com.kdgregory.kdgcommons.io.IOUtil;
-
 
 public class TestMappedFileBuffer
 extends TestCase
 {
-    private File _testFile;
+    private File testFile;
 
 
     @Override
@@ -40,8 +38,8 @@ extends TestCase
     throws IOException
     {
 
-        _testFile = File.createTempFile("TestMappedFileBuffer", ".tmp");
-        _testFile.deleteOnExit();
+        testFile = File.createTempFile("TestMappedFileBuffer", ".tmp");
+        testFile.deleteOnExit();
     }
 
 
@@ -50,7 +48,7 @@ extends TestCase
     throws IOException
     {
         // yes, we've set delete-on-exit, but let's be explicit
-        _testFile.delete();
+        testFile.delete();
     }
 
 
@@ -65,19 +63,13 @@ extends TestCase
     private void writeDefaultContent(int length)
     throws Exception
     {
-        FileOutputStream fos = new FileOutputStream(_testFile);
-        try
+        try (FileOutputStream fos = new FileOutputStream(testFile);
+             BufferedOutputStream out = new BufferedOutputStream(fos))
         {
-            BufferedOutputStream out = new BufferedOutputStream(fos);
             for (int ii = 0 ; ii < length ; ii++)
                 out.write(ii % 256);
             out.flush();
             out.close();
-        }
-        catch (Exception ex)
-        {
-            IOUtil.closeQuietly(fos);
-            throw ex;
         }
     }
 
@@ -85,16 +77,13 @@ extends TestCase
     private void writeExplicitContent(long offset, int... bytes)
     throws Exception
     {
-        RandomAccessFile out = new RandomAccessFile(_testFile, "rwd");
-        try
+        try (RandomAccessFile out = new RandomAccessFile(testFile, "rwd"))
         {
             out.seek(offset);
             for (int b : bytes)
+            {
                 out.write(b);
-        }
-        finally
-        {
-            IOUtil.closeQuietly(out);
+            }
         }
     }
 
@@ -106,9 +95,9 @@ extends TestCase
     public void testSmallFileSingleSegmentReadWrite() throws Exception
     {
         writeDefaultContent(256);
-        assertEquals(256L, _testFile.length());     // test the test!
+        assertEquals(256L, testFile.length());     // test the test!
 
-        MappedFileBuffer buf = new MappedFileBuffer(_testFile, 1024, true);
+        MappedFileBuffer buf = new MappedFileBuffer(testFile, 1024, true);
         assertEquals(256L, buf.capacity());
 
         // check for default byte pattern
@@ -145,7 +134,7 @@ extends TestCase
     public void testMediumFileMultipleSegments() throws Exception
     {
         writeExplicitContent(8192, 0x00);
-        MappedFileBuffer buf = new MappedFileBuffer(_testFile, 1024, true);
+        MappedFileBuffer buf = new MappedFileBuffer(testFile, 1024, true);
 
         for (int ii = 0 ; ii < 8 ; ii++)
         {
@@ -181,7 +170,7 @@ extends TestCase
     {
         // we want zeros in the buffer so that we can verify our offsets
         writeExplicitContent(8191, 0x00);
-        MappedFileBuffer buf = new MappedFileBuffer(_testFile, 1024, true);
+        MappedFileBuffer buf = new MappedFileBuffer(testFile, 1024, true);
 
         // whitebox test: an offset just below a segment boundary, which will
         // ensure that we have properly overlapping segments
@@ -215,7 +204,7 @@ extends TestCase
     public void testSetOrder() throws Exception
     {
         writeDefaultContent(8192);
-        MappedFileBuffer buf = new MappedFileBuffer(_testFile, 1024, true);
+        MappedFileBuffer buf = new MappedFileBuffer(testFile, 1024, true);
 
         buf.setByteOrder(ByteOrder.BIG_ENDIAN);
         assertEquals(ByteOrder.BIG_ENDIAN, buf.getByteOrder());
@@ -230,7 +219,7 @@ extends TestCase
     public void testFailWriteToReadOnlyBuffer() throws Exception
     {
         writeDefaultContent(8192);
-        MappedFileBuffer buf = new MappedFileBuffer(_testFile, 1024, false);
+        MappedFileBuffer buf = new MappedFileBuffer(testFile, 1024, false);
 
         buf.getInt(8000L);  // verifies that the file was created correctly
 
@@ -249,7 +238,7 @@ extends TestCase
     public void testClone() throws Exception
     {
         writeDefaultContent(8192);
-        MappedFileBuffer buf1 = new MappedFileBuffer(_testFile, 1024, true);
+        MappedFileBuffer buf1 = new MappedFileBuffer(testFile, 1024, true);
         MappedFileBuffer buf2 = buf1.clone();
 
         // this doesn't really test the documented behavior of clone()
@@ -265,17 +254,17 @@ extends TestCase
     public void testGetFile() throws Exception
     {
         writeDefaultContent(8192);
-        MappedFileBuffer buf = new MappedFileBuffer(_testFile, 1024, true);
+        MappedFileBuffer buf = new MappedFileBuffer(testFile, 1024, true);
 
-        assertSame(_testFile, buf.file());
+        assertSame(testFile, buf.file());
     }
 
 
     public void testIsWritable() throws Exception
     {
         writeDefaultContent(8192);
-        MappedFileBuffer buf1 = new MappedFileBuffer(_testFile, 1024, true);
-        MappedFileBuffer buf2 = new MappedFileBuffer(_testFile, 1024, false);
+        MappedFileBuffer buf1 = new MappedFileBuffer(testFile, 1024, true);
+        MappedFileBuffer buf2 = new MappedFileBuffer(testFile, 1024, false);
 
         assertTrue(buf1.isWritable());
         assertFalse(buf2.isWritable());
@@ -285,7 +274,7 @@ extends TestCase
     public void testBulkOperations() throws Exception
     {
         writeDefaultContent(8192);
-        MappedFileBuffer buf = new MappedFileBuffer(_testFile, 1024, true);
+        MappedFileBuffer buf = new MappedFileBuffer(testFile, 1024, true);
 
         // whitebox test: the variant of getBytes() that creates an array will
         // delegate to the variant that uses an existing array; no need to
@@ -352,7 +341,7 @@ extends TestCase
     public void testBulkOperationFailureAtEndOfFile() throws Exception
     {
         writeDefaultContent(8192);
-        MappedFileBuffer buf = new MappedFileBuffer(_testFile, 1024, true);
+        MappedFileBuffer buf = new MappedFileBuffer(testFile, 1024, true);
 
         try
         {

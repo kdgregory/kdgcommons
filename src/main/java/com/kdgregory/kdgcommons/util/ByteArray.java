@@ -26,13 +26,9 @@ import java.io.UnsupportedEncodingException;
 
 public class ByteArray
 {
-//----------------------------------------------------------------------------
-//  Instance data and constructors
-//----------------------------------------------------------------------------
-
-    protected byte[]    _data;
-    protected int       _size;          // current bytes in array
-    protected int       _expandBy;      // percent to expand when needed
+    protected byte[]    data;
+    protected int       currentSize;
+    protected int       expansionFactor;
 
 
     /**
@@ -46,9 +42,9 @@ public class ByteArray
      */
     public ByteArray(int capacity, int factor)
     {
-        _data = new byte[capacity];
-        _size = 0;
-        _expandBy = factor;
+        this.data = new byte[capacity];
+        this.currentSize = 0;
+        this.expansionFactor = factor;
     }
 
 
@@ -99,7 +95,6 @@ public class ByteArray
         this(64, 25);
     }
 
-
 //----------------------------------------------------------------------------
 //  Public methods
 //----------------------------------------------------------------------------
@@ -110,7 +105,7 @@ public class ByteArray
     public void add(byte val)
     {
         ensureCapacity(1);
-        _data[_size++] = val;
+        data[currentSize++] = val;
     }
 
 
@@ -130,7 +125,7 @@ public class ByteArray
     {
         ensureCapacity(len);
         for (int ii = 0 ; ii < len ; ii++)
-            _data[_size++] = src[off + ii];
+            data[currentSize++] = src[off + ii];
     }
 
 
@@ -171,8 +166,8 @@ public class ByteArray
     public void add(ByteArray src)
     {
         ensureCapacity(src.size());
-        for (int i = 0 ; i < src._size ; i++)
-            _data[_size++] = src._data[i];
+        for (int i = 0 ; i < src.currentSize ; i++)
+            data[currentSize++] = src.data[i];
     }
 
 
@@ -186,10 +181,10 @@ public class ByteArray
      */
     public byte get(int idx)
     {
-        if ((idx < 0) || (idx >= _size))
+        if ((idx < 0) || (idx >= currentSize))
             throw new ArrayIndexOutOfBoundsException(idx);
 
-        return _data[idx];
+        return data[idx];
     }
 
 
@@ -202,7 +197,7 @@ public class ByteArray
      */
     public byte[] getArray()
     {
-        return _data;
+        return data;
     }
 
 
@@ -219,14 +214,14 @@ public class ByteArray
      */
     public byte[] getBytes(int off, int len)
     {
-        if ((off < 0) || (off > _size))
+        if ((off < 0) || (off > currentSize))
             throw new IllegalArgumentException("invalid offset: " + off);
-        if (off + len > _size)
+        if (off + len > currentSize)
             throw new IllegalArgumentException("invalid length: " + len);
 
         byte[] result = new byte[len];
         for (int i = 0 ; i < len ; i++)
-            result[i] = _data[off + i];
+            result[i] = data[off + i];
 
         return result;
     }
@@ -244,7 +239,7 @@ public class ByteArray
      */
     public byte[] getBytes(int off)
     {
-        return getBytes(off, (_size - off));
+        return getBytes(off, (currentSize - off));
     }
 
 
@@ -255,7 +250,7 @@ public class ByteArray
      */
     public byte[] getBytes()
     {
-        return getBytes(0, _size);
+        return getBytes(0, currentSize);
     }
 
 
@@ -331,7 +326,7 @@ public class ByteArray
      */
     public void insert(int off, byte[] src, int srcOff, int srcLen)
     {
-        if ((off < 0) || (off > _size))
+        if ((off < 0) || (off > currentSize))
             throw new IllegalArgumentException("invalid dst offset: " + off);
         if ((srcOff < 0) || (srcOff > src.length))
             throw new IllegalArgumentException("invalid src offset: " + srcOff);
@@ -339,9 +334,9 @@ public class ByteArray
             throw new IllegalArgumentException("invalid src length: " + srcLen);
 
         ensureCapacity(srcLen);
-        System.arraycopy(_data, off, _data, off + srcLen, _size - off);
-        System.arraycopy(src, srcOff, _data, off, srcLen);
-        _size += srcLen;
+        System.arraycopy(data, off, data, off + srcLen, currentSize - off);
+        System.arraycopy(src, srcOff, data, off, srcLen);
+        currentSize += srcLen;
     }
 
 
@@ -372,13 +367,13 @@ public class ByteArray
      */
     public void remove(int off, int len)
     {
-        if ((off < 0) || (off + len >= _size))
+        if ((off < 0) || (off + len >= currentSize))
             throw new IllegalArgumentException("invalid offset/length: " + off + "/" + len);
 
         int srcPos = off + len;
-        int count = _size - srcPos;
-        System.arraycopy(_data, srcPos, _data, off, count);
-        _size -= len;
+        int count = currentSize - srcPos;
+        System.arraycopy(data, srcPos, data, off, count);
+        currentSize -= len;
     }
 
 
@@ -387,8 +382,8 @@ public class ByteArray
      */
     public void removeLast()
     {
-        if (_size > 0)
-            _size--;
+        if (currentSize > 0)
+            currentSize--;
     }
 
 
@@ -397,7 +392,7 @@ public class ByteArray
      */
     public int size()
     {
-        return _size;
+        return currentSize;
     }
 
 
@@ -411,16 +406,10 @@ public class ByteArray
     public void setSize(int size)
     {
         setCapacity(size);
-        for (int ii = _size ; ii < size ; ii++)
-            _data[ii] = (byte)0;
-        _size = size;
+        for (int ii = currentSize ; ii < size ; ii++)
+            data[ii] = (byte)0;
+        currentSize = size;
     }
-
-
-//----------------------------------------------------------------------------
-//  Overrides of Object
-//----------------------------------------------------------------------------
-
 
 //----------------------------------------------------------------------------
 //  Internals
@@ -453,11 +442,11 @@ public class ByteArray
      */
     private void ensureCapacity(int bytes)
     {
-        if ((_size + bytes) < _data.length)
+        if ((currentSize + bytes) < data.length)
             return;
 
-        int newSize = _data.length * _expandBy / 100;
-        setCapacity(Math.max(newSize, (_size + bytes)));
+        int newSize = data.length * expansionFactor / 100;
+        setCapacity(Math.max(newSize, (currentSize + bytes)));
     }
 
 
@@ -468,13 +457,13 @@ public class ByteArray
      */
     private void setCapacity(int size)
     {
-        if (size < _size)
+        if (size < currentSize)
             return;
 
         byte[] newData = new byte[size];
-        for (int ii = 0 ; ii < _size ; ii++)
-            newData[ii] = _data[ii];
+        for (int ii = 0 ; ii < currentSize ; ii++)
+            newData[ii] = data[ii];
 
-        _data = newData;
+        data = newData;
     }
 }

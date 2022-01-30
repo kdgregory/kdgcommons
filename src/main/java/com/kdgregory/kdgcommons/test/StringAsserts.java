@@ -24,6 +24,12 @@ import junit.framework.Assert;
  */
 public class StringAsserts
 {
+    private StringAsserts()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Asserts that the passed string is not empty or null.
      */

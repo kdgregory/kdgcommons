@@ -43,54 +43,54 @@ extends TestCase
     private static class ReadLimitedInputStream
     extends InputStream
     {
-        private int _readLimit;
-        private int _max;
-        private int _next;
-        private boolean _wasClosed = false;
+        private int readLimit;
+        private int max;
+        private int next;
+        private boolean wasClosed = false;
 
         public ReadLimitedInputStream(int readLimit, int max)
         {
-            _readLimit = readLimit;
-            _max = max;
+            this.readLimit = readLimit;
+            this.max = max;
         }
 
         private byte nextByte()
         {
-            return (byte)(_next++ % 128);
+            return (byte)(next++ % 128);
         }
 
         public boolean isClosed()
         {
-            return _wasClosed;
+            return wasClosed;
         }
 
 
         @Override
         public void close() throws IOException
         {
-            _wasClosed = true;
+            wasClosed = true;
         }
 
         @Override
         public int read() throws IOException
         {
-            return (_next < _max) ? nextByte() : -1;
+            return (next < max) ? nextByte() : -1;
         }
 
         @Override
         public synchronized int read(byte[] b, int off, int len)
         {
             int ret = 0;
-            for (int ii = 0 ; ii < Math.min(len, _readLimit) ; ii++)
+            for (int ii = 0 ; ii < Math.min(len, readLimit) ; ii++)
             {
-                if (_next >= _max)
+                if (next >= max)
                     break;
                 b[off + ii] = nextByte();
                 ret++;
             }
             if (ret > 0)
                 return ret;
-            if (_next >= _max)
+            if (next >= max)
                 return -1;
             return 0;
         }
@@ -104,10 +104,10 @@ extends TestCase
         @Override
         public long skip(long n) throws IOException
         {
-            int toSkip = (int)Math.min(_readLimit, n);
-            if ((_next + toSkip) > _max)
-                toSkip = _max - _next;
-            _next += toSkip;
+            int toSkip = (int)Math.min(readLimit, n);
+            if ((next + toSkip) > max)
+                toSkip = max - next;
+            next += toSkip;
             return toSkip;
         }
     }

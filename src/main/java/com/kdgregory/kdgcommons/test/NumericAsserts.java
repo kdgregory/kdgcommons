@@ -22,6 +22,12 @@ import junit.framework.Assert;
  */
 public class NumericAsserts
 {
+    private NumericAsserts()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Asserts that the actual value is equal to the expected, plus or minus a
      *  specified percentage (useful for probabilistic testing).

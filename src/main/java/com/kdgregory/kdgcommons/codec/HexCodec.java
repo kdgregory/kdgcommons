@@ -44,15 +44,15 @@ import com.kdgregory.kdgcommons.lang.StringUtil;
 public class HexCodec
 extends Codec
 {
-    private int _lineLength;
-    private byte[] _separator;
+    private int lineLength;
+    private byte[] separator;
 
     /**
      *  Creates an instance that produces unbroken strings of hex digits.
      */
     public HexCodec()
     {
-        _lineLength = Integer.MAX_VALUE;
+        this.lineLength = Integer.MAX_VALUE;
     }
 
 
@@ -65,8 +65,8 @@ extends Codec
      */
     public HexCodec(int lineLength, String separator)
     {
-        _lineLength = lineLength;
-        _separator = StringUtil.toUTF8(separator);
+        this.lineLength = lineLength;
+        this.separator = StringUtil.toUTF8(separator);
     }
 
 //----------------------------------------------------------------------------
@@ -85,7 +85,6 @@ extends Codec
     {
         new Decoder(in, out).decode();
     }
-
 
 //----------------------------------------------------------------------------
 //  Convenience methods
@@ -113,7 +112,6 @@ extends Codec
         return decode(bytes);
     }
 
-
 //----------------------------------------------------------------------------
 //  Internals
 //----------------------------------------------------------------------------
@@ -139,14 +137,14 @@ extends Codec
 
     private class Encoder
     {
-        private InputStream _in;
-        private OutputStream _out;
-        private int _breakCount;
+        private InputStream in;
+        private OutputStream out;
+        private int breakCount;
 
         public Encoder(InputStream in, OutputStream out)
         {
-            _in = in;
-            _out = out;
+            this.in = in;
+            this.out = out;
         }
 
         public void encode()
@@ -154,12 +152,12 @@ extends Codec
             try
             {
                 int val = 0;
-                while ((val = _in.read()) >= 0)
+                while ((val = in.read()) >= 0)
                 {
                     insertBreakIfNeeded();
-                    _out.write(nibbleToChar[val >> 4]);
-                    _out.write(nibbleToChar[val & 0xF]);
-                    _breakCount += 2;
+                    out.write(nibbleToChar[val >> 4]);
+                    out.write(nibbleToChar[val & 0xF]);
+                    breakCount += 2;
                 }
             }
             catch (CodecException ex)
@@ -175,10 +173,10 @@ extends Codec
         private void insertBreakIfNeeded()
         throws IOException
         {
-            if ((_separator != null) && (_breakCount >= _lineLength))
+            if ((separator != null) && (breakCount >= lineLength))
             {
-                _out.write(_separator);
-                _breakCount = 0;
+                out.write(separator);
+                breakCount = 0;
             }
         }
     }
@@ -186,13 +184,13 @@ extends Codec
 
     private class Decoder
     {
-        private InputStream _in;
-        private OutputStream _out;
+        private InputStream in;
+        private OutputStream out;
 
         public Decoder(InputStream in, OutputStream out)
         {
-            _in = wrapIfNeeded(in, _separator);
-            _out = out;
+            this.in = wrapIfNeeded(in, separator);
+            this.out = out;
         }
 
         public void decode()
@@ -201,16 +199,16 @@ extends Codec
             {
                 while (true)
                 {
-                    skipIfSeparator(_in, _separator);
+                    skipIfSeparator(in, separator);
 
-                    int v1 = nextNonWhitespace(_in);
-                    int v2 = nextNonWhitespace(_in);
+                    int v1 = nextNonWhitespace(in);
+                    int v2 = nextNonWhitespace(in);
                     if ((v1 < 0) || (v2 < 0))
                         return;
 
                     int n1 = charToNibble(v1);
                     int n2 = charToNibble(v2);
-                    _out.write(n1 << 4 | n2);
+                    out.write(n1 << 4 | n2);
                 }
             }
             catch (CodecException ex)

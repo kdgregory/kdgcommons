@@ -26,6 +26,12 @@ import java.util.Map;
  */
 public class JDBCUtil
 {
+    private JDBCUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Executes a query and returns the results, ensuring that the created statement
      *  and resultset are closed.

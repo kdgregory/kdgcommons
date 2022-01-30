@@ -33,11 +33,12 @@ import java.io.InputStream;
 public class CombiningInputStream
 extends InputStream
 {
-    private InputStream[] _constituents;
-    private int _current;
-    private int _marked = -1;
-    private int _markLimit = -1;
+    private InputStream[] constituents;
+    private int current;
+    private int marked = -1;
+    private int markLimit = -1;
 
+    // TODO - add a collection-based constructor
 
     /**
      *  Combines one or more constituent streams.
@@ -48,35 +49,11 @@ extends InputStream
      */
     public CombiningInputStream(InputStream... constituents)
     {
-        _constituents = constituents;
+        this.constituents = constituents;
     }
-
-
-    private boolean isEOF()
-    {
-        return _current == _constituents.length;
-    }
-
-
-    private boolean switchStreams()
-    {
-        _current++;
-        if (!isEOF() && (_markLimit > 0))
-        {
-            getCurrent().mark(_markLimit);
-        }
-        return isEOF();
-    }
-
-
-    private InputStream getCurrent()
-    {
-        return isEOF() ? null : _constituents[_current];
-    }
-
 
 //----------------------------------------------------------------------------
-//  Implementation of InputStream
+//  InputStream
 //----------------------------------------------------------------------------
 
     /**
@@ -102,11 +79,11 @@ extends InputStream
     public void close() throws IOException
     {
         IOException thrown = null;
-        for (int ii = 0 ; ii < _constituents.length ; ii++)
+        for (int ii = 0 ; ii < constituents.length ; ii++)
         {
             try
             {
-                _constituents[ii].close();
+                constituents[ii].close();
             }
             catch (IOException e)
             {
@@ -137,7 +114,7 @@ extends InputStream
             switchStreams();
             return read();
         }
-        _markLimit--;
+        markLimit--;
         return i;
     }
 
@@ -171,7 +148,7 @@ extends InputStream
                 total += read;
                 off += read;
                 len -= read;
-                _markLimit -= read;
+                markLimit -= read;
             }
         }
         return total;
@@ -200,9 +177,9 @@ extends InputStream
     public boolean markSupported()
     {
         boolean supported = true;
-        for (int ii = _current ; ii < _constituents.length ; ii++)
+        for (int ii = current ; ii < constituents.length ; ii++)
         {
-            supported &= _constituents[ii].markSupported();
+            supported &= constituents[ii].markSupported();
         }
         return supported;
     }
@@ -218,8 +195,8 @@ extends InputStream
     {
         if (!isEOF())
         {
-            _marked = _current;
-            _markLimit = readlimit;
+            marked = current;
+            markLimit = readlimit;
             getCurrent().mark(readlimit);
         }
     }
@@ -228,16 +205,16 @@ extends InputStream
     @Override
     public void reset() throws IOException
     {
-        if (_marked < 0)
+        if (marked < 0)
             throw new IOException("no mark set");
 
         if (isEOF())
-            _current--;
+            current--;
 
-        while (_current > _marked)
+        while (current > marked)
         {
             getCurrent().reset();
-            _current--;
+            current--;
         }
 
         getCurrent().reset();
@@ -276,5 +253,31 @@ extends InputStream
             n -= bytes;
         }
         return total;
+    }
+
+//----------------------------------------------------------------------------
+//  Internals
+//----------------------------------------------------------------------------
+
+    private boolean isEOF()
+    {
+        return current == constituents.length;
+    }
+
+
+    private boolean switchStreams()
+    {
+        current++;
+        if (!isEOF() && (markLimit > 0))
+        {
+            getCurrent().mark(markLimit);
+        }
+        return isEOF();
+    }
+
+
+    private InputStream getCurrent()
+    {
+        return isEOF() ? null : constituents[current];
     }
 }

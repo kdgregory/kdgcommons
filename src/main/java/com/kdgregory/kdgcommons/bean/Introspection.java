@@ -34,11 +34,11 @@ import java.util.Set;
  */
 public class Introspection
 {
-    private boolean _setAccessible;
-    private Set<String> _propNames;
-    private Set<String> _propNamesPublic;
-    private Map<String,Method> _getters;
-    private Map<String,Method> _setters;
+    private boolean setAccessible;
+    private Set<String> propNames;
+    private Set<String> propNamesPublic;
+    private Map<String,Method> getters;
+    private Map<String,Method> setters;
 
 
     /**
@@ -64,11 +64,11 @@ public class Introspection
      */
     public Introspection(Class<?> klass, boolean setAccessible)
     {
-        _setAccessible = setAccessible;
-        _propNames = new HashSet<String>();
-        _propNamesPublic = Collections.unmodifiableSet(_propNames);
-        _getters = new HashMap<String,Method>();
-        _setters = new HashMap<String,Method>();
+        this.setAccessible = setAccessible;
+        this.propNames = new HashSet<String>();
+        this.propNamesPublic = Collections.unmodifiableSet(propNames);
+        this.getters = new HashMap<String,Method>();
+        this.setters = new HashMap<String,Method>();
 
         introspect(klass);
     }
@@ -88,7 +88,7 @@ public class Introspection
      */
     public Set<String> propertyNames()
     {
-        return _propNamesPublic;
+        return propNamesPublic;
     }
 
 
@@ -99,7 +99,7 @@ public class Introspection
      */
     public Method getter(String propName)
     {
-        return _getters.get(propName.toLowerCase());
+        return getters.get(propName.toLowerCase());
     }
 
 
@@ -109,7 +109,7 @@ public class Introspection
      */
     public Method setter(String propName)
     {
-        return _setters.get(propName.toLowerCase());
+        return setters.get(propName.toLowerCase());
     }
 
 
@@ -125,7 +125,6 @@ public class Introspection
              ? null
              : getter.getReturnType();
     }
-
 
 //----------------------------------------------------------------------------
 //  Internals
@@ -170,20 +169,20 @@ public class Introspection
     private String extractAndSavePropName(String methodName, int pos)
     {
         String propName = methodName.substring(pos);
-        _propNames.add(Introspector.decapitalize(propName));
+        propNames.add(Introspector.decapitalize(propName));
         return propName.toLowerCase();
     }
 
 
     private void saveGetter(String propName, Method method)
     {
-        if (_setAccessible)
+        if (setAccessible)
             method.setAccessible(true);
 
-        Method existing = _getters.get(propName);
+        Method existing = getters.get(propName);
         if (existing == null)
         {
-            _getters.put(propName, method);
+            getters.put(propName, method);
             return;
         }
 
@@ -191,7 +190,7 @@ public class Introspection
         Class<?> existingClass = existing.getReturnType();
         if (existingClass.isAssignableFrom(methodClass))
         {
-            _getters.put(propName, method);
+            getters.put(propName, method);
             return;
         }
     }
@@ -199,13 +198,13 @@ public class Introspection
 
     private void saveSetter(String propName, Method method)
     {
-        if (_setAccessible)
+        if (setAccessible)
             method.setAccessible(true);
 
-        Method existing = _setters.get(propName);
+        Method existing = setters.get(propName);
         if (existing == null)
         {
-            _setters.put(propName, method);
+            setters.put(propName, method);
             return;
         }
 
@@ -217,13 +216,13 @@ public class Introspection
         if (methodClass != existingClass)
         {
             // existing is superclass, take subclass
-            _setters.put(propName, method);
+            setters.put(propName, method);
             return;
         }
 
         if (setterRank(method) < setterRank(existing))
         {
-            _setters.put(propName, method);
+            setters.put(propName, method);
             return;
         }
     }

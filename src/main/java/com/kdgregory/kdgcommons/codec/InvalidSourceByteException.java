@@ -26,19 +26,21 @@ extends CodecException
 {
     private static final long serialVersionUID = 1L;
 
-    private byte _byte;
+    private byte sourceByte;
+
 
     public InvalidSourceByteException(int c)
     {
         super("invalid source byte: " + c);
-        _byte = (byte)c;
+        sourceByte = (byte)c;
     }
+
 
     /**
      *  Returns the invalid byte.
      */
     public byte getInvalidByte()
     {
-        return _byte;
+        return sourceByte;
     }
 }

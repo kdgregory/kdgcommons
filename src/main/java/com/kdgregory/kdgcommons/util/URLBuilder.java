@@ -41,8 +41,8 @@ import com.kdgregory.kdgcommons.lang.StringUtil;
  */
 public final class URLBuilder
 {
-    private StringBuilder _path = new StringBuilder(256);
-    private StringBuilder _query = new StringBuilder(128);
+    private StringBuilder pathBuilder = new StringBuilder(256);
+    private StringBuilder queryBuilder = new StringBuilder(1024);
 
 
     /**
@@ -51,7 +51,7 @@ public final class URLBuilder
      */
     public URLBuilder()
     {
-        _path.append("/");
+        pathBuilder.append("/");
     }
 
 
@@ -60,11 +60,11 @@ public final class URLBuilder
      *  not contain hostname and protocol components). A blank path will be
      *  replaced by "/", but otherwise the passed path is unchanged.
      */
-    public URLBuilder(String path)
+    public URLBuilder(String src)
     {
-        if (StringUtil.isBlank(path))
-            path = "/";
-        _path.append(path);
+        if (StringUtil.isBlank(src))
+            src = "/";
+        pathBuilder.append(src);
     }
 
 
@@ -92,12 +92,12 @@ public final class URLBuilder
 
         if (host != null)
         {
-            _path.append((protocol == null) ? "http" : protocol.toLowerCase())
+            pathBuilder.append((protocol == null) ? "http" : protocol.toLowerCase())
              .append("://")
              .append(host);
         }
 
-        _path.append(path.startsWith("/") ? "" : "/")
+        pathBuilder.append(path.startsWith("/") ? "" : "/")
              .append(path);
     }
 
@@ -107,9 +107,9 @@ public final class URLBuilder
      */
     public URLBuilder appendPath(String pathElement)
     {
-        if (StringBuilderUtil.lastChar(_path) != '/')
-            _path.append("/");
-        _path.append(urlEncode(pathElement));
+        if (StringBuilderUtil.lastChar(pathBuilder) != '/')
+            pathBuilder.append("/");
+        pathBuilder.append(urlEncode(pathElement));
         return this;
     }
 
@@ -120,9 +120,9 @@ public final class URLBuilder
      */
     public URLBuilder appendParameter(String name, String value)
     {
-        if (_query.length() > 0)
-            _query.append("&");
-        _query.append(urlEncode(name))
+        if (queryBuilder.length() > 0)
+            queryBuilder.append("&");
+        queryBuilder.append(urlEncode(name))
               .append("=")
               .append(urlEncode(value));
         return this;
@@ -148,9 +148,9 @@ public final class URLBuilder
     @Override
     public String toString()
     {
-        return (_query.length() > 0)
-             ? _path.toString() + "?" + _query.toString()
-             : _path.toString();
+        return (queryBuilder.length() > 0)
+             ? pathBuilder.toString() + "?" + queryBuilder.toString()
+             : pathBuilder.toString();
     }
 
 //----------------------------------------------------------------------------

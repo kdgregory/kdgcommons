@@ -50,6 +50,7 @@ extends TestCase
         {
             // note: this is passed values from the index array, which must be used
             //       to index the actual data array
+            @Override
             public int compare(int i1, int i2)
             {
                 Integer v1 = data[i1];
@@ -71,6 +72,7 @@ extends TestCase
         BinarySearch.IndexedComparator<Integer> searchComparator = new BinarySearch.IndexedComparator<Integer>()
         {
             // note: the acessor will provide the index into the actual array
+            @Override
             public int compare(Integer value, int idx)
             {
                 return value.compareTo(data[idx]);

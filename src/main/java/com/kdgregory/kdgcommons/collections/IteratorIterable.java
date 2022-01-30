@@ -25,22 +25,25 @@ import java.util.Iterator;
  *  #iterator} multiple times will return iterators that refer to the same source
  *  iterator.
  *
+ *  // TODO - this can be easily updated to preserve its iterators
+ *
  *  @since 1.0.9
  */
 public class IteratorIterable<T>
 implements Iterable<T>
 {
-    private Iterator<T> _iterator;
+    private Iterator<T> iterator;
 
 
     public IteratorIterable(Iterator<T> iterator)
     {
-        _iterator = iterator;
+        this.iterator = iterator;
     }
 
 
+    @Override
     public Iterator<T> iterator()
     {
-        return _iterator;
+        return iterator;
     }
 }

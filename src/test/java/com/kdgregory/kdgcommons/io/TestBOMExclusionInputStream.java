@@ -62,12 +62,12 @@ public class TestBOMExclusionInputStream extends TestCase
     private static class ExpectCloseInputStream
     extends InputStream
     {
-        private boolean _closeCalled;
+        private boolean closeCalled;
 
         @Override
         public void close() throws IOException
         {
-            _closeCalled = true;
+            closeCalled = true;
         }
 
         @Override
@@ -78,7 +78,7 @@ public class TestBOMExclusionInputStream extends TestCase
 
         public void assertCloseCalled()
         {
-            assertTrue(_closeCalled);
+            assertTrue(closeCalled);
         }
     }
 

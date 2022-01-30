@@ -32,6 +32,12 @@ import java.util.zip.GZIPInputStream;
  */
 public class IOUtil
 {
+    private IOUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Closes any <code>Closeable</code> object, swallowing any exception
      *  that it might throw. This is used in a <code>finally</code> block,
@@ -41,6 +47,8 @@ public class IOUtil
      *  This method also exists in Apache Commons IO. It exists here because
      *  older versions of Commons IO took explicit stream types, rather than
      *  <code>Closeable</code>.
+     *  <p>
+     *  Modern code should rely instead on <code>AutoCloseable</code>.
      *
      *  @param  closable    The object to close. May be null, in which
      *                      case this method does nothing.

@@ -29,20 +29,24 @@ import java.io.InputStream;
  *  the next two bytes. Results are undefined in the stream does not contain
  *  UTF-8 encoded data, as these next two bytes may not exist.
  */
-public class BOMExclusionInputStream extends InputStream
+public class BOMExclusionInputStream
+extends InputStream
 {
-    private InputStream _delegate;
-    private int[] _firstBytes;
-    private int _fbLen;
-    private int _fbIndex;
-    private boolean _markedAtStart;
+    private InputStream delegate;
+    private int[] firstBytes;
+    private int fbLen;
+    private int fbIndex;
+    private boolean markedAtStart;
 
 
     public BOMExclusionInputStream(InputStream delegate)
     {
-        _delegate = delegate;
+        this.delegate = delegate;
     }
 
+//----------------------------------------------------------------------------
+//  Internals
+//----------------------------------------------------------------------------
 
     /**
      *  This method reads and either preserves or skips the first bytes in the
@@ -53,30 +57,29 @@ public class BOMExclusionInputStream extends InputStream
     private int readFirstBytes()
     throws IOException
     {
-        if (_firstBytes == null)
+        if (firstBytes == null)
         {
-            _firstBytes = new int[3];
-            int b0 = _delegate.read();
+            firstBytes = new int[3];
+            int b0 = delegate.read();
             if ((b0 < 0) || (b0 != 0xEF))
                 return b0;
 
-            int b1 = _delegate.read();
-            int b2 = _delegate.read();
+            int b1 = delegate.read();
+            int b2 = delegate.read();
             if ((b1 == 0xBB) && (b2 == 0xBF))
-                return _delegate.read();
+                return delegate.read();
 
             // if the stream isn't valid UTF-8, this is where things get weird
-            _firstBytes[_fbLen++] = b0;
-            _firstBytes[_fbLen++] = b1;
-            _firstBytes[_fbLen++] = b2;
+            firstBytes[fbLen++] = b0;
+            firstBytes[fbLen++] = b1;
+            firstBytes[fbLen++] = b2;
         }
 
-        return (_fbIndex < _fbLen) ? _firstBytes[_fbIndex++] : -1;
+        return (fbIndex < fbLen) ? firstBytes[fbIndex++] : -1;
     }
 
-
 //----------------------------------------------------------------------------
-//  Implementation of InputStream
+//  InputStream
 //----------------------------------------------------------------------------
 
     /**
@@ -86,14 +89,14 @@ public class BOMExclusionInputStream extends InputStream
     @Override
     public int available() throws IOException
     {
-        return _delegate.available();
+        return delegate.available();
     }
 
 
     @Override
     public void close() throws IOException
     {
-        _delegate.close();
+        delegate.close();
     }
 
 
@@ -101,7 +104,7 @@ public class BOMExclusionInputStream extends InputStream
     public int read() throws IOException
     {
         int b = readFirstBytes();
-        return (b >= 0) ? b : _delegate.read();
+        return (b >= 0) ? b : delegate.read();
     }
 
 
@@ -121,7 +124,7 @@ public class BOMExclusionInputStream extends InputStream
                 firstCount++;
             }
         }
-        int secondCount = _delegate.read(buf, off, len);
+        int secondCount = delegate.read(buf, off, len);
         return (secondCount < 0) ? firstCount
                                  : firstCount + secondCount;
     }
@@ -137,27 +140,27 @@ public class BOMExclusionInputStream extends InputStream
     @Override
     public boolean markSupported()
     {
-        return _delegate.markSupported();
+        return delegate.markSupported();
     }
 
 
     @Override
     public synchronized void mark(int readlimit)
     {
-        _markedAtStart = _firstBytes == null;
-        _delegate.mark(readlimit);
+        markedAtStart = firstBytes == null;
+        delegate.mark(readlimit);
     }
 
 
     @Override
     public synchronized void reset() throws IOException
     {
-        if (_markedAtStart)
+        if (markedAtStart)
         {
-            _firstBytes = null;
+            firstBytes = null;
         }
 
-        _delegate.reset();
+        delegate.reset();
     }
 
 
@@ -168,7 +171,7 @@ public class BOMExclusionInputStream extends InputStream
         {
             n--;
         }
-        return _delegate.skip(n);
+        return delegate.skip(n);
     }
 
 }

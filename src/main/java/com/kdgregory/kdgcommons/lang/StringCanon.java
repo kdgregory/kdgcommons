@@ -28,7 +28,7 @@ import java.util.WeakHashMap;
  */
 public class StringCanon
 {
-    private Map<String,WeakReference<String>> _map = new WeakHashMap<String,WeakReference<String>>();
+    private Map<String,WeakReference<String>> map = new WeakHashMap<String,WeakReference<String>>();
 
 
     /**
@@ -37,12 +37,12 @@ public class StringCanon
      */
     public synchronized String intern(String s)
     {
-        WeakReference<String> ref = _map.get(s);
+        WeakReference<String> ref = map.get(s);
         String s2 = (ref != null) ? ref.get() : null;
         if (s2 == null)
         {
             s2 = new String(s);
-            _map.put(s2, new WeakReference<String>(s2));
+            map.put(s2, new WeakReference<String>(s2));
         }
         return s2;
     }
@@ -54,6 +54,6 @@ public class StringCanon
      */
     public synchronized int size()
     {
-        return _map.size();
+        return map.size();
     }
 }

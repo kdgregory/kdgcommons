@@ -35,9 +35,11 @@ extends TestCase
     {
         File mappedFile = File.createTempFile(name, ".tmp");
         mappedFile.deleteOnExit();
-        FileOutputStream fos = new FileOutputStream(mappedFile);
-        fos.write(new byte[size]);
-        fos.close();
+
+        try (FileOutputStream fos = new FileOutputStream(mappedFile))
+        {
+            fos.write(new byte[size]);
+        }
 
         return new MappedFileBuffer(mappedFile, true);
     }

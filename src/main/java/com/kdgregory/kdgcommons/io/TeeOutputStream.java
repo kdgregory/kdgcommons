@@ -22,11 +22,12 @@ import java.io.OutputStream;
  *  A decorator <code>OutputStream</code> that writes all bytes to two
  *  <code>OutputStream</code>s: a base and a tee.
  */
-public class TeeOutputStream extends OutputStream
+public class TeeOutputStream
+extends OutputStream
 {
-    private OutputStream _base;
-    private OutputStream _tee;
-    private boolean _flushTee;
+    private OutputStream base;
+    private OutputStream tee;
+    private boolean flushEveryWrite;
 
 
     /**
@@ -34,8 +35,8 @@ public class TeeOutputStream extends OutputStream
      */
     public TeeOutputStream(OutputStream base, OutputStream tee)
     {
-        _base = base;
-        _tee = tee;
+        this.base = base;
+        this.tee = tee;
     }
 
 
@@ -46,9 +47,12 @@ public class TeeOutputStream extends OutputStream
     public TeeOutputStream(OutputStream base, OutputStream tee, boolean flushTee)
     {
         this(base, tee);
-        _flushTee = flushTee;
+        this.flushEveryWrite = flushTee;
     }
 
+//----------------------------------------------------------------------------
+//  OutputStream
+//----------------------------------------------------------------------------
 
     /**
      *  Closes the base stream, but <em>not</em> the tee.
@@ -56,7 +60,7 @@ public class TeeOutputStream extends OutputStream
     @Override
     public void close() throws IOException
     {
-        _base.close();
+        base.close();
     }
 
 
@@ -67,29 +71,29 @@ public class TeeOutputStream extends OutputStream
     @Override
     public void flush() throws IOException
     {
-        _base.flush();
-        _tee.flush();
+        base.flush();
+        tee.flush();
     }
 
 
     @Override
     public void write(byte[] b, int off, int len) throws IOException
     {
-        _base.write(b, off, len);
-        _tee.write(b, off, len);
+        base.write(b, off, len);
+        tee.write(b, off, len);
 
-        if (_flushTee)
-            _tee.flush();
+        if (flushEveryWrite)
+            tee.flush();
     }
 
     @Override
     public void write(byte[] b) throws IOException
     {
-        _base.write(b);
-        _tee.write(b);
+        base.write(b);
+        tee.write(b);
 
-        if (_flushTee)
-            _tee.flush();
+        if (flushEveryWrite)
+            tee.flush();
     }
 
 
@@ -99,11 +103,10 @@ public class TeeOutputStream extends OutputStream
     @Override
     public void write(int b) throws IOException
     {
-        _base.write(b);
-        _tee.write(b);
+        base.write(b);
+        tee.write(b);
 
-        if (_flushTee)
-            _tee.flush();
+        if (flushEveryWrite)
+            tee.flush();
     }
-
 }

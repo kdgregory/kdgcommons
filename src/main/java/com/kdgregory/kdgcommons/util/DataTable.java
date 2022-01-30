@@ -29,10 +29,10 @@ import java.util.HashMap;
 
 public class DataTable
 {
-    private String[] _colNames;
-    private Class<?>[] _colClasses;
-    private ArrayList<Object[]> _data;
-    private HashMap<String,Integer> _name2Col;
+    private String[] colNames;
+    private Class<?>[] colClasses;
+    private ArrayList<Object[]> data;
+    private HashMap<String,Integer> name2Col;
 
 
     /**
@@ -48,16 +48,12 @@ public class DataTable
      *                      </code>. May be <code>null</code> or contain <code>
      *                      null</code> elements to disable class checking for
      *                      the entire table or particular column respectively.
-     *  @param  data        Initial data for the table. May be <code>null</code>
+     *  @param  initial     Initial data for the table. May be <code>null</code>
      *                      to create an empty table. If not <code>null</code>,
      *                      this data is checked for number of columns and value
      *                      class.
      */
-    public DataTable(
-        String[]    colNames,
-        Class<?>[]  colClasses,
-        Object[][]  data
-        )
+    public DataTable(String[] colNames, Class<?>[] colClasses, Object[][] initial)
     {
         if ((colClasses != null) && (colClasses.length != colNames.length))
         {
@@ -67,22 +63,23 @@ public class DataTable
                 + ", got: " + colClasses.length + ")");
         }
 
-        _colNames = new String[colNames.length];
-        _name2Col = new HashMap<String,Integer>();
-        _colClasses = new Class[_colNames.length];
+        this.colNames = new String[colNames.length];
+        this.colClasses = new Class[this.colNames.length];
+        this.name2Col = new HashMap<String,Integer>();
+        this.data = new ArrayList<Object[]>();
+
         for (int col = 0 ; col < colNames.length ; col++)
         {
-            _colNames[col] = colNames[col];
-            _name2Col.put(colNames[col], Integer.valueOf(col));
-            _colClasses[col] = (colClasses != null) ? colClasses[col] : null;
+            this.colNames[col] = colNames[col];
+            name2Col.put(colNames[col], Integer.valueOf(col));
+            this.colClasses[col] = (colClasses != null) ? colClasses[col] : null;
         }
 
-        _data = new ArrayList<Object[]>();
-        if (data != null)
+        if (initial != null)
         {
-            for (int row = 0 ; row < data.length ; row++)
+            for (int row = 0 ; row < initial.length ; row++)
             {
-                internalAddRow(row, data[row]);
+                internalAddRow(row, initial[row]);
             }
         }
     }
@@ -107,7 +104,7 @@ public class DataTable
      */
     public int size()
     {
-        return _data.size();
+        return data.size();
     }
 
 
@@ -116,7 +113,7 @@ public class DataTable
      */
     public int getColumnCount()
     {
-        return _colNames.length;
+        return colNames.length;
     }
 
 
@@ -125,7 +122,7 @@ public class DataTable
      */
     public String getColumnName(int col)
     {
-        return _colNames[col];
+        return colNames[col];
     }
 
 
@@ -135,7 +132,7 @@ public class DataTable
      */
     public Class<?> getColumnClass(int col)
     {
-        return _colClasses[col];
+        return colClasses[col];
     }
 
 
@@ -147,7 +144,7 @@ public class DataTable
      */
     public Object getValue(int row, int col)
     {
-        Object[] rowData = (Object[])_data.get(row);
+        Object[] rowData = (Object[])data.get(row);
         return rowData[col];
     }
 
@@ -164,7 +161,7 @@ public class DataTable
     public Object setValue(int row, int col, Object val)
     {
         checkClass(row, col, val);
-        Object[] rowData = (Object[])_data.get(row);
+        Object[] rowData = (Object[])data.get(row);
         Object oldValue = rowData[col];
         rowData[col] = val;
         return oldValue;
@@ -176,7 +173,7 @@ public class DataTable
      */
     public void addRow()
     {
-        internalAddRow(_data.size(), new Object[getColumnCount()]);
+        internalAddRow(data.size(), new Object[getColumnCount()]);
     }
 
 
@@ -190,7 +187,7 @@ public class DataTable
      */
     public void addRow(Object[] rowData)
     {
-        internalAddRow(_data.size(), rowData);
+        internalAddRow(data.size(), rowData);
     }
 
 
@@ -205,11 +202,11 @@ public class DataTable
      */
     private void checkRowSize(int row, Object[] rowData)
     {
-        if (rowData.length != _colNames.length)
+        if (rowData.length != colNames.length)
         {
             throw new IllegalArgumentException(
                 "row[" + row + "] has incorrect size: "
-                + "expected: " + _colNames.length
+                + "expected: " + colNames.length
                 + ", got: " + rowData.length);
         }
     }
@@ -223,13 +220,13 @@ public class DataTable
      */
     private void checkClass(int row, int col, Object obj)
     {
-        if ((_colClasses[col] != null)
+        if ((colClasses[col] != null)
             && (obj != null)
-            && !_colClasses[col].isInstance(obj))
+            && !colClasses[col].isInstance(obj))
         {
             throw new ClassCastException(
                 "cell[" + row + "," + col + "]: "
-                + "expected " + _colClasses[col].getName()
+                + "expected " + colClasses[col].getName()
                 + ", got " + obj.getClass().getName());
         }
     }
@@ -242,12 +239,12 @@ public class DataTable
     private void internalAddRow(int row, Object[] rowData)
     {
         checkRowSize(row, rowData);
-        Object[] lclData = new Object[_colNames.length];
-        for (int col = 0 ; col < _colNames.length ; col++)
+        Object[] lclData = new Object[colNames.length];
+        for (int col = 0 ; col < colNames.length ; col++)
         {
             checkClass(row, col, rowData[col]);
             lclData[col] = rowData[col];
         }
-        _data.add(lclData);
+        data.add(lclData);
     }
 }

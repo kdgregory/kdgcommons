@@ -27,31 +27,31 @@ public class TestChannelInputStream extends TestCase
 {
     private final static int DEFAULT_FILESIZE = 8192;
 
-    private File _file;
-    private RandomAccessFile _raf;
-    private FileChannel _channel;
+    private File file;
+    private RandomAccessFile raf;
+    private FileChannel channel;
 
 
     @Override
     protected void setUp() throws Exception
     {
-        _file = IOUtil.createTempFile("TestChannelInputStream", DEFAULT_FILESIZE);
+        file = IOUtil.createTempFile("TestChannelInputStream", DEFAULT_FILESIZE);
 
-        _raf = new RandomAccessFile(_file, "rw");
-        _raf.seek(0);
-        _raf.write(createWalkingBytes(DEFAULT_FILESIZE));
+        raf = new RandomAccessFile(file, "rw");
+        raf.seek(0);
+        raf.write(createWalkingBytes(DEFAULT_FILESIZE));
 
-        _raf.seek(0);
-        _channel = _raf.getChannel();
+        raf.seek(0);
+        channel = raf.getChannel();
     }
 
 
     @Override
     protected void tearDown() throws Exception
     {
-        IOUtil.closeQuietly(_channel);
-        IOUtil.closeQuietly(_raf);
-        _file.delete();
+        IOUtil.closeQuietly(channel);
+        IOUtil.closeQuietly(raf);
+        file.delete();
     }
 
 
@@ -86,7 +86,7 @@ public class TestChannelInputStream extends TestCase
         FileOutputStream out = null;
         try
         {
-            out = new FileOutputStream(_file, true);
+            out = new FileOutputStream(file, true);
             for (int bb : bytes)
                 out.write(bb);
             out.flush();
@@ -104,7 +104,7 @@ public class TestChannelInputStream extends TestCase
 
     public void testSingleByteRead() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
+        ChannelInputStream in = new ChannelInputStream(channel);
 
         assertEquals(0, in.read());
         assertEquals(1, in.read());
@@ -115,8 +115,8 @@ public class TestChannelInputStream extends TestCase
     // this test also verifies that bytes aren't sign-extended
     public void testSingleByteReadAfterChannelPositioned() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
-        _channel.position(127);
+        ChannelInputStream in = new ChannelInputStream(channel);
+        channel.position(127);
 
         assertEquals(127, in.read());
         assertEquals(128, in.read());
@@ -126,8 +126,8 @@ public class TestChannelInputStream extends TestCase
 
     public void testSingleByteReadAtEOF() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
-        _channel.position(_file.length() - 2);
+        ChannelInputStream in = new ChannelInputStream(channel);
+        channel.position(file.length() - 2);
 
         assertEquals(254, in.read());
         assertEquals(255, in.read());
@@ -137,8 +137,8 @@ public class TestChannelInputStream extends TestCase
 
     public void testSingleByteReadSoftEOF() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
-        _channel.position(_file.length() - 2);
+        ChannelInputStream in = new ChannelInputStream(channel);
+        channel.position(file.length() - 2);
 
         assertEquals(254, in.read());
         assertEquals(255, in.read());
@@ -156,7 +156,7 @@ public class TestChannelInputStream extends TestCase
 
     public void testMultiByteRead() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
+        ChannelInputStream in = new ChannelInputStream(channel);
 
         byte[] bytes = new byte[256];
         int bytesRead = in.read(bytes);
@@ -171,8 +171,8 @@ public class TestChannelInputStream extends TestCase
 
     public void testMultiByteReadAfterPosition() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
-        _channel.position(96);
+        ChannelInputStream in = new ChannelInputStream(channel);
+        channel.position(96);
 
         byte[] bytes = new byte[256];
         int bytesRead = in.read(bytes);
@@ -188,8 +188,8 @@ public class TestChannelInputStream extends TestCase
     {
         // we'll position the channel so that we don't get any 0 bytes
 
-        ChannelInputStream in = new ChannelInputStream(_channel);
-        _channel.position(100);
+        ChannelInputStream in = new ChannelInputStream(channel);
+        channel.position(100);
 
         byte[] bytes = new byte[1024];
         int bytesRead = in.read(bytes, 100, 100);
@@ -210,8 +210,8 @@ public class TestChannelInputStream extends TestCase
 
     public void testMultiByteReadAtEOF() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
-        _channel.position(DEFAULT_FILESIZE - 10);
+        ChannelInputStream in = new ChannelInputStream(channel);
+        channel.position(DEFAULT_FILESIZE - 10);
 
         byte[] bytes = new byte[1024];
 
@@ -222,8 +222,8 @@ public class TestChannelInputStream extends TestCase
 
     public void testMultiByteReadSoftEOF() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
-        _channel.position(DEFAULT_FILESIZE - 10);
+        ChannelInputStream in = new ChannelInputStream(channel);
+        channel.position(DEFAULT_FILESIZE - 10);
 
         byte[] bytes = new byte[1024];
 
@@ -244,18 +244,18 @@ public class TestChannelInputStream extends TestCase
     @SuppressWarnings("deprecation")
     public void testClose() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
-        assertTrue("channel not open at start of test", _channel.isOpen());
+        ChannelInputStream in = new ChannelInputStream(channel);
+        assertTrue("channel not open at start of test", channel.isOpen());
 
         in.close();
-        assertFalse("channel is still open", _channel.isOpen());
+        assertFalse("channel is still open", channel.isOpen());
     }
 
 
     @SuppressWarnings("deprecation")
     public void testDocumentedValuesForAvailableAndMarkSupported() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
+        ChannelInputStream in = new ChannelInputStream(channel);
 
         assertEquals(0, in.available());
         assertFalse(in.markSupported());
@@ -265,7 +265,7 @@ public class TestChannelInputStream extends TestCase
     @SuppressWarnings("deprecation")
     public void testSkip() throws Exception
     {
-        ChannelInputStream in = new ChannelInputStream(_channel);
+        ChannelInputStream in = new ChannelInputStream(channel);
 
         // this is a whitebox test: we know that the default InputStream.skip()
         // will skip until EOF, so we'll make explicit assertions

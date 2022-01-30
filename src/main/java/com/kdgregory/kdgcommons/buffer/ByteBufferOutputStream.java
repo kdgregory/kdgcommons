@@ -34,8 +34,8 @@ import java.nio.MappedByteBuffer;
 public class ByteBufferOutputStream
 extends OutputStream
 {
-    private ByteBuffer _buf;
-    private boolean _isClosed;
+    private ByteBuffer buf;
+    private boolean isClosed;
 
 
     /**
@@ -53,10 +53,9 @@ extends OutputStream
      */
     public ByteBufferOutputStream(ByteBuffer buf, int index)
     {
-        _buf = buf;
-        _buf.position(index);
+        this.buf = buf;
+        this.buf.position(index);
     }
-
 
 //----------------------------------------------------------------------------
 //  OutputStream
@@ -65,28 +64,28 @@ extends OutputStream
     @Override
     public void close() throws IOException
     {
-        _isClosed = true;
+        isClosed = true;
     }
 
 
     @Override
     public void flush() throws IOException
     {
-        if (_buf instanceof MappedByteBuffer)
-            ((MappedByteBuffer)_buf).force();
+        if (buf instanceof MappedByteBuffer)
+            ((MappedByteBuffer)buf).force();
     }
 
 
     @Override
     public void write(byte[] b, int off, int len) throws IOException
     {
-        if (_isClosed)
+        if (isClosed)
             throw new IOException("buffer is closed");
 
-        if (len > _buf.remaining())
-            throw new IOException("write too large: " + len + " bytes, " + _buf.remaining() + " remaining in buffer");
+        if (len > buf.remaining())
+            throw new IOException("write too large: " + len + " bytes, " + buf.remaining() + " remaining in buffer");
 
-        _buf.put(b, off, len);
+        buf.put(b, off, len);
     }
 
 
@@ -100,12 +99,12 @@ extends OutputStream
     @Override
     public void write(int b) throws IOException
     {
-        if (_isClosed)
+        if (isClosed)
             throw new IOException("buffer is closed");
 
-        if (_buf.remaining() == 0)
+        if (buf.remaining() == 0)
             throw new IOException("no space left in buffer");
 
-        _buf.put((byte)b);
+        buf.put((byte)b);
     }
 }

@@ -21,16 +21,18 @@ package com.kdgregory.kdgcommons.buffer;
 public class MappedFileBufferThreadLocal
 extends ThreadLocal<MappedFileBuffer>
 {
-    private MappedFileBuffer _src;
+    private MappedFileBuffer src;
+
 
     public MappedFileBufferThreadLocal(MappedFileBuffer src)
     {
-        _src = src;
+        this.src = src;
     }
+
 
     @Override
     protected synchronized MappedFileBuffer initialValue()
     {
-        return _src.clone();
+        return src.clone();
     }
 }

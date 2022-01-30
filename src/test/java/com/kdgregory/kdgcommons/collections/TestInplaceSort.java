@@ -66,6 +66,7 @@ extends TestCase
     public static class ForwardIntComparator
     implements InplaceSort.IntComparator
     {
+        @Override
         public int compare(int i1, int i2)
         {
             return (i1 > i2) ? 1
@@ -79,6 +80,7 @@ extends TestCase
     public static class ReversingIntComparator
     implements InplaceSort.IntComparator
     {
+        @Override
         public int compare(int i1, int i2)
         {
             return (i1 > i2) ? -1
@@ -102,6 +104,7 @@ extends TestCase
             expectedCount = 3 * size * (int)Math.ceil(Math.log(size) / Math.log(2));
         }
 
+        @Override
         public int compare(int i1, int i2)
         {
             count++;
@@ -123,6 +126,7 @@ extends TestCase
     public static class ForwardComparator<T extends Comparable<T>>
     implements Comparator<T>
     {
+        @Override
         public int compare(T o1, T o2)
         {
             return o1.compareTo(o2);
@@ -295,29 +299,33 @@ extends TestCase
         char[] exp = new char[] { '2', 'A', 'R', 'R', 'r', 'x' };
 
         InplaceSort.sort(new Accessor()
+        {
+            @Override
+            public int start()
             {
-                public int start()
-                {
-                    return 0;
-                }
+                return 0;
+            }
 
-                public int end()
-                {
-                    return data.length;
-                }
+            @Override
+            public int end()
+            {
+                return data.length;
+            }
 
-                public int compare(int index1, int index2)
-                {
-                    return data[index1] - data[index2];
-                }
+            @Override
+            public int compare(int index1, int index2)
+            {
+                return data[index1] - data[index2];
+            }
 
-                public void swap(int index1, int index2)
-                {
-                    char tmp = data[index1];
-                    data[index1] = data[index2];
-                    data[index2] = tmp;
-                }
-            });
+            @Override
+            public void swap(int index1, int index2)
+            {
+                char tmp = data[index1];
+                data[index1] = data[index2];
+                data[index2] = tmp;
+            }
+        });
 
         assertTrue(Arrays.equals(exp, data));
     }

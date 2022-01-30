@@ -58,19 +58,19 @@ extends Codec
         FILENAME(Integer.MAX_VALUE, null, filenameCharLookup, filenameValueLookup, '\0');
 
 
-        private final int _lineLength;
-        private final byte[] _separator;
-        private final char[] _charLookup;
-        private final HashMap<Character,Integer> _valueLookup;
-        private final char _padChar;
+        private final int lineLength;
+        private final byte[] separator;
+        private final char[] charLookup;
+        private final HashMap<Character,Integer> valueLookup;
+        private final char padChar;
 
         private Option(int lineLength, byte[] separator, char[] charLookup, HashMap<Character,Integer> valueLookup, char padChar)
         {
-            _lineLength = lineLength;
-            _separator = separator;
-            _charLookup = charLookup;
-            _valueLookup = valueLookup;
-            _padChar = padChar;
+            this.lineLength = lineLength;
+            this.separator = separator;
+            this.charLookup = charLookup;
+            this.valueLookup = valueLookup;
+            this.padChar = padChar;
         }
     }
 
@@ -87,6 +87,7 @@ extends Codec
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/'
     };
 
+
     private static HashMap<Character,Integer> defaultValueLookup = new HashMap<Character,Integer>(64);
     static
     {
@@ -94,6 +95,7 @@ extends Codec
         for (int ii = 0 ; ii < defaultCharLookup.length ; ii++)
             defaultValueLookup.put(Character.valueOf(defaultCharLookup[ii]), Integer.valueOf(ii));
     }
+
 
     private static char[] filenameCharLookup =
     {
@@ -103,6 +105,7 @@ extends Codec
         'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', '_'
     };
+
 
     private static HashMap<Character,Integer> filenameValueLookup = new HashMap<Character,Integer>(64);
     static
@@ -116,12 +119,12 @@ extends Codec
 //  Instance variables and constructor
 //----------------------------------------------------------------------------
 
-    private int _lineLength;
-    private byte[] _separator;
-    private char[] _charLookup;
-    private HashMap<Character,Integer> _valueLookup;
-    private char _padChar;
-    private boolean _paddingRequired;
+    private int lineLength;
+    private byte[] separator;
+    private char[] charLookup;
+    private HashMap<Character,Integer> valueLookup;
+    private char padChar;
+    private boolean paddingRequired;
 
 
     /**
@@ -138,7 +141,7 @@ extends Codec
      */
     public Base64Codec(Option option)
     {
-        this(option._lineLength, option._separator, option._charLookup, option._valueLookup, option._padChar);
+        this(option.lineLength, option.separator, option.charLookup, option.valueLookup, option.padChar);
     }
 
 
@@ -167,12 +170,12 @@ extends Codec
      */
     private Base64Codec(int lineLength, byte[] separator, char[] charLookup, HashMap<Character,Integer> valueLookup, char padChar)
     {
-        _lineLength = lineLength;
-        _separator = separator;
-        _charLookup = charLookup;
-        _valueLookup = valueLookup;
-        _padChar = padChar;
-        _paddingRequired = (_padChar != '\0');
+        this.lineLength = lineLength;
+        this.separator = separator;
+        this.charLookup = charLookup;
+        this.valueLookup = valueLookup;
+        this.padChar = padChar;
+        this.paddingRequired = (padChar != '\0');
     }
 
 //----------------------------------------------------------------------------
@@ -191,7 +194,6 @@ extends Codec
     {
         new Decoder(in, out).decode();
     }
-
 
 //----------------------------------------------------------------------------
 //  Convenience methods
@@ -219,21 +221,20 @@ extends Codec
         return decode(bytes);
     }
 
-
 //----------------------------------------------------------------------------
 //  Internals
 //----------------------------------------------------------------------------
 
     private class Encoder
     {
-        private InputStream _in;
-        private OutputStream _out;
-        private int _breakCount;
+        private InputStream in;
+        private OutputStream out;
+        private int breakCount;
 
         public Encoder(InputStream in, OutputStream out)
         {
-            _in = in;
-            _out = out;
+            this.in = in;
+            this.out = out;
         }
 
         public void encode()
@@ -242,9 +243,9 @@ extends Codec
             {
                 while (true)
                 {
-                    int b1 = _in.read();
-                    int b2 = _in.read();
-                    int b3 = _in.read();
+                    int b1 = in.read();
+                    int b2 = in.read();
+                    int b3 = in.read();
                     if (b1 < 0) return;
 
                     insertBreakIfNeeded();
@@ -264,10 +265,10 @@ extends Codec
         private void insertBreakIfNeeded()
         throws IOException
         {
-            if ((_separator != null) && (_breakCount >= _lineLength))
+            if ((separator != null) && (breakCount >= lineLength))
             {
-                _out.write(_separator);
-                _breakCount = 0;
+                out.write(separator);
+                breakCount = 0;
             }
         }
 
@@ -286,12 +287,12 @@ extends Codec
 
             int e4 = b3 & 0x3F;
 
-            _out.write(_charLookup[e1]);
-            _out.write(_charLookup[e2]);
+            out.write(charLookup[e1]);
+            out.write(charLookup[e2]);
             writeOrPad(b2, e3);
             writeOrPad(b3, e4);
 
-            _breakCount += 4;
+            breakCount += 4;
             return true;
         }
 
@@ -300,9 +301,9 @@ extends Codec
         throws IOException
         {
             if (byteVal >= 0)
-                _out.write(_charLookup[encVal]);
-            else if (_padChar != '\0')
-                _out.write(_padChar);
+                out.write(charLookup[encVal]);
+            else if (padChar != '\0')
+                out.write(padChar);
         }
 
     }
@@ -310,13 +311,13 @@ extends Codec
 
     private class Decoder
     {
-        private InputStream _in;
-        private OutputStream _out;
+        private InputStream in;
+        private OutputStream out;
 
         public Decoder(InputStream in, OutputStream out)
         {
-            _in = in;
-            _out = out;
+            this.in = in;
+            this.out = out;
         }
 
         public void decode()
@@ -325,7 +326,7 @@ extends Codec
             {
                 do
                 {
-                    skipIfSeparator(_in, _separator);
+                    skipIfSeparator(in, separator);
                 }
                 while (decodeGroup());
             }
@@ -345,37 +346,36 @@ extends Codec
             int e1 = next(true);
             if (e1 < 0) return false;
 
-            int e2 = next(! _paddingRequired);
-            int e3 = next(! _paddingRequired);
-            int e4 = next(! _paddingRequired);
+            int e2 = next(! paddingRequired);
+            int e3 = next(! paddingRequired);
+            int e4 = next(! paddingRequired);
 
-            _out.write((e1 << 2) | ((e2 & 0x30) >> 4));
+            out.write((e1 << 2) | ((e2 & 0x30) >> 4));
             if (e3 < 0) return false;
 
-            _out.write(((e2 & 0x0F) << 4) | ((e3 & 0x3C) >> 2));
+            out.write(((e2 & 0x0F) << 4) | ((e3 & 0x3C) >> 2));
             if (e4 < 0) return false;
 
-            _out.write(((e3 & 0x03) << 6) | e4);
+            out.write(((e3 & 0x03) << 6) | e4);
             return true;
         }
 
         private int next(boolean eofAllowed)
         throws IOException
         {
-            int b = nextNonWhitespace(_in);
+            int b = nextNonWhitespace(in);
             if (b < 0)
             {
                 if (eofAllowed) return -1;
                 else throw new CodecException("unexpected EOF");
             }
 
-            if (b == _padChar) return -1;
+            if (b == padChar) return -1;
 
-            Integer val = _valueLookup.get(Character.valueOf((char)b));
+            Integer val = valueLookup.get(Character.valueOf((char)b));
             if (val == null) throw new InvalidSourceByteException(b);
 
             return val.intValue();
         }
     }
-
 }

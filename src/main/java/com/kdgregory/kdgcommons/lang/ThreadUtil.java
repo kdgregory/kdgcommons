@@ -22,6 +22,12 @@ package com.kdgregory.kdgcommons.lang;
  */
 public class ThreadUtil
 {
+    private ThreadUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Sleeps for the specified number of milliseconds, catching and ignoring
      *  any <code>InterruptedException</code>. Returns the number of milliseconds

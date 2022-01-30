@@ -41,18 +41,18 @@ extends TestCase
      */
     public static class SimpleBean
     {
-        private String _sVal;
-        private int _iVal;
-        private boolean _bVal;
+        private String sVal;
+        private int iVal;
+        private boolean bVal;
 
-        public String getSVal()             { return _sVal; }
-        public void setSVal(String val)     { _sVal = val; }
+        public String getSVal()             { return sVal; }
+        public void setSVal(String val)     { sVal = val; }
 
-        public int getIVal()                { return _iVal; }
-        public void setIVal(int val)        { _iVal = val; }
+        public int getIVal()                { return iVal; }
+        public void setIVal(int val)        { iVal = val; }
 
-        public boolean isBVal()             { return _bVal; }
-        public void setBVal(boolean val)    { _bVal = val; }
+        public boolean isBVal()             { return bVal; }
+        public void setBVal(boolean val)    { bVal = val; }
     }
 
 
@@ -62,10 +62,10 @@ extends TestCase
      */
     public static class MixedPrimitiveAndWrapperBean
     {
-        private Integer _iVal;
+        private Integer iVal;
 
-        public Integer getIVal()        { return _iVal; }
-        public void setIVal(int val)    { _iVal = Integer.valueOf(val); }
+        public Integer getIVal()        { return iVal; }
+        public void setIVal(int val)    { iVal = Integer.valueOf(val); }
     }
 
 
@@ -75,18 +75,18 @@ extends TestCase
      */
     public static class InvalidMethodBean
     {
-        private String _sVal;
-        private int _iVal;
-        private boolean _bVal;
+        private String sVal;
+        private int iVal;
+        private boolean bVal;
 
-        public String getSVal(String s)     { return _sVal; }
-        public void setSVal(String val)     { _sVal = val; }
+        public String getSVal(String s)     { return sVal; }
+        public void setSVal(String val)     { sVal = val; }
 
-        public int getIVal()                { return _iVal; }
-        public void setIVal(int v1, int v2) { _iVal = v1 + v2; }
+        public int getIVal()                { return iVal; }
+        public void setIVal(int v1, int v2) { iVal = v1 + v2; }
 
-        public boolean isBVal(boolean b)    { return _bVal; }
-        public void setBVal()               { _bVal = true; }
+        public boolean isBVal(boolean b)    { return bVal; }
+        public void setBVal()               { bVal = true; }
     }
 
 
@@ -95,34 +95,34 @@ extends TestCase
      */
     public static class MultipleSetterBean
     {
-        private String _propS1;
-        private String _propS2;
-        private Integer _propI1;
-        private Integer _propI2;
-        private Integer _propI3;
-        private Integer _propI4;
+        private String propS1;
+        private String propS2;
+        private Integer propI1;
+        private Integer propI2;
+        private Integer propI3;
+        private Integer propI4;
 
-        public String getPropS1()           { return _propS1; }
-        public void setPropS1(String val)   { _propS1 = val; }
-        public void setPropS1(Object val)   { _propS1 = String.valueOf(val); }
+        public String getPropS1()           { return propS1; }
+        public void setPropS1(String val)   { propS1 = val; }
+        public void setPropS1(Object val)   { propS1 = String.valueOf(val); }
 
-        public String getPropS2()           { return _propS2; }
-        public void setPropS2(Object val)   { _propS2 = String.valueOf(val); }
+        public String getPropS2()           { return propS2; }
+        public void setPropS2(Object val)   { propS2 = String.valueOf(val); }
 
-        public Integer getPropI1()          { return _propI1; }
-        public void setPropI1(Integer val)  { _propI1 = val; }
-        public void setPropI1(int val)      { _propI1 = Integer.valueOf(val); }
+        public Integer getPropI1()          { return propI1; }
+        public void setPropI1(Integer val)  { propI1 = val; }
+        public void setPropI1(int val)      { propI1 = Integer.valueOf(val); }
 
-        public Integer getPropI2()          { return _propI2; }
-        public void setPropI2(String val)   { _propI2 = Integer.valueOf(val); }
-        public void setPropI2(Integer val)  { _propI2 = val; }
+        public Integer getPropI2()          { return propI2; }
+        public void setPropI2(String val)   { propI2 = Integer.valueOf(val); }
+        public void setPropI2(Integer val)  { propI2 = val; }
 
-        public Integer getPropI3()          { return _propI3; }
-        public void setPropI3(String val)   { _propI3 = Integer.valueOf(val); }
-        public void setPropI3(Object val)   { _propI3 = Integer.valueOf(String.valueOf(val)); }
+        public Integer getPropI3()          { return propI3; }
+        public void setPropI3(String val)   { propI3 = Integer.valueOf(val); }
+        public void setPropI3(Object val)   { propI3 = Integer.valueOf(String.valueOf(val)); }
 
-        public Integer getPropI4()          { return _propI4; }
-        public void setPropI4(Object val)   { _propI4 = Integer.valueOf(String.valueOf(val)); }
+        public Integer getPropI4()          { return propI4; }
+        public void setPropI4(Object val)   { propI4 = Integer.valueOf(String.valueOf(val)); }
     }
 
 
@@ -131,10 +131,10 @@ extends TestCase
      */
     public static class OverrideBaseBean
     {
-        protected Integer _iVal;
+        protected Integer iVal;
 
-        public Number getIVal()             { return _iVal; }
-        public void setIVal(Integer val)    { _iVal = val; }
+        public Number getIVal()             { return iVal; }
+        public void setIVal(Integer val)    { iVal = val; }
     }
 
 
@@ -145,8 +145,8 @@ extends TestCase
     extends OverrideBaseBean
     {
         @Override
-        public Integer getIVal()           { return _iVal; }
-        public void setIVal(String val)    { _iVal = Integer.valueOf(val); }
+        public Integer getIVal()           { return iVal; }
+        public void setIVal(String val)    { iVal = Integer.valueOf(val); }
     }
 
 
@@ -156,13 +156,13 @@ extends TestCase
      */
     public static class MissingGetterBean
     {
-        private String _propS1;
-        private String _propS2;
+        private String propS1;
+        private String propS2;
 
-        public String getPropS1()           { return _propS1; }
-        public void setPropS1(String val)   { _propS1 = val; }
+        public String getPropS1()           { return propS1; }
+        public void setPropS1(String val)   { propS1 = val; }
 
-        public void setPropS2(String val)   { _propS2 = val; }
+        public void setPropS2(String val)   { propS2 = val; }
     }
 
 

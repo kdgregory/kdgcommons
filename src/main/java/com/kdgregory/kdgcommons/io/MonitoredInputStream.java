@@ -27,14 +27,17 @@ import java.io.InputStream;
 public class MonitoredInputStream
 extends InputStream
 {
-    private InputStream _delegate;
-    private long _totalBytes;
+    private InputStream delegate;
+    private long total;
 
     public MonitoredInputStream(InputStream delegate)
     {
-        _delegate = delegate;
+        this.delegate = delegate;
     }
 
+//----------------------------------------------------------------------------
+//  InputStream
+//----------------------------------------------------------------------------
 
     /**
      *  Returns the number of bytes available from the underlying stream. Has
@@ -43,7 +46,7 @@ extends InputStream
     @Override
     public int available() throws IOException
     {
-        return _delegate.available();
+        return delegate.available();
     }
 
 
@@ -53,7 +56,7 @@ extends InputStream
     @Override
     public void close() throws IOException
     {
-        _delegate.close();
+        delegate.close();
     }
 
 
@@ -65,11 +68,11 @@ extends InputStream
     @Override
     public int read() throws IOException
     {
-        int b = _delegate.read();
+        int b = delegate.read();
 
         long bytesRead = (b < 0) ? 0 : 1;
-        _totalBytes += bytesRead;
-        progress(bytesRead, _totalBytes);
+        total += bytesRead;
+        progress(bytesRead, total);
 
         return b;
     }
@@ -95,11 +98,11 @@ extends InputStream
     @Override
     public int read(byte[] b, int off, int len) throws IOException
     {
-        int count = _delegate.read(b, off, len);
+        int count = delegate.read(b, off, len);
 
         long bytesRead = (count < 0) ? 0 : count;
-        _totalBytes += bytesRead;
-        progress(bytesRead, _totalBytes);
+        total += bytesRead;
+        progress(bytesRead, total);
 
         return count;
     }
@@ -111,7 +114,7 @@ extends InputStream
     @Override
     public boolean markSupported()
     {
-        return _delegate.markSupported();
+        return delegate.markSupported();
     }
 
 
@@ -121,7 +124,7 @@ extends InputStream
     @Override
     public synchronized void mark(int readlimit)
     {
-        _delegate.mark(readlimit);
+        delegate.mark(readlimit);
     }
 
 
@@ -132,7 +135,7 @@ extends InputStream
     @Override
     public synchronized void reset() throws IOException
     {
-        _delegate.reset();
+        delegate.reset();
     }
 
 
@@ -144,23 +147,26 @@ extends InputStream
     @Override
     public long skip(long n) throws IOException
     {
-        long skipped = _delegate.skip(n);
+        long skipped = delegate.skip(n);
 
-        _totalBytes += skipped;
-        progress(skipped, _totalBytes);
+        total += skipped;
+        progress(skipped, total);
 
         return skipped;
     }
 
+//----------------------------------------------------------------------------
+//  Other public methods
+//----------------------------------------------------------------------------
 
     /**
-     *  Called after each operation that reads bytes, to report the number of
-     *  bytes read. The default implementation of this method is a no-op.
+     *  Subclasses override this to monitor progress. The default implementation
+     *  of this method is a no-op.
      *
      *  @param  lastRead    Number of bytes in last read operation. Note that
      *                      this may be 0.
      *  @param  totalBytes  Total number of bytes read or skipped since this
-     *                      class was instantiated.
+     *                      object was instantiated.
      */
     public void progress(long lastRead, long totalBytes)
     {

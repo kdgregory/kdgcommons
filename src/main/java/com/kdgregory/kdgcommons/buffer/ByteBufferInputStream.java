@@ -33,9 +33,9 @@ import java.nio.ByteBuffer;
 public class ByteBufferInputStream
 extends InputStream
 {
-    private ByteBuffer  _buf;
-    private int _mark = -1;
-    private boolean _isClosed = false;
+    private ByteBuffer  buf;
+    private int mark = -1;
+    private boolean isClosed = false;
 
 
     /**
@@ -53,10 +53,9 @@ extends InputStream
      */
     public ByteBufferInputStream(ByteBuffer buf, int off)
     {
-        _buf = buf;
-        _buf.position(off);
+        this.buf = buf;
+        this.buf.position(off);
     }
-
 
 //----------------------------------------------------------------------------
 //  InputStream
@@ -65,21 +64,21 @@ extends InputStream
     @Override
     public int available() throws IOException
     {
-        return _buf.limit() - _buf.position();
+        return buf.limit() - buf.position();
     }
 
 
     @Override
     public void close() throws IOException
     {
-        _isClosed = true;
+        isClosed = true;
     }
 
 
     @Override
     public synchronized void mark(int readlimit)
     {
-        _mark = _buf.position();
+        mark = buf.position();
     }
 
 
@@ -93,27 +92,27 @@ extends InputStream
     @Override
     public int read() throws IOException
     {
-        if (_isClosed)
+        if (isClosed)
             throw new IOException("stream is closed");
 
         if (available() <= 0)
             return -1;
 
-        return _buf.get() & 0xFF;
+        return buf.get() & 0xFF;
     }
 
 
     @Override
     public int read(byte[] b, int off, int len) throws IOException
     {
-        if (_isClosed)
+        if (isClosed)
             throw new IOException("stream is closed");
 
         int bytes = Math.min(len, available());
         if (bytes == 0)
             return -1;
 
-        _buf.get(b, off, bytes);
+        buf.get(b, off, bytes);
         return bytes;
     }
 
@@ -128,10 +127,10 @@ extends InputStream
     @Override
     public synchronized void reset() throws IOException
     {
-        if (_mark < 0)
+        if (mark < 0)
             throw new IOException("mark not set");
 
-        _buf.position(_mark);
+        buf.position(mark);
     }
 
 
@@ -140,8 +139,8 @@ extends InputStream
     {
         int n2 = (n > Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int)n;
         int n3 = Math.min(n2, available());
-        int newPos = n3 + _buf.position();
-        _buf.position(newPos);
+        int newPos = n3 + buf.position();
+        buf.position(newPos);
         return (long)n3;
     }
 }

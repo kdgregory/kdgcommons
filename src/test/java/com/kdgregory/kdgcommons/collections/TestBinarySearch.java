@@ -31,15 +31,15 @@ extends TestCase
     private static class CharacterArrayAccessor
     implements BinarySearch.Accessor<Character>
     {
-        private char[] _array;
-        private int _start;
-        private int _end;
+        private char[] array;
+        private int start;
+        private int end;
 
         public CharacterArrayAccessor(char[] array, int start, int end)
         {
-            _array = array;
-            _start = start;
-            _end = end;
+            this.array = array;
+            this.start = start;
+            this.end = end;
         }
 
         public CharacterArrayAccessor(char[] array)
@@ -47,19 +47,22 @@ extends TestCase
             this(array, 0, array.length);
         }
 
+        @Override
         public int start()
         {
-            return _start;
+            return start;
         }
 
+        @Override
         public int end()
         {
-            return _end;
+            return end;
         }
 
+        @Override
         public int compare(Character value, int index)
         {
-            return value.charValue() - _array[index];
+            return value.charValue() - array[index];
         }
     }
 
@@ -181,6 +184,7 @@ extends TestCase
 
         IndexedComparator<Character> cmp = new IndexedComparator<Character>()
         {
+            @Override
             public int compare(Character value, int ii)
             {
                 return value.charValue() - chars[ii];

@@ -26,15 +26,18 @@ import java.io.OutputStream;
 public class TeeInputStream
 extends InputStream
 {
-    private InputStream _base;
-    private OutputStream _tee;
+    private InputStream base;
+    private OutputStream tee;
 
     public TeeInputStream(InputStream base, OutputStream tee)
     {
-        _base = base;
-        _tee = tee;
+        this.base = base;
+        this.tee = tee;
     }
 
+//----------------------------------------------------------------------------
+//  InputStream
+//----------------------------------------------------------------------------
 
     /**
      *  Returns the number of bytes available from the base stream. Has
@@ -43,7 +46,7 @@ extends InputStream
     @Override
     public int available() throws IOException
     {
-        return _base.available();
+        return base.available();
     }
 
 
@@ -53,7 +56,7 @@ extends InputStream
     @Override
     public void close() throws IOException
     {
-        _base.close();
+        base.close();
     }
 
 
@@ -64,9 +67,9 @@ extends InputStream
     @Override
     public int read() throws IOException
     {
-        int b = _base.read();
+        int b = base.read();
         if (b >= 0)
-            _tee.write(b);
+            tee.write(b);
         return b;
     }
 
@@ -79,9 +82,9 @@ extends InputStream
     @Override
     public int read(byte[] b, int off, int len) throws IOException
     {
-        int count = _base.read(b, off, len);
+        int count = base.read(b, off, len);
         if (count > 0)
-            _tee.write(b, off, count);
+            tee.write(b, off, count);
         return count;
     }
 
@@ -94,9 +97,9 @@ extends InputStream
     @Override
     public int read(byte[] b) throws IOException
     {
-        int count = _base.read(b);
+        int count = base.read(b);
         if (count > 0)
-            _tee.write(b, 0, count);
+            tee.write(b, 0, count);
         return count;
     }
 
@@ -108,7 +111,7 @@ extends InputStream
     @Override
     public boolean markSupported()
     {
-        return _base.markSupported();
+        return base.markSupported();
     }
 
 
@@ -118,7 +121,7 @@ extends InputStream
     @Override
     public synchronized void mark(int readlimit)
     {
-        _base.mark(readlimit);
+        base.mark(readlimit);
     }
 
 
@@ -129,7 +132,7 @@ extends InputStream
     @Override
     public synchronized void reset() throws IOException
     {
-        _base.reset();
+        base.reset();
     }
 
 
@@ -140,7 +143,6 @@ extends InputStream
     @Override
     public long skip(long n) throws IOException
     {
-        return _base.skip(n);
+        return base.skip(n);
     }
-
 }

@@ -24,10 +24,10 @@ public class TestNamedThreadFactory
 extends TestCase
 {
     // these variables let created threads report back to the main thread
-    private volatile String _threadName;
-    private volatile ThreadGroup _threadGroup;
-    private volatile int _priority;
-    private volatile boolean _isDaemon;
+    private volatile String threadName;
+    private volatile ThreadGroup threadGroup;
+    private volatile int priority;
+    private volatile boolean isDaemon;
 
     // the main thread uses this latch to ensure that the created thread runs
     private CountDownLatch syncLatch = new CountDownLatch(1);
@@ -37,10 +37,10 @@ extends TestCase
     {
         public void run()
         {
-            _threadName = Thread.currentThread().getName();
-            _threadGroup = Thread.currentThread().getThreadGroup();
-            _priority = Thread.currentThread().getPriority();
-            _isDaemon = Thread.currentThread().isDaemon();
+            threadName = Thread.currentThread().getName();
+            threadGroup = Thread.currentThread().getThreadGroup();
+            priority = Thread.currentThread().getPriority();
+            isDaemon = Thread.currentThread().isDaemon();
             syncLatch.countDown();
         }
     };
@@ -57,10 +57,10 @@ extends TestCase
         fact.newThread(task).start();
         syncLatch.await();
 
-        assertEquals("name",       "foo-thread-0", _threadName);
-        assertSame("thread group", Thread.currentThread().getThreadGroup(), _threadGroup);
-        assertEquals("priority",   Thread.NORM_PRIORITY, _priority);
-        assertTrue("isDaemon",     _isDaemon);
+        assertEquals("name",       "foo-thread-0", threadName);
+        assertSame("thread group", Thread.currentThread().getThreadGroup(), threadGroup);
+        assertEquals("priority",   Thread.NORM_PRIORITY, priority);
+        assertTrue("isDaemon",     isDaemon);
     }
 
 
@@ -79,7 +79,7 @@ extends TestCase
         }).start();
         syncLatch.await();
 
-        assertSame("thread group", factGroup, _threadGroup);
+        assertSame("thread group", factGroup, threadGroup);
     }
 
 
@@ -91,9 +91,9 @@ extends TestCase
         fact.newThread(task).start();
         syncLatch.await();
 
-        assertEquals("name",       "foo-thread-0", _threadName);
-        assertSame("thread group", altGroup, _threadGroup);
-        assertEquals("priority",   Thread.MIN_PRIORITY, _priority);
-        assertFalse("isDaemon",    _isDaemon);
+        assertEquals("name",       "foo-thread-0", threadName);
+        assertSame("thread group", altGroup, threadGroup);
+        assertEquals("priority",   Thread.MIN_PRIORITY, priority);
+        assertFalse("isDaemon",    isDaemon);
     }
 }

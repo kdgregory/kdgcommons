@@ -47,10 +47,10 @@ implements BufferFacade, Cloneable
 {
     private final static int MAX_SEGMENT_SIZE = 0x8000000; // 1 GB, assures alignment
 
-    private File _file;
-    private boolean _isWritable;
-    private long _segmentSize;              // long because it's used in long expressions
-    private MappedByteBuffer[] _buffers;
+    private File file;
+    private boolean isWritable;
+    private long segmentSize;              // long because it's used in long expressions
+    private MappedByteBuffer[] buffers;
 
 
     /**
@@ -107,9 +107,9 @@ implements BufferFacade, Cloneable
             throw new IllegalArgumentException(
                     "segment size too large (max is " + MAX_SEGMENT_SIZE + "): " + segmentSize);
 
-        _file = file;
-        _isWritable = readWrite;
-        _segmentSize = segmentSize;
+        this.file = file;
+        this.isWritable = readWrite;
+        this.segmentSize = segmentSize;
 
         RandomAccessFile mappedFile = null;
         try
@@ -124,13 +124,13 @@ implements BufferFacade, Cloneable
 
             int bufArraySize = (int)(fileSize / segmentSize)
                              + ((fileSize % segmentSize != 0) ? 1 : 0);
-            _buffers = new MappedByteBuffer[bufArraySize];
+            buffers = new MappedByteBuffer[bufArraySize];
             int bufIdx = 0;
             for (long offset = 0 ; offset < fileSize ; offset += segmentSize)
             {
                 long remainingFileSize = fileSize - offset;
                 long thisSegmentSize = Math.min(2L * segmentSize, remainingFileSize);
-                _buffers[bufIdx++] = channel.map(mapMode, offset, thisSegmentSize);
+                buffers[bufIdx++] = channel.map(mapMode, offset, thisSegmentSize);
             }
         }
         finally
@@ -147,9 +147,10 @@ implements BufferFacade, Cloneable
     /**
      *  Returns the buffer's capacity -- the size of the mapped file.
      */
+    @Override
     public long capacity()
     {
-        return _file.length();
+        return file.length();
     }
 
 
@@ -159,6 +160,7 @@ implements BufferFacade, Cloneable
      *  This returns the same value as {@link #capacity}; it exists as part of
      *  the {@link BufferFacade} interface.
      */
+    @Override
     public long limit()
     {
         return capacity();
@@ -170,7 +172,7 @@ implements BufferFacade, Cloneable
      */
     public File file()
     {
-        return _file;
+        return file;
     }
 
 
@@ -179,7 +181,7 @@ implements BufferFacade, Cloneable
      */
     public boolean isWritable()
     {
-        return _isWritable;
+        return isWritable;
     }
 
 
@@ -189,7 +191,7 @@ implements BufferFacade, Cloneable
      */
     public ByteOrder getByteOrder()
     {
-        return _buffers[0].order();
+        return buffers[0].order();
     }
 
 
@@ -198,7 +200,7 @@ implements BufferFacade, Cloneable
      */
     public void setByteOrder(ByteOrder order)
     {
-        for (ByteBuffer child : _buffers)
+        for (ByteBuffer child : buffers)
             child.order(order);
     }
 
@@ -206,6 +208,7 @@ implements BufferFacade, Cloneable
     /**
      *  Retrieves a single byte from the specified index.
      */
+    @Override
     public byte get(long index)
     {
         return buffer(index).get();
@@ -215,6 +218,7 @@ implements BufferFacade, Cloneable
     /**
      *  Stores a single byte at the specified index.
      */
+    @Override
     public void put(long index, byte value)
     {
         buffer(index).put(value);
@@ -224,6 +228,7 @@ implements BufferFacade, Cloneable
     /**
      *  Retrieves a four-byte integer starting at the specified index.
      */
+    @Override
     public int getInt(long index)
     {
         return buffer(index).getInt();
@@ -233,6 +238,7 @@ implements BufferFacade, Cloneable
     /**
      *  Stores a four-byte integer starting at the specified index.
      */
+    @Override
     public void putInt(long index, int value)
     {
         buffer(index).putInt(value);
@@ -242,6 +248,7 @@ implements BufferFacade, Cloneable
     /**
      *  Retrieves an eight-byte integer starting at the specified index.
      */
+    @Override
     public long getLong(long index)
     {
         return buffer(index).getLong();
@@ -251,6 +258,7 @@ implements BufferFacade, Cloneable
     /**
      *  Stores an eight-byte integer starting at the specified index.
      */
+    @Override
     public void putLong(long index, long value)
     {
         buffer(index).putLong(value);
@@ -260,6 +268,7 @@ implements BufferFacade, Cloneable
     /**
      *  Retrieves a four-byte integer starting at the specified index.
      */
+    @Override
     public short getShort(long index)
     {
         return buffer(index).getShort();
@@ -269,6 +278,7 @@ implements BufferFacade, Cloneable
     /**
      *  Stores a four-byte integer starting at the specified index.
      */
+    @Override
     public void putShort(long index, short value)
     {
         buffer(index).putShort(value);
@@ -279,6 +289,7 @@ implements BufferFacade, Cloneable
      *  Retrieves a four-byte floating-point number starting at the specified
      *  index.
      */
+    @Override
     public float getFloat(long index)
     {
         return buffer(index).getFloat();
@@ -289,6 +300,7 @@ implements BufferFacade, Cloneable
      *  Stores a four-byte floating-point number starting at the specified
      *  index.
      */
+    @Override
     public void putFloat(long index, float value)
     {
         buffer(index).putFloat(value);
@@ -299,6 +311,7 @@ implements BufferFacade, Cloneable
      *  Retrieves an eight-byte floating-point number starting at the specified
      *  index.
      */
+    @Override
     public double getDouble(long index)
     {
         return buffer(index).getDouble();
@@ -309,6 +322,7 @@ implements BufferFacade, Cloneable
      *  Stores an eight-byte floating-point number starting at the specified
      *  index.
      */
+    @Override
     public void putDouble(long index, double value)
     {
         buffer(index).putDouble(value);
@@ -319,6 +333,7 @@ implements BufferFacade, Cloneable
      *  Retrieves a two-byte character starting at the specified  index (note
      *  that a Unicode code point may require calling this method twice).
      */
+    @Override
     public char getChar(long index)
     {
         return buffer(index).getChar();
@@ -328,6 +343,7 @@ implements BufferFacade, Cloneable
     /**
      *  Stores a two-byte character starting at the specified  index.
      */
+    @Override
     public void putChar(long index, char value)
     {
         buffer(index).putChar(value);
@@ -342,6 +358,7 @@ implements BufferFacade, Cloneable
      *  @throws IndexOutOfBoundsException if the request would read past
      *          the end of file.
      */
+    @Override
     public byte[] getBytes(long index, int len)
     {
         byte[] ret = new byte[len];
@@ -380,6 +397,7 @@ implements BufferFacade, Cloneable
      *  @throws IndexOutOfBoundsException if the request would write past
      *          the end of file.
      */
+    @Override
     public void putBytes(long index, byte[] value)
     {
         putBytes(index, value, 0, value.length);
@@ -411,6 +429,7 @@ implements BufferFacade, Cloneable
      *  Creates a new buffer, whose size will be >= segment size, starting at
      *  the specified offset.
      */
+    @Override
     public ByteBuffer slice(long index)
     {
         return buffer(index).slice();
@@ -425,7 +444,7 @@ implements BufferFacade, Cloneable
      */
     public void force()
     {
-        for (MappedByteBuffer buf : _buffers)
+        for (MappedByteBuffer buf : buffers)
             buf.force();
     }
 
@@ -441,13 +460,13 @@ implements BufferFacade, Cloneable
         try
         {
             MappedFileBuffer that = (MappedFileBuffer)super.clone();
-            that._buffers = new MappedByteBuffer[_buffers.length];
-            for (int ii = 0 ; ii < _buffers.length ; ii++)
+            that.buffers = new MappedByteBuffer[buffers.length];
+            for (int ii = 0 ; ii < buffers.length ; ii++)
             {
                 // if the file is a multiple of the segment size, we
                 // can end up with an empty slot in the buffer array
-                if (_buffers[ii] != null)
-                    that._buffers[ii] = (MappedByteBuffer)_buffers[ii].duplicate();
+                if (buffers[ii] != null)
+                    that.buffers[ii] = (MappedByteBuffer)buffers[ii].duplicate();
             }
             return that;
         }
@@ -457,8 +476,6 @@ implements BufferFacade, Cloneable
         }
     }
 
-
-
 //----------------------------------------------------------------------------
 //  Internals
 //----------------------------------------------------------------------------
@@ -466,8 +483,8 @@ implements BufferFacade, Cloneable
     // this is exposed for a white-box test of cloning
     protected ByteBuffer buffer(long index)
     {
-        ByteBuffer buf = _buffers[(int)(index / _segmentSize)];
-        buf.position((int)(index % _segmentSize));
+        ByteBuffer buf = buffers[(int)(index / segmentSize)];
+        buf.position((int)(index % segmentSize));
         return buf;
     }
 }

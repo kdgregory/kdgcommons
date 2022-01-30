@@ -30,12 +30,12 @@ import java.io.InputStream;
 public abstract class GeneratedInputStream
 extends InputStream
 {
-    private byte[] _buf;
-    private int _off;
-    private boolean _isClosed;
+    private byte[] buf;
+    private int bufOffset;
+    private boolean isClosed;
 
 //----------------------------------------------------------------------------
-//  InputStream implementation
+//  InputStream
 //----------------------------------------------------------------------------
 
     /**
@@ -45,9 +45,9 @@ extends InputStream
     @Override
     public int available() throws IOException
     {
-        return (_buf == null)
+        return (buf == null)
              ? 0
-             : _buf.length - _off;
+             : buf.length - bufOffset;
     }
 
 
@@ -58,7 +58,7 @@ extends InputStream
     @Override
     public void close() throws IOException
     {
-        _isClosed = true;
+        isClosed = true;
     }
 
 
@@ -98,7 +98,7 @@ extends InputStream
     public int read() throws IOException
     {
         if (isAvailable())
-            return _buf[_off++] & 0xFF;
+            return buf[bufOffset++] & 0xFF;
         else
             return -1;
     }
@@ -111,13 +111,13 @@ extends InputStream
         while ((len > 0) && isAvailable())
         {
             int bytesToCopy = Math.min(
-                                _buf.length - _off,
+                                buf.length - bufOffset,
                                 len - bytesRead);
-            System.arraycopy(_buf, _off, b, off, bytesToCopy);
+            System.arraycopy(buf, bufOffset, b, off, bytesToCopy);
             bytesRead += bytesToCopy;
             off += bytesToCopy;
             len -= bytesToCopy;
-            _off += bytesToCopy;
+            bufOffset += bytesToCopy;
         }
         return bytesRead;
     }
@@ -155,7 +155,6 @@ extends InputStream
         return bytesSkipped;
     }
 
-
 //----------------------------------------------------------------------------
 //  Methods for subclasses to implement
 //----------------------------------------------------------------------------
@@ -165,7 +164,6 @@ extends InputStream
      *  there's no more data. Buffers may be any size.
      */
     protected abstract byte[] nextBuffer() throws IOException;
-
 
 //----------------------------------------------------------------------------
 //  Internals
@@ -179,15 +177,15 @@ extends InputStream
     private boolean isAvailable()
     throws IOException
     {
-        if (_isClosed)
+        if (isClosed)
             throw new IOException("stream is closed");
 
-        if ((_buf == null) || (_off >= _buf.length))
+        if ((buf == null) || (bufOffset >= buf.length))
         {
-            _buf = nextBuffer();
-            _off = 0;
+            buf = nextBuffer();
+            bufOffset = 0;
         }
 
-        return (_buf != null);
+        return (buf != null);
     }
 }

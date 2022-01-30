@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 public class TestByteBufferThreadLocal
 extends TestCase
 {
-    private ByteBufferThreadLocal _tl;
+    private ByteBufferThreadLocal tl;
 
     private final int testLoc = 4;
     private final int testVal = 0x12345678;
@@ -34,13 +34,13 @@ extends TestCase
         public ByteBuffer myBuffer;
         public int myValue;
 
+        @Override
         public void run()
         {
-            myBuffer = _tl.get();
+            myBuffer = tl.get();
             myValue = myBuffer.getInt(testLoc);
         }
     }
-
 
 //----------------------------------------------------------------------------
 //  Test Case -- there's really only one, and it doesn't truly test
@@ -53,7 +53,7 @@ extends TestCase
         ByteBuffer src = ByteBuffer.allocate(1024);
         src.putInt(testLoc, testVal);
 
-        _tl = new ByteBufferThreadLocal(src);
+        tl = new ByteBufferThreadLocal(src);
 
         MyRunnable r1 = new MyRunnable();
         Thread t1 = new Thread(r1);

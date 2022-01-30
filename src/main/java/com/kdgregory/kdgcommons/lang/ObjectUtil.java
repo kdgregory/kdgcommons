@@ -23,6 +23,12 @@ import java.util.function.Supplier;
  */
 public class ObjectUtil
 {
+    private ObjectUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Tests two objects for equality. Properly handles <code>null</code>, and also
      *  handles arrays (something that Jakarta <code>ObjectUtils.equals()</code> does

@@ -39,17 +39,17 @@ import java.nio.channels.ReadableByteChannel;
 public class ChannelInputStream
 extends InputStream
 {
-    private ReadableByteChannel _channel;
+    private ReadableByteChannel channel;
 
     // for single-byte reads we'll reuse the buffer rather than recreate
     // (premature optimization, maybe, but why allocate objects we don't need?)
-    private byte[] _singleByte = new byte[1];
-    private ByteBuffer _singleByteBuf = ByteBuffer.wrap(_singleByte);
+    private byte[] singleByte = new byte[1];
+    private ByteBuffer singleByteBuf = ByteBuffer.wrap(singleByte);
 
 
     public ChannelInputStream(ReadableByteChannel channel)
     {
-        _channel = channel;
+        this.channel = channel;
     }
 
 //----------------------------------------------------------------------------
@@ -80,11 +80,11 @@ extends InputStream
     public int read()
     throws IOException
     {
-        _singleByteBuf.clear();
-        int flag = _channel.read(_singleByteBuf);
+        singleByteBuf.clear();
+        int flag = channel.read(singleByteBuf);
         if (flag <= 0)
             return -1;
-        return _singleByte[0] & 0xFF;
+        return singleByte[0] & 0xFF;
     }
 
 
@@ -117,7 +117,7 @@ extends InputStream
     public int read(byte[] b, int off, int len) throws IOException
     {
         ByteBuffer buf = ByteBuffer.wrap(b, off, len);
-        return _channel.read(buf);
+        return channel.read(buf);
     }
 
 
@@ -127,7 +127,7 @@ extends InputStream
     @Override
     public void close() throws IOException
     {
-        _channel.close();
+        channel.close();
     }
 
 

@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 public class TestMappedFileBufferThreadLocal
 extends TestCase
 {
-    private MappedFileBufferThreadLocal _tl;
+    private MappedFileBufferThreadLocal tl;
 
     private final int testLoc = 4;
     private final int testVal = 0x12345678;
@@ -35,9 +35,10 @@ extends TestCase
         public MappedFileBuffer myBuffer;
         public int myValue;
 
+        @Override
         public void run()
         {
-            myBuffer = _tl.get();
+            myBuffer = tl.get();
             myValue = myBuffer.getInt(testLoc);
         }
     }
@@ -53,14 +54,15 @@ extends TestCase
     {
         File tempFile = File.createTempFile("TestMappedFileBufferThreadLocal", "tmp");
         tempFile.deleteOnExit();
-        FileOutputStream tempOut = new FileOutputStream(tempFile);
-        tempOut.write(new byte[1024]);
-        tempOut.close();
+        try (FileOutputStream tempOut = new FileOutputStream(tempFile))
+        {
+            tempOut.write(new byte[1024]);
+        }
 
         MappedFileBuffer buf = new MappedFileBuffer(tempFile, true);
         buf.putInt(testLoc, testVal);
 
-        _tl = new MappedFileBufferThreadLocal(buf);
+        tl = new MappedFileBufferThreadLocal(buf);
 
         MyRunnable r1 = new MyRunnable();
         Thread t1 = new Thread(r1);

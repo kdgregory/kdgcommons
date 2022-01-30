@@ -22,60 +22,60 @@ import junit.framework.TestCase;
 
 public class TestTeeOutputStream extends TestCase
 {
-    private byte[] _testData;
-    private ByteArrayOutputStream _base;
-    private ByteArrayOutputStream _tee;
-    private TeeOutputStream _test;
+    private byte[] testData;
+    private ByteArrayOutputStream base;
+    private ByteArrayOutputStream tee;
+    private TeeOutputStream test;
 
 
     @Override
     protected void setUp() throws Exception
     {
-        _testData = "Hello, World".getBytes("UTF-8");
-        _base = new ByteArrayOutputStream();
-        _tee = new ByteArrayOutputStream();
-        _test = new TeeOutputStream(_base, _tee);
+        testData = "Hello, World".getBytes("UTF-8");
+        base = new ByteArrayOutputStream();
+        tee = new ByteArrayOutputStream();
+        test = new TeeOutputStream(base, tee);
     }
 
 
     public void testWriteSingleByte() throws Exception
     {
-        _test.write(65);
-        assertEquals(1, _base.toByteArray().length);
-        assertEquals(1, _tee.toByteArray().length);
-        assertEquals(65, _base.toByteArray()[0]);
-        assertEquals(65, _tee.toByteArray()[0]);
+        test.write(65);
+        assertEquals(1, base.toByteArray().length);
+        assertEquals(1, tee.toByteArray().length);
+        assertEquals(65, base.toByteArray()[0]);
+        assertEquals(65, tee.toByteArray()[0]);
     }
 
 
     public void testWriteFromBuffer() throws Exception
     {
-        _test.write(_testData);
-        byte[] baseData = _base.toByteArray();
-        byte[] teeData = _tee.toByteArray();
+        test.write(testData);
+        byte[] baseData = base.toByteArray();
+        byte[] teeData = tee.toByteArray();
 
-        assertEquals(_testData.length, baseData.length);
-        assertEquals(_testData.length, teeData.length);
-        for (int ii = 0 ; ii < _testData.length ; ii++)
+        assertEquals(testData.length, baseData.length);
+        assertEquals(testData.length, teeData.length);
+        for (int ii = 0 ; ii < testData.length ; ii++)
         {
-            assertEquals("byte " + ii, _testData[ii], baseData[ii]);
-            assertEquals("byte " + ii, _testData[ii], teeData[ii]);
+            assertEquals("byte " + ii, testData[ii], baseData[ii]);
+            assertEquals("byte " + ii, testData[ii], teeData[ii]);
         }
     }
 
 
     public void testWriteFromBufferWithOffsetAndLength() throws Exception
     {
-        _test.write(_testData, 2, 6);
-        byte[] baseData = _base.toByteArray();
-        byte[] teeData = _tee.toByteArray();
+        test.write(testData, 2, 6);
+        byte[] baseData = base.toByteArray();
+        byte[] teeData = tee.toByteArray();
 
         assertEquals(6, baseData.length);
         assertEquals(6, teeData.length);
         for (int ii = 0 ; ii < 6 ; ii++)
         {
-            assertEquals("byte " + ii, _testData[ii + 2], baseData[ii]);
-            assertEquals("byte " + ii, _testData[ii + 2], teeData[ii]);
+            assertEquals("byte " + ii, testData[ii + 2], baseData[ii]);
+            assertEquals("byte " + ii, testData[ii + 2], teeData[ii]);
         }
     }
 
@@ -83,32 +83,32 @@ public class TestTeeOutputStream extends TestCase
 
     public void testFlush() throws Exception
     {
-        _test = new TeeOutputStream(new BufferedOutputStream(_base, 1024),
-                                    new BufferedOutputStream(_tee, 1024));
+        test = new TeeOutputStream(new BufferedOutputStream(base, 1024),
+                                    new BufferedOutputStream(tee, 1024));
 
-        _test.write(_testData);
-        assertEquals(0, _base.toByteArray().length);
-        assertEquals(0, _tee.toByteArray().length);
+        test.write(testData);
+        assertEquals(0, base.toByteArray().length);
+        assertEquals(0, tee.toByteArray().length);
 
-        _test.flush();
-        assertEquals(_testData.length, _base.toByteArray().length);
-        assertEquals(_testData.length, _tee.toByteArray().length);
+        test.flush();
+        assertEquals(testData.length, base.toByteArray().length);
+        assertEquals(testData.length, tee.toByteArray().length);
     }
 
 
     public void testAutoFlush() throws Exception
     {
-        _test = new TeeOutputStream(new BufferedOutputStream(_base, 1024),
-                                    new BufferedOutputStream(_tee, 1024),
+        test = new TeeOutputStream(new BufferedOutputStream(base, 1024),
+                                    new BufferedOutputStream(tee, 1024),
                                     true);
 
-        _test.write(_testData);
-        assertEquals(0, _base.toByteArray().length);
-        assertEquals(_testData.length, _tee.toByteArray().length);
+        test.write(testData);
+        assertEquals(0, base.toByteArray().length);
+        assertEquals(testData.length, tee.toByteArray().length);
 
-        _test.flush();
-        assertEquals(_testData.length, _base.toByteArray().length);
-        assertEquals(_testData.length, _tee.toByteArray().length);
+        test.flush();
+        assertEquals(testData.length, base.toByteArray().length);
+        assertEquals(testData.length, tee.toByteArray().length);
     }
 
 }

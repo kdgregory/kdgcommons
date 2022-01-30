@@ -21,6 +21,8 @@ import java.util.Iterator;
  *  Wrapper for an <code>Enumeration</code> that allows it to be used in for-each
  *  loops.
  *  <p>
+ *
+ *  TODO - no reason to have this restriction
  *  Warning: this class does not allow re-iteration of the enumeration. Calling {@link
  *  #iterator} multiple times will return iterators that refer to the same source
  *  enumeration.
@@ -30,29 +32,33 @@ import java.util.Iterator;
 public class EnumerationIterable<T>
 implements Iterable<T>
 {
-    private Enumeration<T> _enumeration;
+    private Enumeration<T> enumeration;
 
 
     public EnumerationIterable(Enumeration<T> enumeration)
     {
-        _enumeration = enumeration;
+        this.enumeration = enumeration;
     }
 
 
+    @Override
     public Iterator<T> iterator()
     {
         return new Iterator<T>()
         {
+            @Override
             public boolean hasNext()
             {
-                return _enumeration.hasMoreElements();
+                return enumeration.hasMoreElements();
             }
 
+            @Override
             public T next()
             {
-                return _enumeration.nextElement();
+                return enumeration.nextElement();
             }
 
+            @Override
             public void remove()
             {
                 throw new UnsupportedOperationException("Enumeration does not support removal");

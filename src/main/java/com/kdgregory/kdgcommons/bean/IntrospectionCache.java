@@ -26,8 +26,8 @@ import java.util.Map;
  */
 public class IntrospectionCache
 {
-    private static Map<Class<?>,Introspection> _staticCache = new HashMap<Class<?>,Introspection>();
-    private Map<Class<?>,Introspection> _cache;
+    private static Map<Class<?>,Introspection> staticCache = new HashMap<Class<?>,Introspection>();
+    private Map<Class<?>,Introspection> cache;
 
 
     /**
@@ -44,8 +44,9 @@ public class IntrospectionCache
      */
     public IntrospectionCache(boolean shared)
     {
-        _cache = shared ? _staticCache
-                        : new HashMap<Class<?>,Introspection>();
+        this.cache = shared
+                    ? staticCache
+                    : new HashMap<Class<?>,Introspection>();
     }
 
 
@@ -74,11 +75,11 @@ public class IntrospectionCache
      */
     public synchronized Introspection lookup(Class<?> klass, boolean setAccessible)
     {
-        Introspection result = _cache.get(klass);
+        Introspection result = cache.get(klass);
         if (result == null)
         {
             result = new Introspection(klass, setAccessible);
-            _cache.put(klass, result);
+            cache.put(klass, result);
         }
         return result;
     }

@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class MapBuilder<K,V>
 {
-    private Map<K,V> _map;
+    private Map<K,V> map;
 
 
     /**
@@ -34,7 +34,7 @@ public class MapBuilder<K,V>
      */
     public MapBuilder(Map<K,V> map)
     {
-        _map = map;
+        this.map = map;
     }
 
 
@@ -43,7 +43,7 @@ public class MapBuilder<K,V>
      */
     public MapBuilder<K,V> put(K key, V value)
     {
-        _map.put(key, value);
+        map.put(key, value);
         return this;
     }
 
@@ -53,6 +53,6 @@ public class MapBuilder<K,V>
      */
     public Map<K,V> toMap()
     {
-        return _map;
+        return map;
     }
 }

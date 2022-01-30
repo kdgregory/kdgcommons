@@ -24,6 +24,12 @@ import java.math.BigInteger;
  */
 public class NumberUtil
 {
+    private NumberUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Parses the passed string into an instance of the specified class.
      *  Typically used when converting strings for bean fields.

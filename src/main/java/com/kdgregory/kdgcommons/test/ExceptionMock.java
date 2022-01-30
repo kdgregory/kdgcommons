@@ -33,8 +33,8 @@ import java.lang.reflect.Proxy;
 public class ExceptionMock
 implements InvocationHandler
 {
-    private Throwable _specific;
-    private Class<? extends Throwable> _generic;
+    private Throwable specific;
+    private Class<? extends Throwable> generic;
 
 
     /**
@@ -43,7 +43,7 @@ implements InvocationHandler
      */
     public ExceptionMock(Throwable ex)
     {
-        _specific = ex;
+        this.specific = ex;
     }
 
 
@@ -58,7 +58,7 @@ implements InvocationHandler
      */
     public ExceptionMock(Class<? extends Throwable> klass)
     {
-        _generic = klass;
+        generic = klass;
     }
 
 
@@ -72,12 +72,13 @@ implements InvocationHandler
     }
 
 
+    @Override
     public Object invoke(Object proxy, Method method, Object[] args)
     throws Throwable
     {
-        if (_specific != null)
-            throw _specific;
+        if (specific != null)
+            throw specific;
         else
-            throw _generic.newInstance();
+            throw generic.newInstance();
     }
 }

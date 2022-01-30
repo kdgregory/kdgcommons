@@ -28,12 +28,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.RandomAccess;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.regex.Pattern;
 
 
 /**
@@ -42,6 +36,12 @@ import java.util.regex.Pattern;
  */
 public class CollectionUtil
 {
+    private CollectionUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Returns a set (<code>HashSet</code>) containing the passed elements.
      */
@@ -232,7 +232,6 @@ public class CollectionUtil
      *
      *  @throws ClassCastException if any element is a different type.
      */
-    @SuppressWarnings("unchecked")
     public static <T> List<T> cast(List<?> list, Class<T> klass)
     {
         for (Object obj : list)
@@ -251,7 +250,6 @@ public class CollectionUtil
      *
      *  @throws ClassCastException if any element is a different type.
      */
-    @SuppressWarnings("unchecked")
     public static <T> Set<T> cast(Set<?> set, Class<T> klass)
     {
         for (Object obj : set)
@@ -272,7 +270,6 @@ public class CollectionUtil
      *
      *  @since 1.0.15
      */
-    @SuppressWarnings("unchecked")
     public static <K,V> Map<K,V> cast(Map<?,?> map, Class<K> keyClass, Class<V> valueClass)
     {
         for (Map.Entry<?,?> entry : map.entrySet())

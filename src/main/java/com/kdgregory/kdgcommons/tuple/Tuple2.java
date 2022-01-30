@@ -24,15 +24,14 @@ import com.kdgregory.kdgcommons.lang.ObjectUtil;
  */
 public class Tuple2<A,B>
 {
-    private A  _val0;
-    private B  _val1;
+    private A  val0;
+    private B  val1;
 
     public Tuple2(A val0, B val1)
     {
-        _val0 = val0;
-        _val1 = val1;
+        this.val0 = val0;
+        this.val1 = val1;
     }
-
 
 //----------------------------------------------------------------------------
 //  Public methods
@@ -40,15 +39,14 @@ public class Tuple2<A,B>
 
     public A get0()
     {
-        return _val0;
+        return val0;
     }
 
 
     public B get1()
     {
-        return _val1;
+        return val1;
     }
-
 
 //----------------------------------------------------------------------------
 //  Overrides of Object
@@ -64,8 +62,8 @@ public class Tuple2<A,B>
         if (obj instanceof Tuple2)
         {
             Tuple2<A,B> that = (Tuple2<A,B>)obj;
-            return ObjectUtil.equals(this._val0, that._val0)
-                   && ObjectUtil.equals(this._val1, that._val1);
+            return ObjectUtil.equals(this.val0, that.val0)
+                   && ObjectUtil.equals(this.val1, that.val1);
         }
         return false;
     }
@@ -74,7 +72,7 @@ public class Tuple2<A,B>
     @Override
     public int hashCode()
     {
-        return ObjectUtil.hashCode(_val0) * 31 + ObjectUtil.hashCode(_val1);
+        return ObjectUtil.hashCode(val0) * 31 + ObjectUtil.hashCode(val1);
     }
 
 
@@ -85,6 +83,6 @@ public class Tuple2<A,B>
     @Override
     public String toString()
     {
-        return "(" + _val0 + "," + _val1 + ")";
+        return "(" + val0 + "," + val1 + ")";
     }
 }

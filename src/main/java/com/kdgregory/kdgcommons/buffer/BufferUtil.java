@@ -32,6 +32,12 @@ import com.kdgregory.kdgcommons.lang.StringUtil;
  */
 public class BufferUtil
 {
+    private BufferUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Memory maps a segment of a file.
      *  <p>

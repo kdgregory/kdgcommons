@@ -25,6 +25,12 @@ import java.util.Random;
  */
 public class StringUtil
 {
+    private StringUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Returns the length of the passed string, 0 if the string is null.
      *

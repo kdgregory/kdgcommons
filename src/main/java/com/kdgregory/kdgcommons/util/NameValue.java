@@ -29,16 +29,15 @@ implements Comparable<NameValue<T>>, Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private String  _name;
-    private T  _value;
+    private String  name;
+    private T  value;
 
 
     public NameValue(String name, T value)
     {
-        _name = name;
-        _value = value;
+        this.name = name;
+        this.value = value;
     }
-
 
 //----------------------------------------------------------------------------
 //  Public methods
@@ -46,15 +45,14 @@ implements Comparable<NameValue<T>>, Serializable
 
     public String getName()
     {
-        return _name;
+        return name;
     }
 
 
     public T getValue()
     {
-        return _value;
+        return value;
     }
-
 
 //----------------------------------------------------------------------------
 //  Overrides of Object
@@ -70,8 +68,8 @@ implements Comparable<NameValue<T>>, Serializable
         if (obj instanceof NameValue)
         {
             NameValue<T> that = (NameValue<T>)obj;
-            return ObjectUtil.equals(_name, that._name)
-                   && ObjectUtil.equals(_value, that._value);
+            return ObjectUtil.equals(name, that.name)
+                   && ObjectUtil.equals(value, that.value);
         }
         return false;
     }
@@ -80,7 +78,7 @@ implements Comparable<NameValue<T>>, Serializable
     @Override
     public int hashCode()
     {
-        return ObjectUtil.hashCode(_name) * 31 + ObjectUtil.hashCode(_value);
+        return ObjectUtil.hashCode(name) * 31 + ObjectUtil.hashCode(value);
     }
 
 
@@ -91,9 +89,8 @@ implements Comparable<NameValue<T>>, Serializable
     @Override
     public String toString()
     {
-        return "[" + _name + "=" + String.valueOf(_value) + "]";
+        return "[" + name + "=" + String.valueOf(value) + "]";
     }
-
 
 //----------------------------------------------------------------------------
 //  Implementation of Comparable
@@ -105,18 +102,19 @@ implements Comparable<NameValue<T>>, Serializable
      *  examined. If the value implements Comparable, this is straightforward;
      *  if not, the values are converted to strings and then compared.
      */
+    @Override
     public int compareTo(NameValue<T> that)
     {
-        int cmp = _name.compareTo(that._name);
+        int cmp = name.compareTo(that.name);
         if (cmp != 0)
             return cmp;
 
-        if (_value instanceof Comparable)
-            return ((Comparable<T>)_value).compareTo(that._value);
+        if (value instanceof Comparable)
+            return ((Comparable<T>)value).compareTo(that.value);
 
-        if (ObjectUtil.equals(_value, that._value))
+        if (ObjectUtil.equals(value, that.value))
             return 0;
 
-        return (String.valueOf(_value).compareTo(String.valueOf(that._value)));
+        return (String.valueOf(value).compareTo(String.valueOf(that.value)));
     }
 }

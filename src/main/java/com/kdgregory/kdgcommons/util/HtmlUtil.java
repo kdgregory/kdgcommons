@@ -25,6 +25,12 @@ import com.kdgregory.kdgcommons.lang.StringUtil;
  */
 public class HtmlUtil
 {
+    private HtmlUtil()
+    {
+        // this is here to prevent instantiation
+    }
+
+
     /**
      *  Replaces characters in the passed string with entities:
      *  <ul>
