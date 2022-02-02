@@ -157,6 +157,8 @@ extends TestCase
     public static class MissingGetterBean
     {
         private String propS1;
+
+        @SuppressWarnings("unused")
         private String propS2;
 
         public String getPropS1()           { return propS1; }

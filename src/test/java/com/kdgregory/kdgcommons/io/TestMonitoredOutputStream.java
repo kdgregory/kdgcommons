@@ -46,11 +46,11 @@ public class TestMonitoredOutputStream extends TestCase
         }
     }
 
-
 //----------------------------------------------------------------------------
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @SuppressWarnings("resource")
     public void testOneByteWrite() throws Exception
     {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -74,6 +74,7 @@ public class TestMonitoredOutputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMultiByteWrites() throws Exception
     {
         byte[] data = "ABCDEF".getBytes("UTF-8");
@@ -95,6 +96,7 @@ public class TestMonitoredOutputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testFlushAndClose() throws Exception
     {
         final AtomicBoolean isFlushed = new AtomicBoolean(false);

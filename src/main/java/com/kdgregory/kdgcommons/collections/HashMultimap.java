@@ -90,6 +90,7 @@ implements Serializable
      *                          the number of occupied buckets is >= this fraction of
      *                          current capacity, the table will be doubled.
      */
+    @SuppressWarnings("unchecked")
     public HashMultimap(Behavior behavior, int initialCapacity, double loadFactor)
     {
         this.behavior = behavior;
@@ -102,7 +103,7 @@ implements Serializable
         }
 
         this.mask = realCapacity - 1;
-        this.table = new HashEntry[realCapacity];
+        this.table = (HashEntry<K,V>[])new HashEntry[realCapacity];
 
         this.resizeThreshold = (int)(table.length * loadFactor);
     }
@@ -412,6 +413,7 @@ implements Serializable
 //  Object overrides
 //----------------------------------------------------------------------------
 
+    @SuppressWarnings("unchecked")
     @Override
     /**
      *  Two instances are equal if they are the same size and have the same
@@ -584,6 +586,7 @@ implements Serializable
     }
 
 
+    @SuppressWarnings("unchecked")
     private void resize()
     {
         // there might come a time where we can't resize

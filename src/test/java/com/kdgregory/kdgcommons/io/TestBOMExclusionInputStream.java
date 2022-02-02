@@ -106,6 +106,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testReadWithoutBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C'};
@@ -118,6 +119,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testReadWithBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C'};
@@ -130,6 +132,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testLargeBufferWithoutBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C'};
@@ -141,6 +144,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testLargeBufferWithBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C'};
@@ -151,6 +155,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSmallBufferWithoutBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C'};
@@ -163,6 +168,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSmallBufferWithBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C'};
@@ -175,6 +181,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testLeadingNonBOMSingleRead() throws Exception
     {
         byte[] data = new byte[] {(byte)0xEF, (byte)0xAB, (byte)0xCD};
@@ -187,6 +194,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testLeadingNonBOMBufferedRead() throws Exception
     {
         byte[] data = new byte[] {(byte)0xEF, (byte)0xAB, (byte)0xCD};
@@ -198,6 +206,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSkipWithoutBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C', 'D'};
@@ -209,6 +218,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSkipWithBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C', 'D'};
@@ -220,6 +230,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkResetAfterReadWithoutBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C', 'D'};
@@ -237,6 +248,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkResetAfterReadWithBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C', 'D'};
@@ -254,6 +266,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkResetBeforeReadWithoutBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C', 'D'};
@@ -270,6 +283,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkResetBeforeReadWithBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C', 'D'};
@@ -286,6 +300,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testAvailableWithoutBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C', 'D'};
@@ -295,6 +310,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testAvailableWithBOM() throws Exception
     {
         byte[] data = new byte[] {'A', 'B', 'C', 'D'};
@@ -305,6 +321,7 @@ public class TestBOMExclusionInputStream extends TestCase
 
 
     // this is here for coverage
+    @SuppressWarnings("resource")
     public void testClose() throws Exception
     {
         ExpectCloseInputStream del = new ExpectCloseInputStream();
@@ -316,6 +333,7 @@ public class TestBOMExclusionInputStream extends TestCase
 
 
     // cross-library regression test (did not find failure)
+    @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {
         byte[] data = new byte[] {(byte)0xFF, 0x01};

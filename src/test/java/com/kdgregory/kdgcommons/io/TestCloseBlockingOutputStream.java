@@ -86,6 +86,7 @@ public class TestCloseBlockingOutputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testClose() throws Exception
     {
         MyMockOutputStream base = new MyMockOutputStream();
@@ -94,6 +95,4 @@ public class TestCloseBlockingOutputStream extends TestCase
         // mock will throw if this gets through
         test.close();
     }
-
-
 }

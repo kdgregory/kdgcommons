@@ -63,6 +63,7 @@ implements Comparable<NameValue<T>>, Serializable
      *  name and value components are equal.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public final boolean equals(Object obj)
     {
         if (obj instanceof NameValue)
@@ -103,6 +104,7 @@ implements Comparable<NameValue<T>>, Serializable
      *  if not, the values are converted to strings and then compared.
      */
     @Override
+    @SuppressWarnings("unchecked")
     public int compareTo(NameValue<T> that)
     {
         int cmp = name.compareTo(that.name);

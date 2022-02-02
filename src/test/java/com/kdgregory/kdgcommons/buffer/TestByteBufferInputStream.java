@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 public class TestByteBufferInputStream
 extends TestCase
 {
+    @SuppressWarnings("resource")
     public void testSingleByteRead() throws Exception
     {
         byte[] data = new byte[] { 0x01, 0x02, 0x03 };
@@ -39,6 +40,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotExtendSign() throws Exception
     {
         byte[] data = new byte[] { (byte)0xFF };
@@ -52,6 +54,7 @@ extends TestCase
 
     // this is a redundant test given current implementation; leave it, in case
     // implementation changes
+    @SuppressWarnings("resource")
     public void testArrayRead() throws Exception
     {
         byte[] data = new byte[] { 0x01, 0x02, 0x03 };
@@ -69,6 +72,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testArrayReadWithOffset() throws Exception
     {
         byte[] data = new byte[] { 0x01, 0x02, 0x03 };
@@ -101,6 +105,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testConstructWithOffset() throws Exception
     {
         byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04 };
@@ -115,6 +120,7 @@ extends TestCase
 
 
     // curre t implementation makes use of available() internally, but test it anyway
+    @SuppressWarnings("resource")
     public void testAvailable() throws Exception
     {
         byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04 };
@@ -131,6 +137,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSkip() throws Exception
     {
         byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07 };
@@ -147,7 +154,7 @@ extends TestCase
     }
 
 
-
+    @SuppressWarnings("resource")
     public void testMarkAndReset() throws Exception
     {
         byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04 };
@@ -174,6 +181,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testResetFailsWithoutMark() throws Exception
     {
         byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04 };
@@ -192,6 +200,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testReadFailsAfterClose() throws Exception
     {
         byte[] data = new byte[] { 0x01, 0x02, 0x03, 0x04 };

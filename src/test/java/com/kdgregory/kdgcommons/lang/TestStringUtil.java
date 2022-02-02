@@ -247,6 +247,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @SuppressWarnings("unused")
     public void testRandomAlpha() throws Exception
     {
         final int reps = 1000;

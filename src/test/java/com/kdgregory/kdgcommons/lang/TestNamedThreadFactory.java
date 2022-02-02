@@ -35,6 +35,7 @@ extends TestCase
     // and this runnable does the work
     Runnable task = new Runnable()
     {
+        @Override
         public void run()
         {
             threadName = Thread.currentThread().getName();
@@ -72,6 +73,7 @@ extends TestCase
 
         new Thread(altGroup, new Runnable()
         {
+            @Override
             public void run()
             {
                 fact.newThread(task).start();

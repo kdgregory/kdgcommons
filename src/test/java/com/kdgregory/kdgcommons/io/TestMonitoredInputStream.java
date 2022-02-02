@@ -128,6 +128,7 @@ public class TestMonitoredInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkAndReset() throws Exception
     {
         ByteArrayInputStream delegate = new ByteArrayInputStream("ABCDEFGHIJKL".getBytes("UTF-8"));
@@ -182,6 +183,7 @@ public class TestMonitoredInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testClose() throws Exception
     {
         // ByteArrayInputStream doesn't care about close, so we'll create

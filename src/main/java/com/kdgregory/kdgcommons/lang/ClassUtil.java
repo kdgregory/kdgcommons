@@ -295,11 +295,14 @@ public class ClassUtil
      *  to find the field in the class hierarchy, or if an exception occurred while
      *  retrieving its value.
      *  <p>
-     *  Note: does not verify that actual field value matches <code>expectedClass</code>
-     *  (this gets tricky when dealing with primitive wrapper classes).
+     *  Note: because of the way that reflection deals with primitives, this function
+     *  does not ensure that the returned value is an instance of <code>expectedClass</code>.
+     *  This will result in a <code>ClassCastException</code> at the call point if you
+     *  pass an incorrect class value.
      *
      *  @since 1.0.16
      */
+    @SuppressWarnings("unchecked")
     public static <T> T getFieldValue(Object obj, String fieldName, Class<T> expectedClass)
     throws NoSuchFieldException
     {

@@ -120,6 +120,7 @@ public class TestCloseBlockingInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testClose() throws Exception
     {
         MyMockInputStream base = new MyMockInputStream();

@@ -102,6 +102,7 @@ public class TestCombiningInputStream extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @SuppressWarnings("resource")
     public void testSingleStreamSimpleRead() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -113,6 +114,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMultipleStreamsSimpleRead() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -132,6 +134,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSingleStreamBufRead() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -147,6 +150,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMultipleStreamsBufRead() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -170,6 +174,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMultipleStreamsBufReadWithZeroAvailable() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -191,6 +196,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testAvailable() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -208,6 +214,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testClose() throws Exception
     {
         CloseAssertingInputStream sub1 = new CloseAssertingInputStream(false);
@@ -220,6 +227,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testCloseWithException() throws Exception
     {
         CloseAssertingInputStream sub1 = new CloseAssertingInputStream(true);
@@ -241,6 +249,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkSupported() throws Exception
     {
         // everyone supports
@@ -287,6 +296,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkResetSingleConstituent() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -301,6 +311,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkResetMultipleComponents() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -326,6 +337,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkResetAtEOF() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -349,6 +361,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSkip() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -365,6 +378,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSkipAtEOF() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -380,6 +394,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSkipWithReset() throws Exception
     {
         InputStream in = new CombiningInputStream(
@@ -404,6 +419,7 @@ public class TestCombiningInputStream extends TestCase
 
 
     // cross-library regression test (did not find failure)
+    @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {
         InputStream in = new CombiningInputStream(

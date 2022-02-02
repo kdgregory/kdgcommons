@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 public class TestExceptionMock
 extends TestCase
 {
+    @SuppressWarnings("resource")
     public void testThrowExplicitInstance() throws Exception
     {
         Exception myException = new IOException();
@@ -40,6 +41,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testThrowNewInstance() throws Exception
     {
         ExceptionMock mock = new ExceptionMock(IOException.class);

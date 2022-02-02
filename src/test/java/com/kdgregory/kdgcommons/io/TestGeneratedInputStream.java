@@ -61,6 +61,7 @@ public class TestGeneratedInputStream extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @SuppressWarnings("resource")
     public void testSingleByteReadOneBuffer() throws Exception
     {
         InputStream in = new TestStream(3, 1);
@@ -71,6 +72,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSingleByteReadMultipleBuffers() throws Exception
     {
         InputStream in = new TestStream(2, 3);
@@ -84,6 +86,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testBlockReadOneBuffer() throws Exception
     {
         byte[] buf = new byte[1024];
@@ -96,6 +99,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testBlockReadMultipleBuffers() throws Exception
     {
         byte[] buf = new byte[1024];
@@ -111,6 +115,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testPartialBlockReadOneBuffer() throws Exception
     {
         byte[] buf = new byte[1024];
@@ -123,6 +128,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testPartialBlockReadMultipleBuffers() throws Exception
     {
         byte[] buf = new byte[1024];
@@ -138,6 +144,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testAvailable() throws Exception
     {
         InputStream in = new TestStream(3, 1);
@@ -150,6 +157,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testThrowsAfterClose() throws Exception
     {
         InputStream in = new TestStream(3, 1);
@@ -167,6 +175,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMarkAndReset() throws Exception
     {
         InputStream in = new TestStream(3, 1);
@@ -189,6 +198,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSkip() throws Exception
     {
         InputStream in = new TestStream(10, 1);
@@ -202,6 +212,7 @@ public class TestGeneratedInputStream extends TestCase
 
 
     // cross-library regression test
+    @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {
         InputStream in = new GeneratedInputStream()

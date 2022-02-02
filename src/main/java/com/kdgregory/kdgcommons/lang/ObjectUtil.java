@@ -187,7 +187,7 @@ public class ObjectUtil
      *
      *  @throws ClassCastException if objects are not directly comparable.
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"unchecked","rawtypes"})
     public static int compare(Comparable v1, Comparable v2, boolean nullIsLow)
     {
         return ((v1 == null) && (v2 == null)) ? 0

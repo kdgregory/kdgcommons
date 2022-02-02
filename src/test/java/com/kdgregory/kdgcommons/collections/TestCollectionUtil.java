@@ -507,6 +507,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testCombineList() throws Exception
     {
         List<String> dest = CollectionUtil.combine(new ArrayList<String>(),
@@ -521,6 +522,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testCombineSet() throws Exception
     {
         Set<String> dest = CollectionUtil.combine(new HashSet<String>(),
@@ -533,6 +535,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testCombineMap() throws Exception
     {
         Map<String,String> src1 = new MapBuilder<String,String>(new HashMap<String,String>())

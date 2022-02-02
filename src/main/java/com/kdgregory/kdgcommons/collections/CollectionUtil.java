@@ -45,6 +45,7 @@ public class CollectionUtil
     /**
      *  Returns a set (<code>HashSet</code>) containing the passed elements.
      */
+    @SuppressWarnings({"unchecked", "varargs"})
     public static <T> HashSet<T> asSet(T... elems)
     {
         HashSet<T> result = new HashSet<T>();
@@ -86,6 +87,7 @@ public class CollectionUtil
      *  Appends an arbitrary number of explicit elements to an existing collection.
      *  Primarily useful when writing testcases.
      */
+    @SuppressWarnings({"unchecked", "varargs"})
     public static <T> void addAll(Collection<T> coll, T... elems)
     {
         for (T elem : elems)
@@ -232,6 +234,7 @@ public class CollectionUtil
      *
      *  @throws ClassCastException if any element is a different type.
      */
+    @SuppressWarnings("unchecked")
     public static <T> List<T> cast(List<?> list, Class<T> klass)
     {
         for (Object obj : list)
@@ -250,6 +253,7 @@ public class CollectionUtil
      *
      *  @throws ClassCastException if any element is a different type.
      */
+    @SuppressWarnings("unchecked")
     public static <T> Set<T> cast(Set<?> set, Class<T> klass)
     {
         for (Object obj : set)
@@ -270,6 +274,7 @@ public class CollectionUtil
      *
      *  @since 1.0.15
      */
+    @SuppressWarnings("unchecked")
     public static <K,V> Map<K,V> cast(Map<?,?> map, Class<K> keyClass, Class<V> valueClass)
     {
         for (Map.Entry<?,?> entry : map.entrySet())
@@ -381,6 +386,7 @@ public class CollectionUtil
      *
      *  @since 1.0.7
      */
+    @SuppressWarnings({"unchecked", "varargs"})
     public static <T> List<T> combine(List<T> dest, Collection<T>... src)
     {
         for (Collection<T> cc : src)
@@ -402,6 +408,7 @@ public class CollectionUtil
      *
      *  @since 1.0.7
      */
+    @SuppressWarnings({"unchecked", "varargs"})
     public static <T> Set<T> combine(Set<T> dest, Collection<T>... src)
     {
         for (Collection<T> cc : src)
@@ -426,6 +433,7 @@ public class CollectionUtil
      *
      *  @since 1.0.7
      */
+    @SuppressWarnings({"unchecked", "varargs"})
     public static <K,V> Map<K,V> combine(Map<K,V> dest, Map<K,V>... src)
     {
         for (Map<K,V> cc : src)
@@ -493,7 +501,7 @@ public class CollectionUtil
      *
      *   @since 1.0.14
      */
-    @SuppressWarnings("rawtypes")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static int compare(Collection<? extends Comparable> c1, Collection<? extends Comparable> c2)
     {
         Iterator<? extends Comparable> itx1 = c1.iterator();
@@ -575,6 +583,7 @@ public class CollectionUtil
      *
      *  @since 1.0.15
      */
+    @SuppressWarnings("unchecked")
     public static Object getVia(Object root, Object... keys)
     {
         Object current = root;

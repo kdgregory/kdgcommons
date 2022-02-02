@@ -487,6 +487,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testSerialization() throws Exception
     {
         HashMultimap<String,String> map = new HashMultimap<String,String>();

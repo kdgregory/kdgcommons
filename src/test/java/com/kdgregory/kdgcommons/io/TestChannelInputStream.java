@@ -102,6 +102,7 @@ public class TestChannelInputStream extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @SuppressWarnings("resource")
     public void testSingleByteRead() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -113,6 +114,7 @@ public class TestChannelInputStream extends TestCase
 
 
     // this test also verifies that bytes aren't sign-extended
+    @SuppressWarnings("resource")
     public void testSingleByteReadAfterChannelPositioned() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -124,6 +126,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSingleByteReadAtEOF() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -135,6 +138,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSingleByteReadSoftEOF() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -154,6 +158,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMultiByteRead() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -169,6 +174,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMultiByteReadAfterPosition() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -184,6 +190,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMultiByteOffsetRead() throws Exception
     {
         // we'll position the channel so that we don't get any 0 bytes
@@ -208,6 +215,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMultiByteReadAtEOF() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -220,6 +228,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testMultiByteReadSoftEOF() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -241,7 +250,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("resource")
     public void testClose() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -252,7 +261,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("resource")
     public void testDocumentedValuesForAvailableAndMarkSupported() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
@@ -262,7 +271,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
-    @SuppressWarnings("deprecation")
+    @SuppressWarnings("resource")
     public void testSkip() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);

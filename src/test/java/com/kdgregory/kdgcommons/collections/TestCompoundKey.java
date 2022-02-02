@@ -97,6 +97,7 @@ public class TestCompoundKey extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSerialization() throws Exception
     {
         CompoundKey key = new CompoundKey("foo", "bar", "baz");
@@ -124,6 +125,7 @@ public class TestCompoundKey extends TestCase
     }
 
 
+    @SuppressWarnings("unlikely-arg-type")
     public void testEqualsEdgeCases() throws Exception
     {
         // this test is to increase coverage

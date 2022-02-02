@@ -24,8 +24,8 @@ import com.kdgregory.kdgcommons.lang.ObjectUtil;
  */
 public class Tuple2<A,B>
 {
-    private A  val0;
-    private B  val1;
+    private A val0;
+    private B val1;
 
     public Tuple2(A val0, B val1)
     {
@@ -61,9 +61,9 @@ public class Tuple2<A,B>
     {
         if (obj instanceof Tuple2)
         {
-            Tuple2<A,B> that = (Tuple2<A,B>)obj;
+            Tuple2<?,?> that = (Tuple2<?,?>)obj;
             return ObjectUtil.equals(this.val0, that.val0)
-                   && ObjectUtil.equals(this.val1, that.val1);
+                && ObjectUtil.equals(this.val1, that.val1);
         }
         return false;
     }

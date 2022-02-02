@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 public class TestByteBufferOutputStream extends TestCase
 {
+    @SuppressWarnings("resource")
     public void testSingleByteWrite() throws Exception
     {
         byte[] data = new byte[] { 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F };
@@ -38,6 +39,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testFullArrayWrite() throws Exception
     {
         byte[] data = new byte[] { 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F };
@@ -53,6 +55,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testPartialArrayWrite() throws Exception
     {
         byte[] data = new byte[] { 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F };
@@ -66,6 +69,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testSetInitialPosition() throws Exception
     {
         byte[] data = new byte[] { 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F };
@@ -81,6 +85,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testOversizeWriteFails() throws Exception
     {
         byte[] data = new byte[] { 0x7F, 0x7F };
@@ -99,6 +104,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testOversizeWriteFails2() throws Exception
     {
         byte[] data = new byte[] { 0x7F, 0x7F };
@@ -120,6 +126,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testWriteFailsAfterClose() throws Exception
     {
         byte[] data = new byte[] { 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F, 0x7F };
@@ -148,6 +155,4 @@ public class TestByteBufferOutputStream extends TestCase
             // success
         }
     }
-
-
 }

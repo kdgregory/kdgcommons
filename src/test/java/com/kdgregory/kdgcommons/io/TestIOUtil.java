@@ -64,7 +64,6 @@ extends TestCase
             return wasClosed;
         }
 
-
         @Override
         public void close() throws IOException
         {
@@ -112,7 +111,6 @@ extends TestCase
         }
     }
 
-
 //----------------------------------------------------------------------------
 //  Testcases
 //----------------------------------------------------------------------------
@@ -133,6 +131,7 @@ extends TestCase
     {
         Closeable mock = new Closeable()
         {
+            @Override
             public void close() throws IOException
             {
                 throw new IOException();
@@ -177,6 +176,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testOpenFile() throws Exception
     {
         File file = File.createTempFile("TestIOUtil", ".tmp");
@@ -194,6 +194,7 @@ extends TestCase
     }
 
 
+    @SuppressWarnings("resource")
     public void testOpenGZippedFile() throws Exception
     {
         File file = File.createTempFile("TestIOUtil", ".tmp.gz");
@@ -212,6 +213,7 @@ extends TestCase
     // this test is for coverage ... I don't know any way to track the number of
     // open file descriptors from the JDK, and looping until FD exhaustion seems
     // like a bad test
+    @SuppressWarnings("resource")
     public void testOpenFileFailure() throws Exception
     {
         File file = File.createTempFile("TestIOUtil", ".tmp.gz");

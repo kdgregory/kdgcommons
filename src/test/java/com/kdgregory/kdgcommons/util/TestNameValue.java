@@ -126,7 +126,7 @@ public class TestNameValue extends TestCase
     }
 
 
-
+    @SuppressWarnings({"resource", "unchecked"})
     public void testSerialization() throws Exception
     {
         NameValue<String> value = new NameValue<String>("foo", "bar");

@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 public class TestCombiningIterable extends TestCase
 {
+    @SuppressWarnings("unchecked")
     public void testEmptyConstructor() throws Exception
     {
         CombiningIterable<String> iterable = new CombiningIterable<String>();
@@ -33,6 +34,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testSingleEmptyList() throws Exception
     {
         List<String> list = Collections.emptyList();
@@ -43,6 +45,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testSingleList() throws Exception
     {
         List<String> list = Arrays.asList("foo", "bar");
@@ -55,6 +58,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testMultipleLists() throws Exception
     {
         List<String> list1 = Arrays.asList("foo", "bar");
@@ -69,6 +73,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testItrableOfIterables() throws Exception
     {
         List<String> list1 = Arrays.asList("foo", "bar");
@@ -91,6 +96,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testCanProduceMultipleIndependentIterables() throws Exception
     {
         List<String> list1 = Arrays.asList("foo", "bar");
@@ -121,6 +127,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testRemoveFromModifiableList() throws Exception
     {
         List<String> list1 = new ArrayList<String>(Arrays.asList("foo", "bar"));
@@ -140,6 +147,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testRemoveFromUnodifiableListThrows() throws Exception
     {
         List<String> list1 = Arrays.asList("foo", "bar");
@@ -161,6 +169,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @SuppressWarnings("unchecked")
     public void testIteratingOffEndWillThrow() throws Exception
     {
         List<String> list = Arrays.asList("foo", "bar");

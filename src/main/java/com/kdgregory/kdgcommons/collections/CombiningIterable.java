@@ -46,6 +46,7 @@ implements Iterable<T>
      *  Constructs an instance from zero or more explicit iterable objects.
 
      */
+    @SuppressWarnings({"unchecked", "varargs"})
     public CombiningIterable(Iterable<T> ... iterables)
     {
         for (Iterable<T> iterable : iterables)
@@ -89,6 +90,7 @@ implements Iterable<T>
         private LinkedList<Iterator<E>> iterators;
         private Iterator<E> curItx;
 
+        @SuppressWarnings({"unchecked", "varargs"})
         public CombiningIterator(Iterator<E>... iterators)
         {
             this.iterators = new LinkedList<Iterator<E>>();
