@@ -14,11 +14,13 @@
 
 package com.kdgregory.kdgcommons.util;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestByteArray extends TestCase
+public class TestByteArray
 {
+    @Test
     public void testDefaultConstructor() throws Exception
     {
         ByteArray arr = new ByteArray();
@@ -26,6 +28,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testByteArrayConstructor() throws Exception
     {
         byte[] src = new byte[] { (byte)1, (byte)2, (byte)3, (byte)4 };
@@ -37,6 +40,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testStringConstructors() throws Exception
     {
         // only ISO-8869-1 allowed with default constructor
@@ -67,6 +71,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testAdd() throws Exception
     {
         ByteArray array = new ByteArray();
@@ -119,6 +124,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testGetOutOfBounds() throws Exception
     {
         ByteArray array = new ByteArray("ABCDEFGHIJKL");
@@ -143,6 +149,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testGetArray() throws Exception
     {
         ByteArray array = new ByteArray("ABCDEFGHIJKL");
@@ -171,6 +178,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testGetArrayIllegalArgument() throws Exception
     {
         ByteArray array = new ByteArray("ABCDEFGHIJKL");
@@ -207,6 +215,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testInsert() throws Exception
     {
         ByteArray array = new ByteArray();
@@ -257,6 +266,7 @@ public class TestByteArray extends TestCase
 
 
     // this test just uses byte[] source
+    @Test
     public void testInsertInvalidArgument1() throws Exception
     {
         ByteArray array = new ByteArray("ABCDEFGHIJKL");
@@ -314,6 +324,7 @@ public class TestByteArray extends TestCase
 
 
     // repeated for ByteArray source
+    @Test
     public void testInsertInvalidArgument2() throws Exception
     {
         ByteArray array = new ByteArray("ABCDEFGHIJKL");
@@ -370,6 +381,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testRemove() throws Exception
     {
         ByteArray array = new ByteArray("ABCDEFGHIJKL");
@@ -390,6 +402,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testRemoveInvalidArguments() throws Exception
     {
         ByteArray array = new ByteArray("ABCDEFGHIJKL");
@@ -427,6 +440,7 @@ public class TestByteArray extends TestCase
 
 
     // this test is here for coverage; not throwing is success
+    @Test
     public void testRemoveLastFromEmptyArray() throws Exception
     {
         ByteArray array = new ByteArray();
@@ -435,6 +449,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testResize() throws Exception
     {
         ByteArray array = new ByteArray("ABCDEFGHIJKL");
@@ -456,6 +471,7 @@ public class TestByteArray extends TestCase
     }
 
 
+    @Test
     public void testAddSegment() throws Exception
     {
         ByteArray array = new ByteArray();

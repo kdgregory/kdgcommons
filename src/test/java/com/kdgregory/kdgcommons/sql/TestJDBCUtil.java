@@ -21,7 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.collections.CollectionUtil;
 import com.kdgregory.kdgcommons.test.ExceptionMock;
@@ -33,12 +34,8 @@ import com.kdgregory.kdgcommons.test.SimpleMock;
  *  Tests for the JDBC utilities. These tests use internally-defined faux
  *  objects rather than relying on a real database (such as Hypersonic).
  */
-public class TestJDBCUtil extends TestCase
+public class TestJDBCUtil
 {
-    public TestJDBCUtil(String testName)
-    {
-        super(testName);
-    }
 
 //----------------------------------------------------------------------------
 //  Support Code
@@ -218,6 +215,7 @@ public class TestJDBCUtil extends TestCase
 //  Test cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testExecuteQuery() throws Exception
     {
         final String sql = "select * from foo where bar = ?";
@@ -234,6 +232,7 @@ public class TestJDBCUtil extends TestCase
     }
 
 
+    @Test
     public void testExecuteUpdate() throws Exception
     {
         final String sql = "insert into foo values(?, ?)";
@@ -249,6 +248,7 @@ public class TestJDBCUtil extends TestCase
     }
 
 
+    @Test
     public void testPrepare() throws Exception
     {
         final String sql = "select * from foo where bar = ?";
@@ -264,6 +264,7 @@ public class TestJDBCUtil extends TestCase
     }
 
 
+    @Test
     public void testRetrieve() throws Exception
     {
         MockResultSet mock = new MockResultSet(SAMPLE_DATA_COLNAMES, SAMPLE_DATA);
@@ -276,6 +277,7 @@ public class TestJDBCUtil extends TestCase
     }
 
 
+    @Test
     public void testCloseQuietly()
     throws Exception
     {
@@ -299,6 +301,7 @@ public class TestJDBCUtil extends TestCase
     }
 
 
+    @Test
     public void testCloseQuietlyWhenNull()
     throws Exception
     {
@@ -317,6 +320,7 @@ public class TestJDBCUtil extends TestCase
     }
 
 
+    @Test
     public void testCloseQuietlyWithException()
     throws Exception
     {

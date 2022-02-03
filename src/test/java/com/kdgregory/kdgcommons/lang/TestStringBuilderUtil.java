@@ -14,11 +14,13 @@
 
 package com.kdgregory.kdgcommons.lang;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestStringBuilderUtil extends TestCase
+public class TestStringBuilderUtil
 {
+    @Test
     public void testAppendRepeatChar() throws Exception
     {
         StringBuilder buf = new StringBuilder();
@@ -27,6 +29,7 @@ public class TestStringBuilderUtil extends TestCase
     }
 
 
+    @Test
     public void testAppendHex() throws Exception
     {
         // test 1: characters fill buffer
@@ -51,6 +54,7 @@ public class TestStringBuilderUtil extends TestCase
     }
 
 
+    @Test
     public void testLastChar() throws Exception
     {
         assertEquals('c', StringBuilderUtil.lastChar(new StringBuilder("abc")));
@@ -60,6 +64,7 @@ public class TestStringBuilderUtil extends TestCase
     }
 
 
+    @Test
     public void testAppendUnless() throws Exception
     {
         StringBuilder sb = new StringBuilder("(");

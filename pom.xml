@@ -46,6 +46,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <junit.version>4.13.1</junit.version>
+
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
         <maven-javadoc-plugin.version>3.0.1</maven-javadoc-plugin.version>
@@ -152,10 +154,10 @@
 
     <dependencies>
         <dependency>
-            <!-- note, scope is "provided"; this library has some JUnit enhancements -->
+            <!-- scope is "provided" because this library provides JUnit enhancements -->
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.2</version>
+            <version>${junit.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

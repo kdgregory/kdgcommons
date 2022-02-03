@@ -22,12 +22,13 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.collections.HashMultimap;
 
 
-public class TestClassUtil extends TestCase
+public class TestClassUtil
 {
 //----------------------------------------------------------------------------
 //  Test Classes -- note that they must be static to allow reflection
@@ -69,11 +70,11 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @SuppressWarnings("unused")
     public static class Child
     extends Parent
     {
         // leaving this private to verify that we can make it accessible
-        @SuppressWarnings("unused")
         private int childField;
 
         public Child()
@@ -224,6 +225,7 @@ public class TestClassUtil extends TestCase
 //  Testcases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testInternalNameToExternal() throws Exception
     {
         assertEquals("void",                 ClassUtil.internalNameToExternal("V"));
@@ -252,6 +254,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetPrimitiveType() throws Exception
     {
         assertEquals("Boolean",     Boolean.TYPE,   ClassUtil.getPrimitiveType(Boolean.TRUE));
@@ -269,6 +272,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetDeclaredMethodsByAccess() throws Exception
     {
         // WARNING - JaCoCo (EclEmma) code coverage adds methods to class, causes this
@@ -302,6 +306,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetVisibleMethods() throws Exception
     {
         Method[] m1 = ClassUtil.getVisibleMethods(VisibilityBase.class);
@@ -326,6 +331,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetAnnotatedMethods() throws Exception
     {
         Method[] m1 = ClassUtil.getAnnotatedMethods(Grandchild.class, Foo.class);
@@ -340,6 +346,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetBestMethod() throws Exception
     {
         // test 1: exact match
@@ -375,6 +382,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetBestMethodForNull() throws Exception
     {
         // test 1: if only one method, we can resolve it
@@ -391,6 +399,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetBestMethodNoArguments() throws Exception
     {
         Method m1 = ClassUtil.getBestMethod(BestMethodBase.class, "baz");
@@ -400,6 +409,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetBestMethodMultipleArguments() throws Exception
     {
         // test 1: exact match
@@ -429,6 +439,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetBestMethodWithPrimitives() throws Exception
     {
         // test 1: only one possibility
@@ -503,6 +514,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetBestMethodWithInheritance() throws Exception
     {
         // test 1: method defined in subclass
@@ -528,6 +540,7 @@ public class TestClassUtil extends TestCase
     }
 
 
+    @Test
     public void testGetFieldValue() throws Exception
     {
         Grandchild obj1 = new Grandchild(1, 2, 3, 4, 5);

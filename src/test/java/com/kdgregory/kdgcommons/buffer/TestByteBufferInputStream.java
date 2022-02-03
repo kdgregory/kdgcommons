@@ -17,12 +17,13 @@ package com.kdgregory.kdgcommons.buffer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestByteBufferInputStream
-extends TestCase
 {
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteRead() throws Exception
     {
@@ -40,6 +41,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotExtendSign() throws Exception
     {
@@ -54,6 +56,7 @@ extends TestCase
 
     // this is a redundant test given current implementation; leave it, in case
     // implementation changes
+    @Test
     @SuppressWarnings("resource")
     public void testArrayRead() throws Exception
     {
@@ -72,6 +75,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testArrayReadWithOffset() throws Exception
     {
@@ -105,6 +109,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testConstructWithOffset() throws Exception
     {
@@ -120,6 +125,7 @@ extends TestCase
 
 
     // curre t implementation makes use of available() internally, but test it anyway
+    @Test
     @SuppressWarnings("resource")
     public void testAvailable() throws Exception
     {
@@ -137,6 +143,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSkip() throws Exception
     {
@@ -154,6 +161,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkAndReset() throws Exception
     {
@@ -181,6 +189,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testResetFailsWithoutMark() throws Exception
     {
@@ -200,6 +209,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testReadFailsAfterClose() throws Exception
     {

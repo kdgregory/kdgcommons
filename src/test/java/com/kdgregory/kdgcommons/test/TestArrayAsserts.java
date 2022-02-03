@@ -14,12 +14,13 @@
 
 package com.kdgregory.kdgcommons.test;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestArrayAsserts extends TestCase
+public class TestArrayAsserts
 {
+    @Test
     public void testByteArraysSuccess() throws Exception
     {
         byte[] a1 = new byte[] { 1, 2, 3, 4 };
@@ -29,6 +30,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testByteArraysWithNull() throws Exception
     {
         byte[] a1 = new byte[] { 1, 2, 3 };
@@ -38,7 +40,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -50,6 +52,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testByteArraysDifferentLengths() throws Exception
     {
         byte[] a1 = new byte[] { 1, 2, 3 };
@@ -59,7 +62,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -73,6 +76,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testByteArraysDifferentContent() throws Exception
     {
         byte[] a1 = new byte[] { 9, 8, 7, 6 };
@@ -82,7 +86,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -97,6 +101,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testShortArraysSuccess() throws Exception
     {
         short[] a1 = new short[] { 1, 2, 3, 4 };
@@ -106,6 +111,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testShortArraysWithNull() throws Exception
     {
         short[] a1 = new short[] { 1, 2, 3 };
@@ -115,7 +121,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -127,6 +133,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testShortArraysDifferentLengths() throws Exception
     {
         short[] a1 = new short[] { 1, 2, 3 };
@@ -136,7 +143,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -150,6 +157,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testShortArraysDifferentContent() throws Exception
     {
         short[] a1 = new short[] { 9, 8, 7, 6 };
@@ -159,7 +167,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -174,6 +182,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testIntArraysSuccess() throws Exception
     {
         int[] a1 = new int[] { 1, 2, 3, 4 };
@@ -183,6 +192,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testIntArraysWithNull() throws Exception
     {
         int[] a1 = new int[] { 1, 2, 3 };
@@ -192,7 +202,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -204,6 +214,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testIntArraysDifferentLengths() throws Exception
     {
         int[] a1 = new int[] { 1, 2, 3 };
@@ -213,7 +224,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -227,6 +238,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testIntArraysDifferentContent() throws Exception
     {
         int[] a1 = new int[] { 9, 8, 7, 6 };
@@ -236,7 +248,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -251,6 +263,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testLongArraysSuccess() throws Exception
     {
         long[] a1 = new long[] { 1, 2, 3, 4 };
@@ -260,6 +273,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testLongArraysWithNull() throws Exception
     {
         long[] a1 = new long[] { 1, 2, 3 };
@@ -269,7 +283,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -281,6 +295,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testLongArraysDifferentLengths() throws Exception
     {
         long[] a1 = new long[] { 1, 2, 3 };
@@ -290,7 +305,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -304,6 +319,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testLongArraysDifferentContent() throws Exception
     {
         long[] a1 = new long[] { 9, 8, 7, 6 };
@@ -313,7 +329,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -328,6 +344,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testFloatArraysSuccess() throws Exception
     {
         float[] a1 = new float[] { 1, 2, 3, 4 };
@@ -337,6 +354,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testFloatArraysWithNull() throws Exception
     {
         float[] a1 = new float[] { 1, 2, 3 };
@@ -346,7 +364,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -358,6 +376,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testFloatArraysDifferentLengths() throws Exception
     {
         float[] a1 = new float[] { 1, 2, 3 };
@@ -367,7 +386,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -381,6 +400,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testFloatArraysDifferentContent() throws Exception
     {
         float[] a1 = new float[] { 9, 8, 7, 6 };
@@ -390,7 +410,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -405,6 +425,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testDoubleArraysSuccess() throws Exception
     {
         double[] a1 = new double[] { 1, 2, 3, 4 };
@@ -414,6 +435,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testDoubleArraysWithNull() throws Exception
     {
         double[] a1 = new double[] { 1, 2, 3 };
@@ -423,7 +445,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -435,6 +457,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testDoubleArraysDifferentLengths() throws Exception
     {
         double[] a1 = new double[] { 1, 2, 3 };
@@ -444,7 +467,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -458,6 +481,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testDoubleArraysDifferentContent() throws Exception
     {
         double[] a1 = new double[] { 9, 8, 7, 6 };
@@ -467,7 +491,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -482,6 +506,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testCharArraysSuccess() throws Exception
     {
         char[] a1 = new char[] { 'A', 'B', 'C', 'D' };
@@ -491,6 +516,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testCharArraysWithNull() throws Exception
     {
         char[] a1 = new char[] { 'A', 'B', 'C', 'D' };
@@ -500,7 +526,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -512,6 +538,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testCharArraysDifferentLengths() throws Exception
     {
         char[] a1 = new char[] { 'A', 'B', 'C' };
@@ -521,7 +548,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -535,6 +562,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testCharArraysDifferentContent() throws Exception
     {
         char[] a1 = new char[] { 'A', 'B', 'C', 'D' };
@@ -544,14 +572,15 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
             StringAsserts.assertContainsRegex("assertion message described problem",
                                               "differ.*element.*2", msg);
+            // note: behavior changed between JUnit 3.8 and JUnit 4.10
             StringAsserts.assertContainsRegex("assertion message gave expected and actual content",
-                                              "expected.*C.*was.*D", msg);
+                                              "expected.*67.*was.*68", msg);
             return;
         }
 
@@ -559,6 +588,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testBooleanArraysSuccess() throws Exception
     {
         boolean[] a1 = new boolean[] { true, true, false, true };
@@ -568,6 +598,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testBooleanArraysWithNull() throws Exception
     {
         boolean[] a1 = new boolean[] { true, true, false, true };
@@ -577,7 +608,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -589,6 +620,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testBooleanArraysDifferentLengths() throws Exception
     {
         boolean[] a1 = new boolean[] { true, true, false };
@@ -598,7 +630,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));
@@ -612,6 +644,7 @@ public class TestArrayAsserts extends TestCase
     }
 
 
+    @Test
     public void testBooleanArraysDifferentContent() throws Exception
     {
         boolean[] a1 = new boolean[] { true, true, false, true };
@@ -621,7 +654,7 @@ public class TestArrayAsserts extends TestCase
         {
             ArrayAsserts.assertEquals("message", a1, a2);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             String msg = e.getMessage();
             assertTrue("assertion message contained user message", msg.contains("message:"));

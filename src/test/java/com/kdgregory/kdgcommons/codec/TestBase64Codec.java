@@ -14,15 +14,16 @@
 
 package com.kdgregory.kdgcommons.codec;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.codec.Base64Codec.Option;
 import com.kdgregory.kdgcommons.test.ArrayAsserts;
 
 
 public class TestBase64Codec
-extends TestCase
 {
+    @Test
     public void testNullArray() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -35,6 +36,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testEmptyArray() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -47,6 +49,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testNullString() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -59,6 +62,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testEmptyString() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -71,6 +75,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUnbrokenStringOneByte() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -85,6 +90,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUnbrokenStringTwoBytes() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -99,6 +105,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUnbrokenStringThreeBytes() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -113,6 +120,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUnbrokenStringMultipleGroups() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -127,6 +135,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSeparator() throws Exception
     {
         Base64Codec codec = new Base64Codec(4, "X");
@@ -141,6 +150,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testMultibyteSeparator() throws Exception
     {
         Base64Codec codec = new Base64Codec(4, "XYZ");
@@ -155,6 +165,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testEndOfTableStandardEncoding() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -169,6 +180,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testFilenameEncoding() throws Exception
     {
         Base64Codec codec = new Base64Codec(Option.FILENAME);
@@ -183,6 +195,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testConversionToBytesIgnoresWhitespace() throws Exception
     {
         Base64Codec codec = new Base64Codec();
@@ -195,6 +208,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testConversionToBytesThrowsOnInvalid() throws Exception
     {
         try
@@ -209,6 +223,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testConversionToBytesThrowsIfUnpaddedAndPaddingRequired() throws Exception
     {
         try

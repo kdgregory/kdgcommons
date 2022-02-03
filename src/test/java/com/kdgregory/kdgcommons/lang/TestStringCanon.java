@@ -14,11 +14,13 @@
 
 package com.kdgregory.kdgcommons.lang;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestStringCanon extends TestCase
+public class TestStringCanon
 {
+    @Test
     public void testCanonicalization() throws Exception
     {
         StringCanon canon = new StringCanon();
@@ -33,6 +35,7 @@ public class TestStringCanon extends TestCase
     }
 
 
+    @Test
     public void testClearedOnGC() throws Exception
     {
         StringCanon canon = new StringCanon();

@@ -16,7 +16,8 @@ package com.kdgregory.kdgcommons.collections;
 
 import java.util.Random;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 /**
@@ -25,8 +26,8 @@ import junit.framework.TestCase;
  *  as a test, but also as an example of how these two classes work together.
  */
 public class TestSearchingASortedIndex
-extends TestCase
 {
+    @Test
     public void testBuildAndSearchAnIndex() throws Exception
     {
         final int size = 10000;

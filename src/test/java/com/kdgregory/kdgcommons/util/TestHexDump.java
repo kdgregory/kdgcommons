@@ -18,20 +18,13 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestHexDump extends TestCase
+public class TestHexDump
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-
-//----------------------------------------------------------------------------
-//  Test Cases
-//----------------------------------------------------------------------------
-
+    @Test
     public void testEmptyIterator() throws Exception
     {
         HexDump dumper = new HexDump();
@@ -42,6 +35,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testEmptyString() throws Exception
     {
         HexDump dumper = new HexDump();
@@ -51,6 +45,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testEmptyWriter() throws Exception
     {
         HexDump dumper = new HexDump();
@@ -63,6 +58,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testBytesOnlySingleByteIterator() throws Exception
     {
         HexDump dumper = new HexDump(8, false, 0, 0, false, 0, false, '\0');
@@ -74,6 +70,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testBytesOnlySingleByteString() throws Exception
     {
         HexDump dumper = new HexDump(8, false, 0, 0, false, 0, false, '\0');
@@ -83,6 +80,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testBytesOnlySingleByteWriter() throws Exception
     {
         HexDump dumper = new HexDump(8, false, 0, 0, false, 0, false, '\0');
@@ -95,6 +93,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testBytesOnlyMultiByteIterator() throws Exception
     {
         HexDump dumper = new HexDump(8, false, 0, 0, false, 0, false, '\0');
@@ -106,6 +105,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testBytesOnlyMultiLineIterator() throws Exception
     {
         HexDump dumper = new HexDump(4, false, 0, 0, false, 0, false, '\0');
@@ -119,6 +119,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testBytesOnlyMultiLineString() throws Exception
     {
         HexDump dumper = new HexDump(4, false, 0, 0, false, 0, false, '\0');
@@ -129,6 +130,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testBytesOnlyMultiLineWriter() throws Exception
     {
         HexDump dumper = new HexDump(4, false, 0, 0, false, 0, false, '\0');
@@ -142,6 +144,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testBytesAndCharsSingleLineIterator() throws Exception
     {
         HexDump dumper = new HexDump(4, false, 0, 0, true, 4, false, '\0');
@@ -153,6 +156,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testBytesAndCharsMultiLineIterator() throws Exception
     {
         HexDump dumper = new HexDump(4, false, 0, 0, true, 4, false, '\0');
@@ -165,6 +169,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testCharReplacementSingleLineIterator() throws Exception
     {
         HexDump dumper = new HexDump(4, false, 0, 0, true, 4, true, '.');
@@ -176,6 +181,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testOffsetAndBytesSingleDumpIterator() throws Exception
     {
         HexDump dumper = new HexDump(4, true, 4, 2, false, 0, false, '\0');
@@ -186,6 +192,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testOffsetAndBytesMultiDumpIterator() throws Exception
     {
         HexDump dumper = new HexDump(4, true, 4, 2, false, 0, false, '\0');
@@ -206,6 +213,7 @@ public class TestHexDump extends TestCase
     }
 
 
+    @Test
     public void testOffsetBytesAndCharsMultiLineIterator() throws Exception
     {
         HexDump dumper = new HexDump(4, true, 4, 2, true, 4, false, '\0');

@@ -14,11 +14,13 @@
 
 package com.kdgregory.kdgcommons.util;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestURLBuilder extends TestCase
+public class TestURLBuilder
 {
+    @Test
     public void testEmptyConstructor() throws Exception
     {
         URLBuilder builder = new URLBuilder();
@@ -26,6 +28,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testPathConstructor() throws Exception
     {
         assertEquals("/",
@@ -38,6 +41,7 @@ public class TestURLBuilder extends TestCase
 
 
 
+    @Test
     public void testFullConstructor() throws Exception
     {
         assertEquals("/",
@@ -53,6 +57,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testAppendPath() throws Exception
     {
         URLBuilder builder = new URLBuilder();
@@ -61,6 +66,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testAppendPathTwice() throws Exception
     {
         URLBuilder builder = new URLBuilder();
@@ -70,6 +76,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testAppendPathReserved() throws Exception
     {
         URLBuilder builder = new URLBuilder();
@@ -78,6 +85,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testAppendParameter() throws Exception
     {
         URLBuilder builder = new URLBuilder();
@@ -86,6 +94,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testAppendSecondQueryParameter() throws Exception
     {
         URLBuilder builder = new URLBuilder();
@@ -95,6 +104,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testAppendEscapedParameter() throws Exception
     {
         URLBuilder builder = new URLBuilder();
@@ -103,6 +113,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testAppendNullParameter() throws Exception
     {
         URLBuilder builder1 = new URLBuilder();
@@ -115,6 +126,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testURLEncodeDecodeNoChange() throws Exception
     {
         assertEquals("foo", URLBuilder.urlEncode("foo"));
@@ -123,6 +135,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testURLEncodeDecodeReservedChar() throws Exception
     {
         assertEquals("f%26o", URLBuilder.urlEncode("f&o"));
@@ -131,6 +144,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testURLEncodeDecodeNonAscii() throws Exception
     {
         assertEquals("F%C2%A2O", URLBuilder.urlEncode("f\u00A2o").toUpperCase());
@@ -140,6 +154,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testURLEncodeDecodeSpace() throws Exception
     {
         assertEquals("f%20o", URLBuilder.urlEncode("f o"));
@@ -149,6 +164,7 @@ public class TestURLBuilder extends TestCase
     }
 
 
+    @Test
     public void testURLEncodeDecodeNull() throws Exception
     {
         assertEquals("", URLBuilder.urlEncode(null));

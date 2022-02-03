@@ -17,11 +17,13 @@ package com.kdgregory.kdgcommons.util;
 import java.util.Map;
 import java.util.TreeMap;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestHtmlUtil extends TestCase
+public class TestHtmlUtil
 {
+    @Test
     public void testEscape() throws Exception
     {
         assertEquals("", HtmlUtil.escape(null));
@@ -33,6 +35,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testUnescape() throws Exception
     {
         assertEquals("", HtmlUtil.unescape(null));
@@ -53,6 +56,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testAppendAttribute() throws Exception
     {
         StringBuilder buf1 = new StringBuilder();
@@ -69,6 +73,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testAppendOptionalAttribute() throws Exception
     {
         StringBuilder buf1 = new StringBuilder();
@@ -85,6 +90,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testBuildQueryStringZeroParameters() throws Exception
     {
         Map<String,String> params = new TreeMap<String,String>();
@@ -93,6 +99,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testBuildQueryStringOneParameter() throws Exception
     {
         Map<String,String> params = new TreeMap<String,String>();
@@ -102,6 +109,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testBuildQueryStringTwoParameters() throws Exception
     {
         Map<String,String> params = new TreeMap<String,String>();
@@ -112,6 +120,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testBuildQueryStringIncludeEmpty() throws Exception
     {
         Map<String,String> params = new TreeMap<String,String>();
@@ -122,6 +131,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testBuildQueryStringIgnoreEmpty() throws Exception
     {
         Map<String,String> params = new TreeMap<String,String>();
@@ -132,6 +142,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testBuildQueryStringIncludeNull() throws Exception
     {
         Map<String,String> params = new TreeMap<String,String>();
@@ -142,6 +153,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testBuildQueryStringIgnoreNull() throws Exception
     {
         Map<String,String> params = new TreeMap<String,String>();
@@ -152,6 +164,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testBuildQueryStringWithEncoding() throws Exception
     {
         Map<String,String> params = new TreeMap<String,String>();
@@ -161,6 +174,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringNull() throws Exception
     {
         Map<String,String> params = HtmlUtil.parseQueryString(null, false);
@@ -168,6 +182,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringZeroParameters() throws Exception
     {
         Map<String,String> params = HtmlUtil.parseQueryString("", false);
@@ -175,6 +190,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringSingleParameter() throws Exception
     {
         Map<String,String> params = HtmlUtil.parseQueryString("foo=bar", false);
@@ -183,6 +199,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringTwoParameters() throws Exception
     {
         Map<String,String> params = HtmlUtil.parseQueryString("foo=bar&argle=bargle", false);
@@ -192,6 +209,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringIncludeEmptyParameter() throws Exception
     {
         Map<String,String> params = HtmlUtil.parseQueryString("foo=&argle=bargle", false);
@@ -201,6 +219,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringIgnoreEmptyParameter() throws Exception
     {
         Map<String,String> params = HtmlUtil.parseQueryString("foo=&argle=bargle", true);
@@ -209,6 +228,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringWithEncodedParameter() throws Exception
     {
         Map<String,String> params = HtmlUtil.parseQueryString("foo=+%2F+&argle=bargle", true);
@@ -218,6 +238,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringWithLeadingQuestion() throws Exception
     {
         Map<String,String> params = HtmlUtil.parseQueryString("?foo=bar&argle=bargle", true);
@@ -227,6 +248,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringWithLeadingQuestionAndZeroParams() throws Exception
     {
         Map<String,String> params = HtmlUtil.parseQueryString("?", true);
@@ -234,6 +256,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testParseQueryStringFailWithInvalidParam() throws Exception
     {
         try
@@ -248,6 +271,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testHtmlToTextNullAndEmpty() throws Exception
     {
         assertEquals("", HtmlUtil.htmlToText(null));
@@ -255,6 +279,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testHtmlToTextSimple() throws Exception
     {
         String input = "<html>this is some text</html>";
@@ -262,6 +287,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testHtmlToTextMultipleEmbeddedTags() throws Exception
     {
         String input = "<html>this <em>is</em> some <b>bold</b> text</html>";
@@ -269,6 +295,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testHtmlToTextParaAndBreakReplacement() throws Exception
     {
         String input = "<html>this is <p>a new<P> paragraph<br/>and a new line</html>";
@@ -276,6 +303,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testHtmlToTextParaAndBreakReplacementWithAttributes() throws Exception
     {
         String input = "<html>this is <p class='foo'>a new paragraph<br class='bar'/>and a new line</html>";
@@ -283,6 +311,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testHtmlToTextListItemReplacement() throws Exception
     {
         String input = "<html>this is <li>the first <li class='foo'>and the second</html>";
@@ -290,6 +319,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testHtmlToTextWithUnclosedTag() throws Exception
     {
         String input = "<html>this is <lithe first and the second";
@@ -297,6 +327,7 @@ public class TestHtmlUtil extends TestCase
     }
 
 
+    @Test
     public void testHtmlToTextExistingNewlinesRemoved() throws Exception
     {
         String input = "<html>this is\nthe first line\r\nthis is the second\n\rand this is the third";

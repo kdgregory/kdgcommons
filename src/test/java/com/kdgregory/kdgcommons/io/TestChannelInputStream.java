@@ -20,10 +20,13 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestChannelInputStream extends TestCase
+public class TestChannelInputStream
 {
     private final static int DEFAULT_FILESIZE = 8192;
 
@@ -32,8 +35,8 @@ public class TestChannelInputStream extends TestCase
     private FileChannel channel;
 
 
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
         file = IOUtil.createTempFile("TestChannelInputStream", DEFAULT_FILESIZE);
 
@@ -46,14 +49,13 @@ public class TestChannelInputStream extends TestCase
     }
 
 
-    @Override
-    protected void tearDown() throws Exception
+    @After
+    public void tearDown() throws Exception
     {
         IOUtil.closeQuietly(channel);
         IOUtil.closeQuietly(raf);
         file.delete();
     }
-
 
 //----------------------------------------------------------------------------
 //  Support Code
@@ -102,6 +104,7 @@ public class TestChannelInputStream extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteRead() throws Exception
     {
@@ -114,6 +117,7 @@ public class TestChannelInputStream extends TestCase
 
 
     // this test also verifies that bytes aren't sign-extended
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadAfterChannelPositioned() throws Exception
     {
@@ -126,6 +130,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadAtEOF() throws Exception
     {
@@ -138,6 +143,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadSoftEOF() throws Exception
     {
@@ -158,6 +164,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMultiByteRead() throws Exception
     {
@@ -174,6 +181,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMultiByteReadAfterPosition() throws Exception
     {
@@ -190,6 +198,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMultiByteOffsetRead() throws Exception
     {
@@ -215,6 +224,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMultiByteReadAtEOF() throws Exception
     {
@@ -228,6 +238,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMultiByteReadSoftEOF() throws Exception
     {
@@ -250,6 +261,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testClose() throws Exception
     {
@@ -261,6 +273,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testDocumentedValuesForAvailableAndMarkSupported() throws Exception
     {
@@ -271,6 +284,7 @@ public class TestChannelInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSkip() throws Exception
     {

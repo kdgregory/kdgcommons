@@ -20,11 +20,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestCompoundKey extends TestCase
+public class TestCompoundKey
 {
+    @Test
     public void testSingleItem() throws Exception
     {
         CompoundKey key1a = new CompoundKey("foo");
@@ -39,6 +41,7 @@ public class TestCompoundKey extends TestCase
     }
 
 
+    @Test
     public void testMultiItem() throws Exception
     {
         CompoundKey key1a = new CompoundKey("foo", "bar");
@@ -53,6 +56,7 @@ public class TestCompoundKey extends TestCase
     }
 
 
+    @Test
     public void testMultiItemVersusSingleItem() throws Exception
     {
         CompoundKey key1 = new CompoundKey("foo");
@@ -63,6 +67,7 @@ public class TestCompoundKey extends TestCase
     }
 
 
+    @Test
     public void testNulls() throws Exception
     {
         CompoundKey key1a = new CompoundKey("foo", null, "bar");
@@ -78,6 +83,7 @@ public class TestCompoundKey extends TestCase
 
 
 
+    @Test
     public void testToString() throws Exception
     {
         assertEquals("[]", new CompoundKey().toString());
@@ -87,6 +93,7 @@ public class TestCompoundKey extends TestCase
     }
 
 
+    @Test
     public void testIterable() throws Exception
     {
         Iterator<Object> itx = new CompoundKey("foo", "bar", "baz").iterator();
@@ -97,6 +104,7 @@ public class TestCompoundKey extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSerialization() throws Exception
     {
@@ -115,6 +123,7 @@ public class TestCompoundKey extends TestCase
     }
 
 
+    @Test
     public void testToStringCache() throws Exception
     {
         // this test is to increase coverage; caching is not part of the contract
@@ -125,6 +134,7 @@ public class TestCompoundKey extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unlikely-arg-type")
     public void testEqualsEdgeCases() throws Exception
     {

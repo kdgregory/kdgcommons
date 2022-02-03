@@ -20,7 +20,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.collections.MapBuilder;
 
@@ -31,8 +32,8 @@ import com.kdgregory.kdgcommons.collections.MapBuilder;
 //
 
 public class TestCounters
-extends TestCase
 {
+    @Test
     public void testPutGetAndRemove() throws Exception
     {
         Counters<String> counters = new Counters<String>();
@@ -58,6 +59,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testIncrementAndDecrement() throws Exception
     {
         Counters<String> counters = new Counters<String>();
@@ -84,6 +86,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSize() throws Exception
     {
         Counters<String> counters = new Counters<String>();
@@ -103,6 +106,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testPutIfAbsent() throws Exception
     {
         Counters<String> counters = new Counters<String>();
@@ -116,6 +120,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testBulkOperations() throws Exception
     {
         Counters<String> counters = new Counters<String>();
@@ -136,6 +141,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unlikely-arg-type")
     public void testContains() throws Exception
     {
@@ -155,6 +161,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSetRetrieval() throws Exception
     {
         Counters<String> counters = new Counters<String>();
@@ -191,6 +198,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testIterator() throws Exception
     {
         Counters<String> counters = new Counters<String>();
@@ -228,6 +236,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testToString() throws Exception
     {
         Counters<String> counters = new Counters<String>();

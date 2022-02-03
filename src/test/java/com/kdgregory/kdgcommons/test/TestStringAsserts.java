@@ -14,62 +14,63 @@
 
 package com.kdgregory.kdgcommons.test;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestStringAsserts extends TestCase
+public class TestStringAsserts
 {
+    @Test
     public void testAsserNotEmpty() throws Exception
     {
         StringAsserts.assertNotEmpty("this succeeds");
 
-        AssertionFailedError fail1 = null;
+        AssertionError fail1 = null;
         try
         {
             StringAsserts.assertNotEmpty(null);
         }
-        catch (AssertionFailedError ex)
+        catch (AssertionError ex)
         {
             fail1 = ex;
             assertEquals("expected exception to indicate value was null", "expected not-empty, was null", ex.getMessage());
         }
         assertNotNull("null did not cause assertion failure", fail1);
 
-        AssertionFailedError fail2 = null;
+        AssertionError fail2 = null;
         try
         {
             StringAsserts.assertNotEmpty("");
         }
-        catch (AssertionFailedError ex)
+        catch (AssertionError ex)
         {
             fail2 = ex;
             assertEquals("expected exception to indicate value was empty", "expected not-empty", ex.getMessage());
         }
         assertNotNull("empty string did not cause assertion failure", fail2);
 
-        AssertionFailedError fail3 = null;
+        AssertionError fail3 = null;
         try
         {
             StringAsserts.assertNotEmpty("example", "");
         }
-        catch (AssertionFailedError ex)
+        catch (AssertionError ex)
         {
             fail3 = ex;
             assertEquals("expected exception to start with user message", "example: expected not-empty", ex.getMessage());
         }
         assertNotNull("null did not cause assertion failure", fail3);
-
-
     }
 
 
+    @Test
     public void testAssertSubstringCount0() throws Exception
     {
         StringAsserts.assertSubstringCount("foo", "bar", 0);
     }
 
 
+    @Test
     public void testAssertSubstringCount1() throws Exception
     {
         StringAsserts.assertSubstringCount("bar", "bar", 1);
@@ -77,6 +78,7 @@ public class TestStringAsserts extends TestCase
     }
 
 
+    @Test
     public void testAssertSubstringCount2() throws Exception
     {
         StringAsserts.assertSubstringCount("barbar", "bar", 2);
@@ -85,13 +87,14 @@ public class TestStringAsserts extends TestCase
     }
 
 
+    @Test
     public void testAssertSubstringFailure() throws Exception
     {
         try
         {
             StringAsserts.assertSubstringCount("foo", "bar", 1);
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             return; // success
         }
@@ -99,6 +102,7 @@ public class TestStringAsserts extends TestCase
     }
 
 
+    @Test
     public void testRegex() throws Exception
     {
         StringAsserts.assertRegex("test", "test");
@@ -106,13 +110,14 @@ public class TestStringAsserts extends TestCase
     }
 
 
+    @Test
     public void testRegexFailure() throws Exception
     {
         try
         {
             StringAsserts.assertRegex("foo", "bar");
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             return; // success
         }
@@ -120,6 +125,7 @@ public class TestStringAsserts extends TestCase
     }
 
 
+    @Test
     public void testContainsRegex() throws Exception
     {
         StringAsserts.assertContainsRegex("test", "this is a test");
@@ -127,13 +133,14 @@ public class TestStringAsserts extends TestCase
     }
 
 
+    @Test
     public void testContainsRegexFailure() throws Exception
     {
         try
         {
             StringAsserts.assertContainsRegex("^test", "this is a test");
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             return; // success
         }
@@ -141,19 +148,21 @@ public class TestStringAsserts extends TestCase
     }
 
 
+    @Test
     public void testDoesntContainRegex() throws Exception
     {
         StringAsserts.assertDoesntContainRegex("foo", "this is a test");
     }
 
 
+    @Test
     public void testDoesntContainRegexFailure() throws Exception
     {
         try
         {
             StringAsserts.assertDoesntContainRegex("test", "this is a test");
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             return; // success
         }
@@ -161,6 +170,7 @@ public class TestStringAsserts extends TestCase
     }
 
 
+    @Test
     public void testAssertContainsAndRemove() throws Exception
     {
         String src = "foo bar baz bargle";
@@ -181,13 +191,14 @@ public class TestStringAsserts extends TestCase
     }
 
 
+    @Test
     public void testAssertContainsAndRemoveFailure() throws Exception
     {
         try
         {
             StringAsserts.assertContainsThenRemove("foo bar baz", "argle");
         }
-        catch (AssertionFailedError e)
+        catch (AssertionError e)
         {
             return; // success
         }

@@ -17,11 +17,13 @@ package com.kdgregory.kdgcommons.test;
 import java.io.Closeable;
 import java.io.IOException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 
 public class TestExceptionMock
-extends TestCase
 {
+    @Test
     @SuppressWarnings("resource")
     public void testThrowExplicitInstance() throws Exception
     {
@@ -41,6 +43,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testThrowNewInstance() throws Exception
     {

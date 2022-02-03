@@ -17,11 +17,13 @@ package com.kdgregory.kdgcommons.buffer;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestByteBufferOutputStream extends TestCase
+public class TestByteBufferOutputStream
 {
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteWrite() throws Exception
     {
@@ -39,6 +41,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testFullArrayWrite() throws Exception
     {
@@ -55,6 +58,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testPartialArrayWrite() throws Exception
     {
@@ -69,6 +73,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSetInitialPosition() throws Exception
     {
@@ -85,6 +90,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testOversizeWriteFails() throws Exception
     {
@@ -104,6 +110,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testOversizeWriteFails2() throws Exception
     {
@@ -126,6 +133,7 @@ public class TestByteBufferOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testWriteFailsAfterClose() throws Exception
     {

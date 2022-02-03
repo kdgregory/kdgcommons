@@ -14,12 +14,13 @@
 
 package com.kdgregory.kdgcommons.test;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestNumericAsserts extends TestCase
+public class TestNumericAsserts
 {
+    @Test
     public void testAssertApproximateInt() throws Exception
     {
         NumericAsserts.assertApproximate(100, 100, 0);
@@ -29,14 +30,14 @@ public class TestNumericAsserts extends TestCase
         // note: we can't use fail() inside the try block (because it throws
         //       AssertionFailedError) so must capture the exception and
         //       assert on it afterward
-        AssertionFailedError lastAssertionResult;
+        AssertionError lastAssertionResult;
 
         try
         {
             NumericAsserts.assertApproximate("example", 100, 98, 1);
             lastAssertionResult = null;
         }
-        catch (AssertionFailedError ee)
+        catch (AssertionError ee)
         {
             lastAssertionResult = ee;
         }
@@ -51,7 +52,7 @@ public class TestNumericAsserts extends TestCase
             NumericAsserts.assertApproximate("example", 100, 102, 1);
             lastAssertionResult = null;
         }
-        catch (AssertionFailedError ee)
+        catch (AssertionError ee)
         {
             lastAssertionResult = ee;
         }
@@ -63,6 +64,7 @@ public class TestNumericAsserts extends TestCase
     }
 
 
+    @Test
     public void testAssertApproximateLong() throws Exception
     {
         NumericAsserts.assertApproximate(100L, 100L, 0);
@@ -72,14 +74,14 @@ public class TestNumericAsserts extends TestCase
         // note: we can't use fail() inside the try block (because it throws
         //       AssertionFailedError) so must capture the exception and
         //       assert on it afterward
-        AssertionFailedError lastAssertionResult;
+        AssertionError lastAssertionResult;
 
         try
         {
             NumericAsserts.assertApproximate("example", 100L, 98L, 1);
             lastAssertionResult = null;
         }
-        catch (AssertionFailedError ee)
+        catch (AssertionError ee)
         {
             lastAssertionResult = ee;
         }
@@ -94,7 +96,7 @@ public class TestNumericAsserts extends TestCase
             NumericAsserts.assertApproximate("example", 100L, 102L, 1);
             lastAssertionResult = null;
         }
-        catch (AssertionFailedError ee)
+        catch (AssertionError ee)
         {
             lastAssertionResult = ee;
         }
@@ -106,6 +108,7 @@ public class TestNumericAsserts extends TestCase
     }
 
 
+    @Test
     public void testAssertApproximateDouble() throws Exception
     {
         NumericAsserts.assertApproximate(100.0, 100.0, 0);
@@ -115,14 +118,14 @@ public class TestNumericAsserts extends TestCase
         // note: we can't use fail() inside the try block (because it throws
         //       AssertionFailedError) so must capture the exception and
         //       assert on it afterward
-        AssertionFailedError lastAssertionResult;
+        AssertionError lastAssertionResult;
 
         try
         {
             NumericAsserts.assertApproximate("example", 100.0, 98.0, 1);
             lastAssertionResult = null;
         }
-        catch (AssertionFailedError ee)
+        catch (AssertionError ee)
         {
             lastAssertionResult = ee;
         }
@@ -137,7 +140,7 @@ public class TestNumericAsserts extends TestCase
             NumericAsserts.assertApproximate("example", 100.0, 102.0, 1);
             lastAssertionResult = null;
         }
-        catch (AssertionFailedError ee)
+        catch (AssertionError ee)
         {
             lastAssertionResult = ee;
         }

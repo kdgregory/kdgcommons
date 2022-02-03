@@ -14,12 +14,13 @@
 
 package com.kdgregory.kdgcommons.lang;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestCharSequenceUtil
-extends TestCase
 {
+    @Test
     public void testContainsAt() throws Exception
     {
         String src = "foobarbaz";
@@ -39,6 +40,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testStartsWith() throws Exception
     {
         String src = "foobarbaz";
@@ -51,6 +53,7 @@ extends TestCase
    }
 
 
+    @Test
     public void testEndsWith() throws Exception
     {
         String src = "foobarbaz";

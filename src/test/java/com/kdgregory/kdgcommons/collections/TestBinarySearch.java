@@ -14,13 +14,13 @@
 
 package com.kdgregory.kdgcommons.collections;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.collections.BinarySearch.IndexedComparator;
 
 
 public class TestBinarySearch
-extends TestCase
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -71,6 +71,7 @@ extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testAccessorSearchZeroLength() throws Exception
     {
         CharacterArrayAccessor accessor = new CharacterArrayAccessor(new char[0]);
@@ -79,6 +80,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testAccessorSearchOneElement() throws Exception
     {
         CharacterArrayAccessor accessor = new CharacterArrayAccessor(
@@ -90,6 +92,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testAccessorSearchTwoElements() throws Exception
     {
         CharacterArrayAccessor accessor = new CharacterArrayAccessor(
@@ -103,6 +106,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testAccessorSearchThreeElements() throws Exception
     {
         CharacterArrayAccessor accessor = new CharacterArrayAccessor(
@@ -119,6 +123,7 @@ extends TestCase
 
 
     // this search will require at least two passes through the loop
+    @Test
     public void testAccessorSearchFourElements() throws Exception
     {
         CharacterArrayAccessor accessor = new CharacterArrayAccessor(
@@ -137,6 +142,7 @@ extends TestCase
 
 
     // this search will require multiple passes, with even and odd portions
+    @Test
     public void testAccessorSearchMultipleElements() throws Exception
     {
         CharacterArrayAccessor accessor = new CharacterArrayAccessor(
@@ -157,6 +163,7 @@ extends TestCase
 
 
     // this will demonstrate the examples in the method doc
+    @Test
     public void testAccessorSearchSubArray() throws Exception
     {
         CharacterArrayAccessor accessor = new CharacterArrayAccessor(
@@ -177,6 +184,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testIndexSearch() throws Exception
     {
         final char[] chars = new char[] { 'D', 'H', 'F', 'B', 'J' };

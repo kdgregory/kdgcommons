@@ -20,13 +20,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.collections.InplaceSort.Accessor;
 
 
 public class TestInplaceSort
-extends TestCase
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -134,7 +134,7 @@ extends TestCase
     }
 
 
-    private void assertEquals(int[] expected, int[] actual)
+    private void assertArraysEqual(int[] expected, int[] actual)
     {
         // we'll convert to List<Integer> because the reporting is nicer
 
@@ -154,70 +154,77 @@ extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testIntSortEmptyArray() throws Exception
     {
         int[] src = new int[0];
         int[] exp = new int[0];
 
         InplaceSort.sort(src, new ReversingIntComparator());
-        assertEquals(exp, src);
+        assertArraysEqual(exp, src);
     }
 
 
+    @Test
     public void testIntSortOneElement() throws Exception
     {
         int[] src = new int[] { 3 };
         int[] exp = new int[] { 3 };
 
         InplaceSort.sort(src, new ReversingIntComparator());
-        assertEquals(exp, src);
+        assertArraysEqual(exp, src);
     }
 
 
+    @Test
     public void testIntSortTwoElements() throws Exception
     {
         int[] src = new int[] { 3, 5 };
         int[] exp = new int[] { 5, 3 };
 
         InplaceSort.sort(src, new ReversingIntComparator());
-        assertEquals(exp, src);
+        assertArraysEqual(exp, src);
     }
 
 
+    @Test
     public void testIntSortThreeElements() throws Exception
     {
         int[] src = new int[] { 5, 3, 4 };
         int[] exp = new int[] { 5, 4, 3 };
 
         InplaceSort.sort(src, new ReversingIntComparator());
-        assertEquals(exp, src);
+        assertArraysEqual(exp, src);
     }
 
 
+    @Test
     public void testIntSortFourElements() throws Exception
     {
         int[] src = new int[] { 5, 3, 4, 12 };
         int[] exp = new int[] { 12, 5, 4, 3 };
 
         InplaceSort.sort(src, new ReversingIntComparator());
-        assertEquals(exp, src);
+        assertArraysEqual(exp, src);
     }
 
 
     // this test added for internal comparator coverage; it won't affect
     // affect coverage of Heapsort itself, but I want to cover all cases
+    @Test
     public void testIntSortWithEqualElements() throws Exception
     {
         int[] src = new int[] { 5, 3, 3, 4, 12 };
         int[] exp = new int[] { 12, 5, 4, 3, 3 };
 
         InplaceSort.sort(src, new ReversingIntComparator());
-        assertEquals(exp, src);
+        assertArraysEqual(exp, src);
     }
 
 
     // along with verifying that we didn't get lucky, this test will verify
     // that we're O(logN)
+    @Test
     public void testIntSortManyElements() throws Exception
     {
         final int size = 10000;
@@ -227,22 +234,24 @@ extends TestCase
 
         CountingIntComparator cmp = new CountingIntComparator(size);
         InplaceSort.sort(src, cmp);
-        assertEquals(exp, src);
+        assertArraysEqual(exp, src);
 
         cmp.assertCompareCount();
     }
 
 
+    @Test
     public void testIntSortPortionOfArray() throws Exception
     {
         int[] src = new int[] { 5, 3, 2, 4, 12 };
         int[] exp = new int[] { 5, 4, 3, 2, 12 };
 
         InplaceSort.sort(src, 1, 4, new ReversingIntComparator());
-        assertEquals(exp, src);
+        assertArraysEqual(exp, src);
     }
 
 
+    @Test
     public void testObjectSort() throws Exception
     {
         int[] base = createRandomArray(100);
@@ -255,6 +264,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testObjectSortPortionOfArray() throws Exception
     {
         int[] base = createRandomArray(100);
@@ -267,6 +277,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testListSort() throws Exception
     {
         List<Integer> base = Arrays.asList(toObjectArray(createRandomArray(100)));
@@ -279,6 +290,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testListSortPortionOfArray() throws Exception
     {
         Integer[] base = toObjectArray(createRandomArray(100));
@@ -293,6 +305,7 @@ extends TestCase
 
     // accessors are used internally, and I never realized they weren't public
     // ... so here's a test that makes sure Accessor is accessible
+    @Test
     public void testAccessorSort() throws Exception
     {
         final char[] data = new char[] { 'A', '2', 'R', 'r', 'R', 'x' };

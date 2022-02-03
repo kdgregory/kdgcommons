@@ -14,16 +14,18 @@
 
 package com.kdgregory.kdgcommons.alt;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.test.SelfMock;
 
 
-public class TestSelfMockAlt extends TestCase
+public class TestSelfMockAlt
 {
     // there was a bug where methods in anonymous classes in a different package
     // (ie, not com.kdgregory.kdgcommons.test) were unaccessible and needed to be set
     // accessible to be invoked
+    @Test
     public void testAnonymousImplementationClassInDifferentPackage()
     {
         CharSequence instance = new SelfMock<CharSequence>(CharSequence.class)

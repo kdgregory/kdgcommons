@@ -14,12 +14,13 @@
 
 package com.kdgregory.kdgcommons.lang;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestClassTable
-extends TestCase
 {
+    @Test
     public void testPutAndGetExactClass() throws Exception
     {
         ClassTable<String> table = new ClassTable<String>();
@@ -41,6 +42,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testGetBySuperclass() throws Exception
     {
         ClassTable<String> table = new ClassTable<String>();
@@ -60,6 +62,7 @@ extends TestCase
 
 
     // note: this does not test concurrent operation
+    @Test
     public void testReplaceAll() throws Exception
     {
         ClassTable<String> table = new ClassTable<String>();

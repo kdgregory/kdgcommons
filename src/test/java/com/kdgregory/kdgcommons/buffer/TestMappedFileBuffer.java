@@ -24,27 +24,28 @@ import java.nio.ByteOrder;
 import java.nio.ReadOnlyBufferException;
 import java.util.Random;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestMappedFileBuffer
-extends TestCase
 {
     private File testFile;
 
 
-    @Override
-    protected void setUp()
-    throws IOException
+    @Before
+    public void setUp()
+    throws Exception
     {
-
         testFile = File.createTempFile("TestMappedFileBuffer", ".tmp");
         testFile.deleteOnExit();
     }
 
 
-    @Override
-    protected void tearDown()
+    @After
+    public void tearDown()
     throws IOException
     {
         // yes, we've set delete-on-exit, but let's be explicit
@@ -92,6 +93,7 @@ extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testSmallFileSingleSegmentReadWrite() throws Exception
     {
         writeDefaultContent(256);
@@ -131,6 +133,7 @@ extends TestCase
 
     // this test can't verify that we're using multiple segments: we'd
     // need to override and mock out the buffer selection code to do that
+    @Test
     public void testMediumFileMultipleSegments() throws Exception
     {
         writeExplicitContent(8192, 0x00);
@@ -150,6 +153,8 @@ extends TestCase
 
     // this test requires a 64-bit machine, so is commented out
     // it truly tests whether we're properly managing segments
+    // FIXME - use @Ignore
+//    @Test
 //    public void testLargeFileMultipleSegments() throws Exception
 //    {
 //        final int oneGig = 1000000000;
@@ -166,6 +171,7 @@ extends TestCase
 //    }
 
 
+    @Test
     public void testSlice() throws Exception
     {
         // we want zeros in the buffer so that we can verify our offsets
@@ -201,6 +207,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSetOrder() throws Exception
     {
         writeDefaultContent(8192);
@@ -216,6 +223,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testFailWriteToReadOnlyBuffer() throws Exception
     {
         writeDefaultContent(8192);
@@ -235,6 +243,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testClone() throws Exception
     {
         writeDefaultContent(8192);
@@ -251,6 +260,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testGetFile() throws Exception
     {
         writeDefaultContent(8192);
@@ -260,6 +270,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testIsWritable() throws Exception
     {
         writeDefaultContent(8192);
@@ -271,6 +282,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testBulkOperations() throws Exception
     {
         writeDefaultContent(8192);
@@ -338,6 +350,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testBulkOperationFailureAtEndOfFile() throws Exception
     {
         writeDefaultContent(8192);

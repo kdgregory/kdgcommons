@@ -14,10 +14,11 @@
 
 package com.kdgregory.kdgcommons.test;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestSelfMock extends TestCase
+public class TestSelfMock
 {
     // note that we don't implement all methods of the interface
     public static class TestMock
@@ -43,6 +44,7 @@ public class TestSelfMock extends TestCase
     }
 
 
+    @Test
     public void testNormalOperation() throws Exception
     {
         TestMock mock = new TestMock();
@@ -67,6 +69,7 @@ public class TestSelfMock extends TestCase
     }
 
 
+    @Test
     public void testExceptionInMock() throws Exception
     {
         TestMock mock = new TestMock();
@@ -79,12 +82,13 @@ public class TestSelfMock extends TestCase
         }
         catch (IllegalStateException ex)
         {
-            assertEquals("count incremented even though method throws", 1,      mock.getInvocationCount("length"));
-            assertEquals("history recorded even though method throws",  null,   mock.getInvocationArgs("length", 0));
+            assertEquals("count incremented even though method throws",     1,      mock.getInvocationCount("length"));
+            assertArrayEquals("history recorded even though method throws", null,   mock.getInvocationArgs("length", 0));
         }
     }
 
 
+    @Test
     public void testMissingMethod() throws Exception
     {
         TestMock mock = new TestMock();
@@ -102,6 +106,7 @@ public class TestSelfMock extends TestCase
     }
 
 
+    @Test
     public void testInvokeInheritedFunctions() throws Exception
     {
         TestMock mock = new TestMock() { /* nothing new here */ };

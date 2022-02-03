@@ -17,11 +17,13 @@ package com.kdgregory.kdgcommons.util;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestRedactor extends TestCase
+public class TestRedactor
 {
+    @Test
     public void testSimpleRedactor() throws Exception
     {
         Redactor redactor = new Redactor(false, "\\d{3}-\\d{2}-\\d{4}", "\\d{9}", "A*B");
@@ -44,6 +46,7 @@ public class TestRedactor extends TestCase
     }
 
 
+    @Test
     public void testSmartRedactor() throws Exception
     {
         Redactor redactor = new Redactor("\\d{3}-\\d{2}-\\d{4}", "\\d{9}", "A*B");

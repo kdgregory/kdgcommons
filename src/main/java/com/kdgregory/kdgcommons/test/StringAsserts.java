@@ -16,7 +16,7 @@ package com.kdgregory.kdgcommons.test;
 
 import java.util.regex.Pattern;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 
 /**

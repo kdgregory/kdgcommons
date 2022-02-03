@@ -19,11 +19,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestNameValue extends TestCase
+public class TestNameValue
 {
+    @Test
     public void testConstructionAndGet() throws Exception
     {
         String name = "foo";
@@ -40,6 +42,7 @@ public class TestNameValue extends TestCase
     }
 
 
+    @Test
     public void testEqualsAndHashCode() throws Exception
     {
         NameValue<Integer> nv1  = new NameValue<Integer>("foo", new Integer(1));
@@ -61,6 +64,7 @@ public class TestNameValue extends TestCase
     }
 
 
+    @Test
     public void testToString() throws Exception
     {
         // this test exists primarily to ensure that toString() doesn't blow up
@@ -76,6 +80,7 @@ public class TestNameValue extends TestCase
     }
 
 
+    @Test
     public void testComparison() throws Exception
     {
         NameValue<Object> n1 = new NameValue<Object>("foo", null);
@@ -101,6 +106,7 @@ public class TestNameValue extends TestCase
     }
 
 
+    @Test
     public void testComparisonOfNonComparableValues() throws Exception
     {
         NameValue<Object> nv1 = new NameValue<Object>("foo", new Object()
@@ -126,6 +132,7 @@ public class TestNameValue extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings({"resource", "unchecked"})
     public void testSerialization() throws Exception
     {

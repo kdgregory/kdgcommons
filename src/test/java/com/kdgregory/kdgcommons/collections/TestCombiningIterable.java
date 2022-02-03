@@ -21,10 +21,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class TestCombiningIterable extends TestCase
+public class TestCombiningIterable
 {
+    @Test
     @SuppressWarnings("unchecked")
     public void testEmptyConstructor() throws Exception
     {
@@ -34,6 +36,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testSingleEmptyList() throws Exception
     {
@@ -45,6 +48,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testSingleList() throws Exception
     {
@@ -58,6 +62,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testMultipleLists() throws Exception
     {
@@ -73,6 +78,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testItrableOfIterables() throws Exception
     {
@@ -96,6 +102,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testCanProduceMultipleIndependentIterables() throws Exception
     {
@@ -127,6 +134,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testRemoveFromModifiableList() throws Exception
     {
@@ -147,6 +155,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testRemoveFromUnodifiableListThrows() throws Exception
     {
@@ -169,6 +178,7 @@ public class TestCombiningIterable extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testIteratingOffEndWillThrow() throws Exception
     {

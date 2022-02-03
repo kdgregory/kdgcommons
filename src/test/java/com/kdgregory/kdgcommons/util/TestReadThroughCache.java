@@ -19,13 +19,13 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Function;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.util.ReadThroughCache.Synchronization;
 
 
 public class TestReadThroughCache
-extends TestCase
 {
 //----------------------------------------------------------------------------
 //  Support code
@@ -205,6 +205,7 @@ extends TestCase
 //  Test cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testBasicOperation() throws Exception
     {
         Integer k1 = Integer.valueOf(1);
@@ -229,6 +230,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unused")
     public void testDiscardLRUEntry() throws Exception
     {
@@ -250,6 +252,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUnsynchronizedRetrieval() throws Exception
     {
         ConcurrentRetriever retriever = new ConcurrentRetriever();
@@ -280,6 +283,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUnsynchronizedRetrievalWithException() throws Exception
     {
         ConcurrentRetriever retriever = new ConcurrentRetriever();
@@ -306,6 +310,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSynchronizedByKeyRetrieval() throws Exception
     {
         ConcurrentRetriever retriever = new ConcurrentRetriever();
@@ -342,6 +347,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSynchronizedByKeyRetrievalWithException() throws Exception
     {
         ConcurrentRetriever retriever = new ConcurrentRetriever();
@@ -373,6 +379,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testFullySynchronizedRetrieval() throws Exception
     {
         ConcurrentRetriever retriever = new ConcurrentRetriever();
@@ -401,6 +408,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testFullySynchronizedRetrievalWithException() throws Exception
     {
         ConcurrentRetriever retriever = new ConcurrentRetriever();

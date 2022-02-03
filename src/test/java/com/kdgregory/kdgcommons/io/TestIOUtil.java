@@ -24,13 +24,13 @@ import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.zip.GZIPOutputStream;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.test.SimpleMock;
 
 
 public class TestIOUtil
-extends TestCase
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -115,6 +115,7 @@ extends TestCase
 //  Testcases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testCloseQuietly() throws Exception
     {
         SimpleMock proxy = new SimpleMock();
@@ -127,6 +128,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testCloseQuietlyWithException() throws Exception
     {
         Closeable mock = new Closeable()
@@ -143,6 +145,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testCloseQuietlyWithNull() throws Exception
     {
         // getting through here is sufficient
@@ -150,6 +153,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testCopy() throws Exception
     {
         // whitebox test: we want to read at least one full buffer, so need
@@ -167,6 +171,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testCopyWithNullParams() throws Exception
     {
         assertEquals("input null",
@@ -176,6 +181,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testOpenFile() throws Exception
     {
@@ -194,6 +200,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testOpenGZippedFile() throws Exception
     {
@@ -213,6 +220,7 @@ extends TestCase
     // this test is for coverage ... I don't know any way to track the number of
     // open file descriptors from the JDK, and looping until FD exhaustion seems
     // like a bad test
+    @Test
     @SuppressWarnings("resource")
     public void testOpenFileFailure() throws Exception
     {
@@ -236,6 +244,7 @@ extends TestCase
 
 
     // this doesn't fully test the method; we'd have to restart the JVM to do that
+    @Test
     public void testCreateTempFile() throws Exception
     {
         final String prefix = "testCreateTempFile";
@@ -249,6 +258,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testCreateTempFileFromStream() throws Exception
     {
         byte[] content = "this is a test".getBytes("UTF-8");
@@ -273,6 +283,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testReadFully() throws Exception
     {
         ReadLimitedInputStream in = new ReadLimitedInputStream(250, 1024);
@@ -310,6 +321,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSkipFully() throws Exception
     {
         ReadLimitedInputStream in = new ReadLimitedInputStream(250, 1024);

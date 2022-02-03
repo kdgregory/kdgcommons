@@ -18,11 +18,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.test.ArrayAsserts;
 
-public class TestCloseBlockingOutputStream extends TestCase
+
+public class TestCloseBlockingOutputStream
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -59,6 +61,7 @@ public class TestCloseBlockingOutputStream extends TestCase
 //  Test cases
 //----------------------------------------------------------------------------
 
+    @Test
     @SuppressWarnings("resource")
     public void testWriting() throws Exception
     {
@@ -74,6 +77,7 @@ public class TestCloseBlockingOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testFlush() throws Exception
     {
@@ -86,6 +90,7 @@ public class TestCloseBlockingOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testClose() throws Exception
     {

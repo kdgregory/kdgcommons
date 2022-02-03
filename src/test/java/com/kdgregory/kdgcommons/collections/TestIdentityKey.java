@@ -16,11 +16,13 @@ package com.kdgregory.kdgcommons.collections;
 
 import java.util.HashSet;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestIdentityKey extends TestCase
+public class TestIdentityKey 
 {
+    @Test
     public void testEquals() throws Exception
     {
         // these two values will be equal but not have the same identity
@@ -37,6 +39,7 @@ public class TestIdentityKey extends TestCase
     }
 
 
+    @Test
     public void testHashCode() throws Exception
     {
         Integer i1 = new Integer(123);
@@ -56,6 +59,7 @@ public class TestIdentityKey extends TestCase
     }
 
 
+    @Test
     public void testInSitu() throws Exception
     {
         // note: not valueOf(), we want distinct objects

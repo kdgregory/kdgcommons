@@ -19,11 +19,13 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Vector;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestEnumerationIterable extends TestCase
+public class TestEnumerationIterable
 {
+    @Test
     public void testBasicOperation() throws Exception
     {
         Vector<String> src = new Vector<String>(Arrays.asList("foo", "bar", "baz"));
@@ -40,6 +42,7 @@ public class TestEnumerationIterable extends TestCase
     }
 
 
+    @Test
     public void testMultipleIteratorsPointToSameLocation() throws Exception
     {
         Vector<String> src = new Vector<String>(Arrays.asList("foo", "bar", "baz"));
@@ -57,6 +60,7 @@ public class TestEnumerationIterable extends TestCase
     }
 
 
+    @Test
     public void testRemoveNotSupported() throws Exception
     {
         Vector<String> src = new Vector<String>(Arrays.asList("foo", "bar", "baz"));

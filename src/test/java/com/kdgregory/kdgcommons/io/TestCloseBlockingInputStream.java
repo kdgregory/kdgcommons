@@ -18,12 +18,13 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.test.ArrayAsserts;
 
 
-public class TestCloseBlockingInputStream extends TestCase
+public class TestCloseBlockingInputStream
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -53,6 +54,7 @@ public class TestCloseBlockingInputStream extends TestCase
 //  Test cases
 //----------------------------------------------------------------------------
 
+    @Test
     @SuppressWarnings("resource")
     public void testReading() throws Exception
     {
@@ -76,6 +78,7 @@ public class TestCloseBlockingInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkAndReset() throws Exception
     {
@@ -95,6 +98,7 @@ public class TestCloseBlockingInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSkip() throws Exception
     {
@@ -108,6 +112,7 @@ public class TestCloseBlockingInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testAvailable() throws Exception
     {
@@ -120,6 +125,7 @@ public class TestCloseBlockingInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testClose() throws Exception
     {

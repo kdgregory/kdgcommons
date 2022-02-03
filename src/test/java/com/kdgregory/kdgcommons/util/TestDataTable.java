@@ -14,16 +14,12 @@
 
 package com.kdgregory.kdgcommons.util;
 
-import junit.framework.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestDataTable extends TestCase
+public class TestDataTable
 {
-    public TestDataTable(java.lang.String testName)
-    {
-        super(testName);
-    }
-
 
 //------------------------------------------------------------------------------
 //  Setup
@@ -53,16 +49,11 @@ public class TestDataTable extends TestCase
         new Object[] { "D", "E", "F" }
     };
 
-
-//------------------------------------------------------------------------------
-//  Support code
-//------------------------------------------------------------------------------
-
-
 //------------------------------------------------------------------------------
 //  Test Methods
 //------------------------------------------------------------------------------
 
+    @Test
     public void testBasicConstructor() throws Exception
     {
         DataTable table = new DataTable(HEADERS, CLASSES, GOOD_DATA);
@@ -81,6 +72,7 @@ public class TestDataTable extends TestCase
     }
 
 
+    @Test
     public void testConstructionWithInvalidData() throws Exception
     {
         try
@@ -95,6 +87,7 @@ public class TestDataTable extends TestCase
     }
 
 
+    @Test
     public void testConvenienceCtor() throws Exception
     {
         DataTable table = new DataTable(new String[] {"foo", "bar", "baz"});
@@ -106,6 +99,7 @@ public class TestDataTable extends TestCase
     }
 
 
+    @Test
     public void testAddRow() throws Exception
     {
         DataTable table = new DataTable(new String[] {"h1", "h2", "h3"});
@@ -124,6 +118,7 @@ public class TestDataTable extends TestCase
     }
 
 
+    @Test
     public void testSetValue() throws Exception
     {
         DataTable table = new DataTable(new String[] {"h1", "h2", "h3"});

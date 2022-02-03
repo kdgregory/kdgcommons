@@ -17,10 +17,11 @@ package com.kdgregory.kdgcommons.io;
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestGeneratedInputStream extends TestCase
+public class TestGeneratedInputStream
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -61,6 +62,7 @@ public class TestGeneratedInputStream extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadOneBuffer() throws Exception
     {
@@ -72,6 +74,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadMultipleBuffers() throws Exception
     {
@@ -86,6 +89,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testBlockReadOneBuffer() throws Exception
     {
@@ -99,6 +103,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testBlockReadMultipleBuffers() throws Exception
     {
@@ -115,6 +120,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testPartialBlockReadOneBuffer() throws Exception
     {
@@ -128,6 +134,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testPartialBlockReadMultipleBuffers() throws Exception
     {
@@ -144,6 +151,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testAvailable() throws Exception
     {
@@ -157,6 +165,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testThrowsAfterClose() throws Exception
     {
@@ -175,6 +184,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkAndReset() throws Exception
     {
@@ -198,6 +208,7 @@ public class TestGeneratedInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSkip() throws Exception
     {
@@ -212,6 +223,7 @@ public class TestGeneratedInputStream extends TestCase
 
 
     // cross-library regression test
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {

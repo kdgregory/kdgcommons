@@ -14,12 +14,13 @@
 
 package com.kdgregory.kdgcommons.tuple;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestTuple2
-extends TestCase
 {
+    @Test
     public void testCreateAndGet() throws Exception
     {
         Tuple2<String,String> x = new Tuple2<String,String>("foo", "bar");
@@ -28,6 +29,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testEqualsAndHashCode() throws Exception
     {
         Tuple2<String,String> x = new Tuple2<String,String>("foo", "bar");
@@ -48,6 +50,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testEqualsAndHashcodeWithNullComponents() throws Exception
     {
         Tuple2<String,String> x1 = new Tuple2<String,String>(null, "bar");
@@ -63,6 +66,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testComparableTuple2() throws Exception
     {
         ComparableTuple2<String,String> x = new ComparableTuple2<String,String>("foo", "bar");

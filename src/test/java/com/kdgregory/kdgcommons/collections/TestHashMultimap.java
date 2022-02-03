@@ -27,14 +27,15 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.collections.HashMultimap.Behavior;
 
 
 public class TestHashMultimap
-extends TestCase
 {
+    @Test
     public void testInitialCapacityComputation() throws Exception
     {
         HashMultimap<String,String> map1 = new HashMultimap<String,String>();
@@ -48,6 +49,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testPutAndGetSingleValue() throws Exception
     {
         final String key1 = "foo";
@@ -73,6 +75,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testPutAndGetMultipleValuesSetBehavior() throws Exception
     {
         final String key1  = "foo";
@@ -96,6 +99,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testPutAndGetMultipleValuesListBehavior() throws Exception
     {
         final String key1  = "foo";
@@ -122,6 +126,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testPutAndGetWhereKeysHaveSameHashcode() throws Exception
     {
         final String key1  = "AAABB";
@@ -143,6 +148,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testRemoveByKey() throws Exception
     {
         HashMultimap<String,String> map = new HashMultimap<String,String>(Behavior.LIST);
@@ -171,6 +177,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testRemoveByKeyAndValue() throws Exception
     {
         HashMultimap<String,String> map = new HashMultimap<String,String>(Behavior.LIST);
@@ -200,6 +207,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testRemoveAll() throws Exception
     {
         HashMultimap<String,String> map = new HashMultimap<String,String>(Behavior.LIST);
@@ -224,6 +232,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testGetIterator() throws Exception
     {
         final String key1  = "foo";
@@ -248,6 +257,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testIteratorRemove() throws Exception
     {
         final String key1  = "foo";
@@ -276,6 +286,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testIteratorThrowsWhenNextCalledAtEnd() throws Exception
     {
         // an empty map is a good way to get a failing iterator
@@ -295,6 +306,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testIteratorIsFailFast() throws Exception
     {
         HashMultimap<String,String> map = new HashMultimap<String,String>(Behavior.LIST);
@@ -318,6 +330,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testNullValues() throws Exception
     {
         final String key1  = "foo";
@@ -342,6 +355,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testClearAndIsEmpty() throws Exception
     {
         HashMultimap<String,String> map = new HashMultimap<String,String>();
@@ -358,6 +372,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testContains() throws Exception
     {
         HashMultimap<String,String> map = new HashMultimap<String,String>();
@@ -376,6 +391,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testKeySet() throws Exception
     {
         HashMultimap<String,String> map = new HashMultimap<String,String>();
@@ -400,6 +416,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testIterateEntries() throws Exception
     {
         HashMultimap<String,String> map = new HashMultimap<String,String>();
@@ -415,6 +432,7 @@ extends TestCase
     // TODO - remove from entry iterator
 
 
+    @Test
     public void testToMapListBehavior() throws Exception
     {
         HashMultimap<String,String> multimap = new HashMultimap<String,String>(Behavior.LIST);
@@ -435,6 +453,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testToMapSetBehavior() throws Exception
     {
         HashMultimap<String,String> multimap = new HashMultimap<String,String>(Behavior.SET);
@@ -455,6 +474,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testResize() throws Exception
     {
         // we'll use Integer keys because the hashcode is the intValue()
@@ -487,6 +507,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testSerialization() throws Exception
     {
@@ -508,6 +529,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testEqualsAndHashcode() throws Exception
     {
         HashMultimap<String,String> map1 = new HashMultimap<String,String>();

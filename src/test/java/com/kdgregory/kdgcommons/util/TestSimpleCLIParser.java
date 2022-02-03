@@ -18,12 +18,13 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.util.SimpleCLIParser.OptionDefinition;
 
 
-public class TestSimpleCLIParser extends TestCase
+public class TestSimpleCLIParser 
 {
 
     public final static Integer OPT1            = Integer.valueOf(1);
@@ -82,6 +83,7 @@ public class TestSimpleCLIParser extends TestCase
 //  Test cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testParametersOnly() throws Exception
     {
         SimpleCLIParser parser = new NoOptionParser("foo", "bar", "baz");
@@ -90,6 +92,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testShift() throws Exception
     {
         SimpleCLIParser parser = new NoOptionParser("foo", "bar", "baz");
@@ -105,6 +108,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testDefaults() throws Exception
     {
         SimpleCLIParser parser = new EnableDisableParser();
@@ -117,6 +121,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testExplicitEnable() throws Exception
     {
         SimpleCLIParser parser = new EnableDisableParser(OPT1_ENABLE, OPT2_ENABLE);
@@ -131,6 +136,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testExplicitDisable() throws Exception
     {
         SimpleCLIParser parser = new EnableDisableParser(OPT1_DISABLE, OPT2_DISABLE);
@@ -145,6 +151,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testOptionWithParameters() throws Exception
     {
         // opt2 isn't present, so it's "disabled"
@@ -162,6 +169,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testEmbeddedParameters() throws Exception
     {
         SimpleCLIParser parser1 = new ParamParser(OPT1_ENABLE + "=foo");
@@ -186,6 +194,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testMultipleOptionsWithParameters() throws Exception
     {
         // variant 1: options and parameters specified separately
@@ -210,6 +219,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testOptionWithoutParameters() throws Exception
     {
         SimpleCLIParser parser = new ParamParser(OPT2_ENABLE, "foo", "bar");
@@ -226,6 +236,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testEnableDisableOptionWithValue() throws Exception
     {
         SimpleCLIParser parser = new EnableDisableParser(OPT1_ENABLE + "=foo");
@@ -236,6 +247,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testGetOptionDefs() throws Exception
     {
         SimpleCLIParser parser = new EnableDisableParser();
@@ -247,6 +259,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testGetHelp() throws Exception
     {
         SimpleCLIParser parser1 = new EnableDisableParser();
@@ -268,6 +281,7 @@ public class TestSimpleCLIParser extends TestCase
     }
 
 
+    @Test
     public void testGetDefinitions() throws Exception
     {
         SimpleCLIParser parser = new EnableDisableParser();

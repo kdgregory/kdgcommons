@@ -14,7 +14,7 @@
 
 package com.kdgregory.kdgcommons.test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 
 /**

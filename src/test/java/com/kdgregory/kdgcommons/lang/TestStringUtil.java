@@ -14,13 +14,15 @@
 
 package com.kdgregory.kdgcommons.lang;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.test.NumericAsserts;
 
 
-public class TestStringUtil extends TestCase
+public class TestStringUtil
 {
+    @Test
     public void testLength() throws Exception
     {
         assertEquals("non-empty", 3, StringUtil.length("foo"));
@@ -29,6 +31,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testIsEmpty() throws Exception
     {
         assertTrue(StringUtil.isEmpty(null));
@@ -37,6 +40,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testIsBlank() throws Exception
     {
         assertTrue(StringUtil.isBlank(null));
@@ -50,6 +54,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testTrim() throws Exception
     {
         assertEquals("no trimming",         "foo", StringUtil.trim("foo"));
@@ -60,6 +65,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testTrimToNull() throws Exception
     {
         assertEquals("no trimming",         "foo", StringUtil.trimToNull("foo"));
@@ -70,6 +76,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testPadding() throws Exception
     {
         assertEquals("qqqqq", StringUtil.padLeft("", 5, 'q'));
@@ -83,6 +90,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testPaddingNull() throws Exception
     {
         assertEquals("qqqqq", StringUtil.padLeft(null, 5, 'q'));
@@ -90,6 +98,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testLastChar() throws Exception
     {
         assertEquals('c', StringUtil.lastChar("abc"));
@@ -99,6 +108,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testContains() throws Exception
     {
         assertTrue(StringUtil.contains("foo", "foo"));
@@ -118,6 +128,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testContainsIgnoreCase() throws Exception
     {
         assertTrue(StringUtil.containsIgnoreCase("foo", "foo"));
@@ -145,6 +156,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testRepeat() throws Exception
     {
         assertEquals("", StringUtil.repeat(' ', 0));
@@ -153,6 +165,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testToUTF8() throws Exception
     {
         byte[] data = StringUtil.toUTF8("ab\u00e7\u2747");
@@ -167,6 +180,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testToUTF8ForNull() throws Exception
     {
         byte[] data = StringUtil.toUTF8(null);
@@ -174,6 +188,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testFromUTF8() throws Exception
     {
         byte[] data = new byte[]
@@ -185,12 +200,14 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testFromUTF8ForNull() throws Exception
     {
         assertEquals("", StringUtil.fromUTF8(null));
     }
 
 
+    @Test
     public void testUnicodeEscape() throws Exception
     {
         assertNull(StringUtil.unicodeEscape(null));
@@ -205,6 +222,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testUnescape() throws Exception
     {
         assertNull(StringUtil.unescape(null));
@@ -225,6 +243,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testParseDigit() throws Exception
     {
         assertEquals(0, StringUtil.parseDigit('0', 10));
@@ -247,6 +266,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unused")
     public void testRandomAlpha() throws Exception
     {
@@ -292,6 +312,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testExtract() throws Exception
     {
         // the happy path
@@ -316,6 +337,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testExtractFromLast() throws Exception
     {
         // the happy path
@@ -340,6 +362,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testSubstr() throws Exception
     {
         assertEquals("null string",                 "",             StringUtil.substr(null, 0, 1));
@@ -362,6 +385,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testIsIn() throws Exception
     {
         assertTrue("happy path",        StringUtil.isIn("foo", "foo", "bar", "baz"));
@@ -373,6 +397,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testEqualOrEmpty() throws Exception
     {
         assertTrue("equal strings",      StringUtil.equalOrEmpty("foo", "foo"));
@@ -385,6 +410,7 @@ public class TestStringUtil extends TestCase
     }
 
 
+    @Test
     public void testValueOf() throws Exception
     {
         assertEquals("foo", StringUtil.valueOf("foo"));

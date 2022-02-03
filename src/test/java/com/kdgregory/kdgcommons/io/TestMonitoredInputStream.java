@@ -20,10 +20,11 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestMonitoredInputStream extends TestCase
+public class TestMonitoredInputStream 
 {
     // an implementation that records all calls
     private static class MyMonitoredInputStream
@@ -61,6 +62,7 @@ public class TestMonitoredInputStream extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testOneByteRead() throws Exception
     {
         MyMonitoredInputStream in = createTestStream("ABC");
@@ -91,6 +93,7 @@ public class TestMonitoredInputStream extends TestCase
     }
 
 
+    @Test
     public void testMultiByteReads() throws Exception
     {
         MyMonitoredInputStream in = createTestStream("ABCDEFGHI");
@@ -128,6 +131,7 @@ public class TestMonitoredInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkAndReset() throws Exception
     {
@@ -158,6 +162,7 @@ public class TestMonitoredInputStream extends TestCase
     }
 
 
+    @Test
     public void testSkip() throws Exception
     {
         MyMonitoredInputStream in = createTestStream("ABCDEFGHI");
@@ -172,6 +177,7 @@ public class TestMonitoredInputStream extends TestCase
 
 
 
+    @Test
     public void testAvailable() throws Exception
     {
         MyMonitoredInputStream in = createTestStream("ABCDEFGHI");
@@ -183,6 +189,7 @@ public class TestMonitoredInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testClose() throws Exception
     {

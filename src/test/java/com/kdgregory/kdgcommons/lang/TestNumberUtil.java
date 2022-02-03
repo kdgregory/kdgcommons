@@ -17,11 +17,13 @@ package com.kdgregory.kdgcommons.lang;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import junit.framework.TestCase;
 
-public class TestNumberUtil extends TestCase
+public class TestNumberUtil
 {
+    @Test
     public void testParse() throws Exception
     {
         String str = "123";
@@ -52,6 +54,7 @@ public class TestNumberUtil extends TestCase
     }
 
 
+    @Test
     public void testParseUnhandledType() throws Exception
     {
         try
@@ -66,6 +69,7 @@ public class TestNumberUtil extends TestCase
     }
 
 
+    @Test
     public void testToHexString() throws Exception
     {
         assertEquals("11", NumberUtil.toHexString(17, 2));
@@ -82,6 +86,7 @@ public class TestNumberUtil extends TestCase
     }
 
 
+    @Test
     // FIXME - this should test all combinations, and needs to test wrapper types (which currently fail)
     public void testDynamicCast() throws Exception
     {

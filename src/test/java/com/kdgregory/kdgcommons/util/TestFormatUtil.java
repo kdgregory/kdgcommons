@@ -6,12 +6,15 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class TestFormatUtil extends TestCase
+
+public class TestFormatUtil
 {
     // we'll just verify that we can do the format; no easy way to verify
     // thread-safety
+    @Test
     public void testLocalDateFormatting() throws Exception
     {
         Calendar cal = GregorianCalendar.getInstance();
@@ -27,6 +30,7 @@ public class TestFormatUtil extends TestCase
     }
 
 
+    @Test
     public void testTzDateFormatting() throws Exception
     {
         Calendar cal = GregorianCalendar.getInstance();
@@ -46,6 +50,7 @@ public class TestFormatUtil extends TestCase
     }
 
 
+    @Test
     public void testNumberFormatting() throws Exception
     {
         assertEquals("1,234.56", FormatUtil.formatNumber(1234.5602, "#,##0.00"));

@@ -20,11 +20,11 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestBufferFacadeFactory
-extends TestCase
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -51,6 +51,7 @@ extends TestCase
 //                to refactor
 //----------------------------------------------------------------------------
 
+    @Test
     public void testByteBufferBasicOps() throws Exception
     {
         // newly created buffers have limit == capacity, so we must set explicitly
@@ -108,6 +109,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testByteBufferOffsetOps() throws Exception
     {
         ByteBuffer buf = ByteBuffer.allocate(4096);
@@ -160,6 +162,7 @@ extends TestCase
         assertEquals(0x12345678, b2.getInt(0));
     }
 
+    @Test
     public void testByteBufferTLBasicOps() throws Exception
     {
         // threadsafe facades REQUIRE us to set limit before the first access
@@ -214,6 +217,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testByteBufferTLOffsetOps() throws Exception
     {
         ByteBuffer buf = ByteBuffer.allocate(4096);
@@ -267,6 +271,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testMappedFileBufferBasicOps() throws Exception
     {
         MappedFileBuffer buf = createMappedFile("testMappedFileBufferBasicOps", 4096);
@@ -321,6 +326,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testMappedFileBufferOffsetOps() throws Exception
     {
         MappedFileBuffer buf = createMappedFile("testMappedFileBufferOffsetOps", 4096);
@@ -372,6 +378,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testMappedFileBufferTLBasicOps() throws Exception
     {
         MappedFileBuffer buf = createMappedFile("testMappedFileBufferBasicOps", 4096);
@@ -423,6 +430,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testMappedFileBufferTLOffsetOps() throws Exception
     {
         MappedFileBuffer buf = createMappedFile("testMappedFileBufferOffsetOps", 4096);

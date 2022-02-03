@@ -18,10 +18,11 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestBOMExclusionInputStream extends TestCase
+public class TestBOMExclusionInputStream
 {
 //----------------------------------------------------------------------------
 //  Support code
@@ -88,6 +89,7 @@ public class TestBOMExclusionInputStream extends TestCase
 //----------------------------------------------------------------------------
 
     // make sure that our support code works as expected
+    @Test
     public void testSupportCode() throws Exception
     {
         InputStream in = createDataStream(new byte[] {'A', 'B'}, true);
@@ -106,6 +108,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testReadWithoutBOM() throws Exception
     {
@@ -119,6 +122,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testReadWithBOM() throws Exception
     {
@@ -132,6 +136,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testLargeBufferWithoutBOM() throws Exception
     {
@@ -144,6 +149,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testLargeBufferWithBOM() throws Exception
     {
@@ -155,6 +161,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSmallBufferWithoutBOM() throws Exception
     {
@@ -168,6 +175,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSmallBufferWithBOM() throws Exception
     {
@@ -181,6 +189,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testLeadingNonBOMSingleRead() throws Exception
     {
@@ -194,6 +203,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testLeadingNonBOMBufferedRead() throws Exception
     {
@@ -206,6 +216,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSkipWithoutBOM() throws Exception
     {
@@ -218,6 +229,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSkipWithBOM() throws Exception
     {
@@ -230,6 +242,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkResetAfterReadWithoutBOM() throws Exception
     {
@@ -248,6 +261,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkResetAfterReadWithBOM() throws Exception
     {
@@ -266,6 +280,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkResetBeforeReadWithoutBOM() throws Exception
     {
@@ -283,6 +298,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkResetBeforeReadWithBOM() throws Exception
     {
@@ -300,6 +316,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testAvailableWithoutBOM() throws Exception
     {
@@ -310,6 +327,7 @@ public class TestBOMExclusionInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testAvailableWithBOM() throws Exception
     {
@@ -321,6 +339,7 @@ public class TestBOMExclusionInputStream extends TestCase
 
 
     // this is here for coverage
+    @Test
     @SuppressWarnings("resource")
     public void testClose() throws Exception
     {
@@ -333,6 +352,7 @@ public class TestBOMExclusionInputStream extends TestCase
 
 
     // cross-library regression test (did not find failure)
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {

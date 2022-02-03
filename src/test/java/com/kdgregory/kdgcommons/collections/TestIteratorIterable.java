@@ -19,12 +19,13 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestIteratorIterable
-extends TestCase
 {
+    @Test
     public void testBasicOperation() throws Exception
     {
         List<String> src = Arrays.asList("foo", "bar", "baz");
@@ -41,6 +42,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testMultipleIteratorsPointToSameLocation() throws Exception
     {
         List<String> src = Arrays.asList("foo", "bar", "baz");

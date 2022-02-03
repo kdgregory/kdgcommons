@@ -26,11 +26,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestCollectionUtil extends TestCase
+public class TestCollectionUtil
 {
+    @Test
     public void testAsSet() throws Exception
     {
         Set<String> values = CollectionUtil.asSet("foo", "bar", "baz", "foo");
@@ -41,6 +43,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testAsMap() throws Exception
     {
         Map<Object,Object> expected = new HashMap<Object,Object>();
@@ -66,6 +69,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testAddAllFromVarargs() throws Exception
     {
         List<String> list = new ArrayList<String>();
@@ -79,6 +83,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testAddAllFromIterable() throws Exception
     {
         // whitebox test: this also tests adding all from an iterator
@@ -94,6 +99,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testAddIf() throws Exception
     {
         ArrayList<String> list = new ArrayList<String>();
@@ -106,6 +112,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testAddIfNotNull() throws Exception
     {
         ArrayList<String> list = new ArrayList<String>();
@@ -119,6 +126,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testPutIf() throws Exception
     {
         Map<Object,Object> map = CollectionUtil.asMap("foo", "bar");
@@ -133,6 +141,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testPutIfNotNull() throws Exception
     {
         Map<Object,Object> map = CollectionUtil.asMap("foo", "bar");
@@ -147,6 +156,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testPutIfAbsent() throws Exception
     {
         Map<String,String> map = new HashMap<String,String>();
@@ -161,6 +171,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testPutAbsent() throws Exception
     {
         Map<String,String> base = new HashMap<String,String>();
@@ -179,6 +190,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testFirstAndLast() throws Exception
     {
         List<String> l1 = Arrays.asList("foo", "bar", "baz");
@@ -204,6 +216,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testIsEmpty() throws Exception
     {
         List<String> list1 = null;
@@ -233,6 +246,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCompareEqualCollections() throws Exception
     {
         List<String> l1 = Arrays.asList("foo", "bar", "baz");
@@ -242,6 +256,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCompareUnequalCollections() throws Exception
     {
         List<String> l1 = Arrays.asList("foo", "bar", "baz");
@@ -252,6 +267,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCompareCollectionsOfDifferentLength() throws Exception
     {
         List<String> l1 = Arrays.asList("foo", "bar");
@@ -262,6 +278,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testDefaultIfNull() throws Exception
     {
         Iterable<String> it1 = CollectionUtil.defaultIfNull(Arrays.asList("foo"), Arrays.asList("bar"));
@@ -272,6 +289,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testDefaultIfEmpty() throws Exception
     {
         Collection<String> c1 = CollectionUtil.defaultIfEmpty(Arrays.asList("foo"), Arrays.asList("bar"));
@@ -285,6 +303,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCastList() throws Exception
     {
         ArrayList<Object> x = new ArrayList<Object>();
@@ -297,6 +316,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCastListFailure() throws Exception
     {
         ArrayList<Object> x = new ArrayList<Object>();
@@ -316,6 +336,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCastListWithNull() throws Exception
     {
         ArrayList<Object> x = new ArrayList<Object>();
@@ -328,6 +349,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCastSet() throws Exception
     {
         HashSet<Object> x = new HashSet<Object>();
@@ -340,6 +362,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCastSetFailure() throws Exception
     {
         HashSet<Object> x = new HashSet<Object>();
@@ -359,6 +382,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCastSetWithNull() throws Exception
     {
         HashSet<Object> x = new HashSet<Object>();
@@ -371,6 +395,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCastMap() throws Exception
     {
         Map<Object,Object> x = new HashMap<Object,Object>();
@@ -382,6 +407,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCastMapKeyFailure() throws Exception
     {
         Map<Object,Object> x = new HashMap<Object,Object>();
@@ -399,6 +425,7 @@ public class TestCollectionUtil extends TestCase
         }
     }
 
+    @Test
     public void testCastMapValueFailure() throws Exception
     {
         Map<Object,Object> x = new HashMap<Object,Object>();
@@ -417,6 +444,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testCastMapWithNullValue() throws Exception
     {
         Map<Object,Object> x = new HashMap<Object,Object>();
@@ -428,6 +456,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testResize() throws Exception
     {
         ArrayList<String> list1 = new ArrayList<String>();
@@ -477,6 +506,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testResizeWithValue() throws Exception
     {
         List<String> list = new ArrayList<String>();
@@ -487,6 +517,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testJoin() throws Exception
     {
         // part 1: join various numbers of elements
@@ -507,6 +538,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testCombineList() throws Exception
     {
@@ -522,6 +554,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testCombineSet() throws Exception
     {
@@ -535,6 +568,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("unchecked")
     public void testCombineMap() throws Exception
     {
@@ -555,6 +589,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("serial")
     public void testGetVia() throws Exception
     {
@@ -655,6 +690,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testPartition() throws Exception
     {
         assertEquals(
@@ -674,6 +710,7 @@ public class TestCollectionUtil extends TestCase
     }
 
 
+    @Test
     public void testSubmap() throws Exception
     {
         Map<Integer,String> source = new HashMap<Integer,String>();

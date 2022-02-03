@@ -20,12 +20,13 @@ import java.nio.ByteBuffer;
 import java.nio.ReadOnlyBufferException;
 import java.nio.channels.FileChannel.MapMode;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.test.ArrayAsserts;
 
 
-public class TestBufferUtil extends TestCase
+public class TestBufferUtil
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -53,6 +54,7 @@ public class TestBufferUtil extends TestCase
     // different things ... although, unfortunately, we're not able to
     // validate that we (1) open the underlying RandomAccessFile read-only,
     // or (2) that we close it after creating the mapping
+    @Test
     public void testMapFile() throws Exception
     {
         // we'll compare the data from the mapped file with a local buffer
@@ -99,6 +101,7 @@ public class TestBufferUtil extends TestCase
     }
 
 
+    @Test
     public void testGetUTF8String() throws Exception
     {
         String expected = "ab\u00e7\u2727cd";
@@ -112,6 +115,7 @@ public class TestBufferUtil extends TestCase
     }
 
 
+    @Test
     public void testGetChars() throws Exception
     {
         String expected = "ab\u00e7\u2727cd";
@@ -127,6 +131,7 @@ public class TestBufferUtil extends TestCase
     }
 
 
+    @Test
     public void testToArray() throws Exception
     {
         byte[] data = new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};

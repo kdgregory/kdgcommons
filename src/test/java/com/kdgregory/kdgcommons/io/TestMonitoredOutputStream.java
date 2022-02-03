@@ -19,10 +19,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestMonitoredOutputStream extends TestCase
+public class TestMonitoredOutputStream 
 {
     // an implementation that records all calls and has its own delegate
     private static class MyMonitoredOutputStream
@@ -50,6 +51,7 @@ public class TestMonitoredOutputStream extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     @SuppressWarnings("resource")
     public void testOneByteWrite() throws Exception
     {
@@ -74,6 +76,7 @@ public class TestMonitoredOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMultiByteWrites() throws Exception
     {
@@ -96,6 +99,7 @@ public class TestMonitoredOutputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testFlushAndClose() throws Exception
     {

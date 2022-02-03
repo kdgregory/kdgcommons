@@ -17,19 +17,14 @@ package com.kdgregory.kdgcommons.bean;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.testinternals.InaccessibleClass;
 
 
 public class TestIntrospection
-extends TestCase
 {
-    public TestIntrospection(String testName)
-    {
-        super(testName);
-    }
-
 
 //----------------------------------------------------------------------------
 //  Classes to introspect -- all must be public and static
@@ -172,6 +167,7 @@ extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testSimpleBean() throws Exception
     {
         Introspection ispec = new Introspection(SimpleBean.class);
@@ -212,6 +208,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testPropertyNamesIgnoreCase() throws Exception
     {
         Introspection ispec = new Introspection(SimpleBean.class);
@@ -242,6 +239,7 @@ extends TestCase
 
 
 
+    @Test
     public void testMixingPrimitiveAndWrappers() throws Exception
     {
         Introspection ispec = new Introspection(MixedPrimitiveAndWrapperBean.class);
@@ -262,6 +260,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSetterParameterRanking() throws Exception
     {
         Introspection ispec = new Introspection(MultipleSetterBean.class);
@@ -301,6 +300,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSubclassSetterOverride() throws Exception
     {
         Introspection ispec = new Introspection(OverrideChildBean.class);
@@ -315,6 +315,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSubclassGetterOverride() throws Exception
     {
         Introspection ispec = new Introspection(OverrideChildBean.class);
@@ -329,6 +330,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testMissingGetter() throws Exception
     {
         Introspection ispec = new Introspection(MissingGetterBean.class);
@@ -348,6 +350,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testInvalidParameterCounts() throws Exception
     {
         Introspection ispec = new Introspection(InvalidMethodBean.class);
@@ -381,6 +384,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testPublicMethodInPrivateClass() throws Exception
     {
         InaccessibleClass instance = InaccessibleClass.newInstance();

@@ -17,10 +17,12 @@ package com.kdgregory.kdgcommons.io;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestTeeOutputStream extends TestCase
+public class TestTeeOutputStream
 {
     private byte[] testData;
     private ByteArrayOutputStream base;
@@ -28,8 +30,8 @@ public class TestTeeOutputStream extends TestCase
     private TeeOutputStream test;
 
 
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
         testData = "Hello, World".getBytes("UTF-8");
         base = new ByteArrayOutputStream();
@@ -38,6 +40,7 @@ public class TestTeeOutputStream extends TestCase
     }
 
 
+    @Test
     public void testWriteSingleByte() throws Exception
     {
         test.write(65);
@@ -48,6 +51,7 @@ public class TestTeeOutputStream extends TestCase
     }
 
 
+    @Test
     public void testWriteFromBuffer() throws Exception
     {
         test.write(testData);
@@ -64,6 +68,7 @@ public class TestTeeOutputStream extends TestCase
     }
 
 
+    @Test
     public void testWriteFromBufferWithOffsetAndLength() throws Exception
     {
         test.write(testData, 2, 6);
@@ -81,6 +86,7 @@ public class TestTeeOutputStream extends TestCase
 
 
 
+    @Test
     public void testFlush() throws Exception
     {
         test = new TeeOutputStream(new BufferedOutputStream(base, 1024),
@@ -96,6 +102,7 @@ public class TestTeeOutputStream extends TestCase
     }
 
 
+    @Test
     public void testAutoFlush() throws Exception
     {
         test = new TeeOutputStream(new BufferedOutputStream(base, 1024),

@@ -17,12 +17,13 @@ package com.kdgregory.kdgcommons.lang;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestThreadUtil
-extends TestCase
 {
+    @Test
     public void testSleepQuietlyNormalOperation() throws Exception
     {
         long startTime = System.currentTimeMillis();
@@ -37,6 +38,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSleepQuietlyWhenInterrupted() throws Exception
     {
         // the test has to run in a background thread, which means that we need

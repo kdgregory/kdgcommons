@@ -17,11 +17,13 @@ package com.kdgregory.kdgcommons.collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestMapBuilder extends TestCase
+public class TestMapBuilder
 {
+    @Test
     public void testOperation() throws Exception
     {
         Map<String,String> map = new MapBuilder<String,String>(new HashMap<String,String>())

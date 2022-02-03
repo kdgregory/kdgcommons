@@ -17,10 +17,12 @@ package com.kdgregory.kdgcommons.io;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestTeeInputStream extends TestCase
+public class TestTeeInputStream 
 {
     private final static String TEST_DATA = "Hello, World";
 
@@ -29,21 +31,19 @@ public class TestTeeInputStream extends TestCase
     private TeeInputStream test;
 
 
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
         base = new ByteArrayInputStream(TEST_DATA.getBytes("UTF-8"));
         tee = new ByteArrayOutputStream();
         test = new TeeInputStream(base, tee);
     }
 
+//----------------------------------------------------------------------------
+//  Testcases
+//----------------------------------------------------------------------------
 
-    public void testAvailable() throws Exception
-    {
-        assertEquals(base.available(), test.available());
-    }
-
-
+    @Test
     public void testReadSingleBytes() throws Exception
     {
         int b = test.read();
@@ -63,6 +63,7 @@ public class TestTeeInputStream extends TestCase
     }
 
 
+    @Test
     public void testReadSingleByteAtEOF() throws Exception
     {
         test = new TeeInputStream(new ByteArrayInputStream(new byte[0]),
@@ -81,6 +82,7 @@ public class TestTeeInputStream extends TestCase
     }
 
 
+    @Test
     public void testReadIntoBuffer() throws Exception
     {
         byte[] buf = new byte[3];
@@ -97,6 +99,7 @@ public class TestTeeInputStream extends TestCase
     }
 
 
+    @Test
     public void testReadIntoOversizedBuffer() throws Exception
     {
         byte[] buf = new byte[1024];
@@ -107,6 +110,7 @@ public class TestTeeInputStream extends TestCase
     }
 
 
+    @Test
     public void testReadIntoBufferWithOffset() throws Exception
     {
         byte[] buf = new byte[5];
@@ -125,6 +129,7 @@ public class TestTeeInputStream extends TestCase
     }
 
 
+    @Test
     public void testMarkAndReset() throws Exception
     {
         assertTrue(test.markSupported());
@@ -154,6 +159,7 @@ public class TestTeeInputStream extends TestCase
     }
 
 
+    @Test
     public void testSkip() throws Exception
     {
         byte[] buf = new byte[3];
@@ -182,6 +188,7 @@ public class TestTeeInputStream extends TestCase
 
 
     // cross-library regression test
+    @Test
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {
         base = new ByteArrayInputStream(new byte[] { 0x01, (byte)0xFF, 0x02 });

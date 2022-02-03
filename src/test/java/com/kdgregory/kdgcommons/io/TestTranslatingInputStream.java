@@ -19,11 +19,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestTranslatingInputStream
-extends TestCase
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -48,6 +48,7 @@ extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testEmptyStream() throws Exception
     {
         byte[] src = new byte[0];
@@ -61,6 +62,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUtf8PassThrough() throws Exception
     {
         String text = "\u2724Some t\u00EBst data\u2734";
@@ -75,6 +77,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUtf8ToISO8859PassThrough() throws Exception
     {
         String text = "\u00A1Some t\u00EBst \u00ABdata\u00BB";
@@ -89,6 +92,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUtf8ToISO8859IgnoringUnmappableCharacters() throws Exception
     {
         byte[] src = "\u2724Some t\u00EBst data\u2734".getBytes("UTF-8");
@@ -102,6 +106,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUtf8ToISO8859ReplacingUnmappableCharacters() throws Exception
     {
         byte[] src = "\u2724Some t\u00EBst data\u2734".getBytes("UTF-8");
@@ -116,6 +121,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUtf8ToISO8859ThrowingOnUnmappableCharacters() throws Exception
     {
         byte[] src = "\u2724Some t\u00EBst data\u2734".getBytes("UTF-8");
@@ -138,6 +144,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUtf16ToUtf8() throws Exception
     {
         String text = "\u2724Some t\u00EBst data\u2734";
@@ -152,6 +159,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUtf16ToUtf8WithEmbeddedBOM() throws Exception
     {
         // 0xFEFF is zero-width non-breaking space unless it appears at
@@ -168,6 +176,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUtf16ToUtf8WithSurrogatePairs() throws Exception
     {
         // "old italic" characters
@@ -186,6 +195,7 @@ extends TestCase
 
 
     // cross-library regression test
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {

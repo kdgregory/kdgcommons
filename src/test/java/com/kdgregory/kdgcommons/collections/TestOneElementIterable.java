@@ -17,11 +17,13 @@ package com.kdgregory.kdgcommons.collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 
 public class TestOneElementIterable
-extends TestCase
 {
+    @Test
     public void testOperation() throws Exception
     {
         OneElementIterable<String> oei = new OneElementIterable<String>("foo");
@@ -33,6 +35,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testIteratorThrowsOnRemove() throws Exception
     {
         OneElementIterable<String> oei = new OneElementIterable<String>("foo");
@@ -51,6 +54,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testNextThrowsIfCalledTwice() throws Exception
     {
         OneElementIterable<String> oei = new OneElementIterable<String>("foo");

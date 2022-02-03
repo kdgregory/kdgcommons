@@ -17,11 +17,11 @@ package com.kdgregory.kdgcommons.lang;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadFactory;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestNamedThreadFactory
-extends TestCase
 {
     // these variables let created threads report back to the main thread
     private volatile String threadName;
@@ -51,6 +51,7 @@ extends TestCase
 //  Testcases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testSimpleConstructor() throws Exception
     {
         ThreadFactory fact = new NamedThreadFactory("foo");
@@ -65,6 +66,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testFactoryRetainsThreadGroupOfCreator() throws Exception
     {
         ThreadGroup factGroup = Thread.currentThread().getThreadGroup();
@@ -85,6 +87,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testFullConstructor() throws Exception
     {
         ThreadGroup altGroup = new ThreadGroup("foo");

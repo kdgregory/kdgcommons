@@ -14,7 +14,7 @@
 
 package com.kdgregory.kdgcommons.test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 
 /**
@@ -136,7 +136,7 @@ public class ArrayAsserts
         Assert.assertEquals(message + ": arrays have different size;", expected.length, actual.length);
         for (int ii = 0 ; ii < expected.length ; ii++)
         {
-            Assert.assertEquals(message + ": arrays differ at element " + ii + ";", expected[ii], actual[ii]);
+            Assert.assertEquals(message + ": arrays differ at element " + ii + ";", expected[ii], actual[ii], Float.MIN_NORMAL);
         }
     }
 
@@ -159,7 +159,7 @@ public class ArrayAsserts
         Assert.assertEquals(message + ": arrays have different size;", expected.length, actual.length);
         for (int ii = 0 ; ii < expected.length ; ii++)
         {
-            Assert.assertEquals(message + ": arrays differ at element " + ii + ";", expected[ii], actual[ii]);
+            Assert.assertEquals(message + ": arrays differ at element " + ii + ";", expected[ii], actual[ii], Double.MIN_NORMAL);
         }
     }
 

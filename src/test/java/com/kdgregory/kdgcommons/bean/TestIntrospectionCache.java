@@ -16,18 +16,13 @@ package com.kdgregory.kdgcommons.bean;
 
 import java.lang.reflect.Method;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.testinternals.InaccessibleClass;
 
 public class TestIntrospectionCache
-extends TestCase
 {
-    public TestIntrospectionCache(String testName)
-    {
-        super(testName);
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test Objects
@@ -54,6 +49,7 @@ extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     public void testBasicOperation() throws Exception
     {
         IntrospectionCache cache = new IntrospectionCache();
@@ -72,6 +68,7 @@ extends TestCase
 
 
     // note: this is the only method allowed to test a static cache
+    @Test
     public void testStaticCache() throws Exception
     {
         IntrospectionCache cache1 = new IntrospectionCache(true);
@@ -93,6 +90,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testPublicMethodInPrivateClass() throws Exception
     {
         InaccessibleClass instance = InaccessibleClass.newInstance();

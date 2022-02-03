@@ -16,10 +16,13 @@ package com.kdgregory.kdgcommons.lang;
 
 import java.util.function.Supplier;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class TestObjectUtil extends TestCase
+
+public class TestObjectUtil
 {
+    @Test
     public void testEquals() throws Exception
     {
         // identity
@@ -45,6 +48,7 @@ public class TestObjectUtil extends TestCase
     }
 
 
+    @Test
     public void testPrimitiveWrapperEquals() throws Exception
     {
         assertTrue("int == Integer",    ObjectUtil.equals(12, Integer.valueOf(12)));
@@ -71,6 +75,7 @@ public class TestObjectUtil extends TestCase
     }
 
 
+    @Test
     public void testHashCode() throws Exception
     {
         assertEquals(0, ObjectUtil.hashCode(null));
@@ -80,6 +85,7 @@ public class TestObjectUtil extends TestCase
     }
 
 
+    @Test
     public void testIdentityToString() throws Exception
     {
         assertEquals("null", ObjectUtil.identityToString(null));
@@ -92,6 +98,7 @@ public class TestObjectUtil extends TestCase
     }
 
 
+    @Test
     public void testDefaultValue() throws Exception
     {
         assertEquals("non-default", "foo", ObjectUtil.defaultValue("foo", "bar"));
@@ -99,6 +106,7 @@ public class TestObjectUtil extends TestCase
     }
 
 
+    @Test
     public void testDefaultValueFromFactory() throws Exception
     {
         Supplier<String> fact = () -> "bar";
@@ -108,6 +116,7 @@ public class TestObjectUtil extends TestCase
     }
 
 
+    @Test
     public void testCompare() throws Exception
     {
         assertTrue("compare(foo, bar)", ObjectUtil.compare("foo", "bar") > 0);
@@ -120,6 +129,7 @@ public class TestObjectUtil extends TestCase
     }
 
 
+    @Test
     public void testCompareNullIsHigh() throws Exception
     {
         assertTrue("compare(foo, bar)", ObjectUtil.compare("foo", "bar", false) > 0);
@@ -130,6 +140,4 @@ public class TestObjectUtil extends TestCase
         assertTrue("compare(bar,  null)", ObjectUtil.compare("bar", null, false) < 0);
         assertTrue("compare(null, null)", ObjectUtil.compare(null, null, false) == 0);
     }
-
-
 }

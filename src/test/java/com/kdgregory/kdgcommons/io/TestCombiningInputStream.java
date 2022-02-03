@@ -18,10 +18,11 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestCombiningInputStream extends TestCase
+public class TestCombiningInputStream
 {
 //----------------------------------------------------------------------------
 //  Support Code
@@ -102,6 +103,7 @@ public class TestCombiningInputStream extends TestCase
 //  Test Cases
 //----------------------------------------------------------------------------
 
+    @Test
     @SuppressWarnings("resource")
     public void testSingleStreamSimpleRead() throws Exception
     {
@@ -114,6 +116,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMultipleStreamsSimpleRead() throws Exception
     {
@@ -134,6 +137,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSingleStreamBufRead() throws Exception
     {
@@ -150,6 +154,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMultipleStreamsBufRead() throws Exception
     {
@@ -174,6 +179,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMultipleStreamsBufReadWithZeroAvailable() throws Exception
     {
@@ -196,6 +202,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testAvailable() throws Exception
     {
@@ -214,6 +221,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testClose() throws Exception
     {
@@ -227,6 +235,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testCloseWithException() throws Exception
     {
@@ -249,6 +258,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkSupported() throws Exception
     {
@@ -296,6 +306,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkResetSingleConstituent() throws Exception
     {
@@ -311,6 +322,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkResetMultipleComponents() throws Exception
     {
@@ -337,6 +349,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testMarkResetAtEOF() throws Exception
     {
@@ -361,6 +374,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSkip() throws Exception
     {
@@ -378,6 +392,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSkipAtEOF() throws Exception
     {
@@ -394,6 +409,7 @@ public class TestCombiningInputStream extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testSkipWithReset() throws Exception
     {
@@ -419,6 +435,7 @@ public class TestCombiningInputStream extends TestCase
 
 
     // cross-library regression test (did not find failure)
+    @Test
     @SuppressWarnings("resource")
     public void testSingleByteReadDoesNotSignExtend() throws Exception
     {

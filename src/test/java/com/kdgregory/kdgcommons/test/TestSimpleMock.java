@@ -16,12 +16,13 @@ package com.kdgregory.kdgcommons.test;
 
 import org.w3c.dom.Document;
 
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
-public class TestSimpleMock extends TestCase
+public class TestSimpleMock
 {
+    @Test
     public void testSingleCallNoArgs() throws Exception
     {
         SimpleMock mock = new SimpleMock();
@@ -33,6 +34,7 @@ public class TestSimpleMock extends TestCase
     }
 
 
+    @Test
     public void testSingleCallWithArgs() throws Exception
     {
         SimpleMock mock = new SimpleMock();
@@ -44,6 +46,7 @@ public class TestSimpleMock extends TestCase
     }
 
 
+    @Test
     public void testMultipleCalls() throws Exception
     {
         SimpleMock mock = new SimpleMock();
@@ -57,6 +60,7 @@ public class TestSimpleMock extends TestCase
     }
 
 
+    @Test
     public void testAssertCountFailure() throws Exception
     {
         SimpleMock mock = new SimpleMock();
@@ -71,7 +75,7 @@ public class TestSimpleMock extends TestCase
         {
             mock.assertCallCount(3);
         }
-        catch (AssertionFailedError ee)
+        catch (AssertionError ee)
         {
             didThrow = true;
         }
@@ -81,6 +85,7 @@ public class TestSimpleMock extends TestCase
     }
 
 
+    @Test
     public void testAssertCallFailure() throws Exception
     {
         SimpleMock mock = new SimpleMock();
@@ -95,7 +100,7 @@ public class TestSimpleMock extends TestCase
         {
             mock.assertCall(0, "createAttributeNS", "foo", "bar");
         }
-        catch (AssertionFailedError ee)
+        catch (AssertionError ee)
         {
             didThrow = true;
         }

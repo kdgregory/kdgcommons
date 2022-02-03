@@ -14,14 +14,15 @@
 
 package com.kdgregory.kdgcommons.codec;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.test.ArrayAsserts;
 
 
 public class TestHexCodec
-extends TestCase
 {
+    @Test
     public void testNullArray() throws Exception
     {
         HexCodec codec = new HexCodec();
@@ -34,6 +35,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testEmptyArray() throws Exception
     {
         HexCodec codec = new HexCodec();
@@ -46,6 +48,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testNullString() throws Exception
     {
         HexCodec codec = new HexCodec();
@@ -58,6 +61,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testEmptyString() throws Exception
     {
         HexCodec codec = new HexCodec();
@@ -70,6 +74,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testUnbrokenString() throws Exception
     {
         HexCodec codec = new HexCodec();
@@ -84,6 +89,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testSeparator() throws Exception
     {
         HexCodec codec = new HexCodec(4, "X");
@@ -98,6 +104,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testMultibyteSeparator() throws Exception
     {
         HexCodec codec = new HexCodec(4, "XYZ");
@@ -112,6 +119,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testConversionToBytesIgnoresWhitespace() throws Exception
     {
         String str = "123456 78  9ABC\nDEF\t0";
@@ -122,6 +130,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testConversionToBytesIgnoresExtraNibble() throws Exception
     {
         String str = "12345";
@@ -132,6 +141,7 @@ extends TestCase
     }
 
 
+    @Test
     public void testConversionToBytesThrowsOnNonHex() throws Exception
     {
         try

@@ -17,14 +17,15 @@ package com.kdgregory.kdgcommons.io;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.test.ArrayAsserts;
 
 
 public class TestMessageDigestOutputStream
-extends TestCase
 {
+    @Test
     @SuppressWarnings("resource")
     public void testBasicOperation() throws Exception
     {
@@ -50,6 +51,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testInvalidAlgorithm() throws Exception
     {
@@ -65,6 +67,7 @@ extends TestCase
     }
 
 
+    @Test
     @SuppressWarnings("resource")
     public void testWriteAfterDigest() throws Exception
     {

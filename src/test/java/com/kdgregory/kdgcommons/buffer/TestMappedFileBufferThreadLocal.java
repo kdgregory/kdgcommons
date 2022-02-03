@@ -17,11 +17,11 @@ package com.kdgregory.kdgcommons.buffer;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 
 public class TestMappedFileBufferThreadLocal
-extends TestCase
 {
     private MappedFileBufferThreadLocal tl;
 
@@ -49,6 +49,7 @@ extends TestCase
 //               concurrent access
 //----------------------------------------------------------------------------
 
+    @Test
     public void testOperation()
     throws Exception
     {
