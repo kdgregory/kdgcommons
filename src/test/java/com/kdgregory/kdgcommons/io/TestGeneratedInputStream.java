@@ -23,40 +23,6 @@ import static org.junit.Assert.*;
 
 public class TestGeneratedInputStream
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    /**
-     *  The test stream: produces fixed-size blocks containing sequential
-     *  characters in the range A..Z, up to a specified number of calls.
-     */
-    private static class TestStream
-    extends GeneratedInputStream
-    {
-        private int bufferSize;
-        private int numCalls;
-        private int curByte = 0;
-
-        public TestStream(int bufferSize, int numCalls)
-        {
-            this.bufferSize = bufferSize;
-            this.numCalls = numCalls;
-        }
-
-        @Override
-        protected byte[] nextBuffer()
-        {
-            if (numCalls-- <= 0)
-                return null;
-
-            byte[] buf = new byte[bufferSize];
-            for (int ii = 0 ; ii < bufferSize ; ii++)
-                buf[ii] = (byte)('A' + curByte++ % 26);
-            return buf;
-        }
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test Cases
@@ -240,4 +206,39 @@ public class TestGeneratedInputStream
         assertEquals(0x01, in.read());
         // will never return a real EOF
     }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    /**
+     *  The test stream: produces fixed-size blocks containing sequential
+     *  characters in the range A..Z, up to a specified number of calls.
+     */
+    private static class TestStream
+    extends GeneratedInputStream
+    {
+        private int bufferSize;
+        private int numCalls;
+        private int curByte = 0;
+
+        public TestStream(int bufferSize, int numCalls)
+        {
+            this.bufferSize = bufferSize;
+            this.numCalls = numCalls;
+        }
+
+        @Override
+        protected byte[] nextBuffer()
+        {
+            if (numCalls-- <= 0)
+                return null;
+
+            byte[] buf = new byte[bufferSize];
+            for (int ii = 0 ; ii < bufferSize ; ii++)
+                buf[ii] = (byte)('A' + curByte++ % 26);
+            return buf;
+        }
+    }
+
 }

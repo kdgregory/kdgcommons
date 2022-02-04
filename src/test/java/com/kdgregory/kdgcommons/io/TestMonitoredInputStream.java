@@ -26,37 +26,6 @@ import static org.junit.Assert.*;
 
 public class TestMonitoredInputStream 
 {
-    // an implementation that records all calls
-    private static class MyMonitoredInputStream
-    extends MonitoredInputStream
-    {
-        public int numCalls;
-        public long lastRead;
-        public long totalBytes;
-
-        public MyMonitoredInputStream(InputStream stream)
-        {
-            super(stream);
-        }
-
-        @Override
-        public void progress(long last, long total)
-        {
-            numCalls++;
-            lastRead = last;
-            totalBytes = total;
-        }
-    }
-
-
-    private static MyMonitoredInputStream createTestStream(String content)
-    throws Exception
-    {
-        return new MyMonitoredInputStream(
-                new ByteArrayInputStream(
-                        content.getBytes("UTF-8")));
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test Cases
@@ -214,5 +183,40 @@ public class TestMonitoredInputStream
         MyMonitoredInputStream in = new MyMonitoredInputStream(is);
         in.close();
         assertTrue(isClosed.get());
+    }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    // an implementation that records all calls
+    private static class MyMonitoredInputStream
+    extends MonitoredInputStream
+    {
+        public int numCalls;
+        public long lastRead;
+        public long totalBytes;
+
+        public MyMonitoredInputStream(InputStream stream)
+        {
+            super(stream);
+        }
+
+        @Override
+        public void progress(long last, long total)
+        {
+            numCalls++;
+            lastRead = last;
+            totalBytes = total;
+        }
+    }
+
+
+    private static MyMonitoredInputStream createTestStream(String content)
+    throws Exception
+    {
+        return new MyMonitoredInputStream(
+                new ByteArrayInputStream(
+                        content.getBytes("UTF-8")));
     }
 }

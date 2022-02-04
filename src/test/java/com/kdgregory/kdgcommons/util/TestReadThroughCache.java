@@ -27,179 +27,6 @@ import com.kdgregory.kdgcommons.util.ReadThroughCache.Synchronization;
 
 public class TestReadThroughCache
 {
-//----------------------------------------------------------------------------
-//  Support code
-//----------------------------------------------------------------------------
-
-    private final static long DEFAULT_DELAY = 50;
-
-    /**
-     *  Convenience function for starting a bunch of threads.
-     */
-    private static void start(Thread... threads)
-    {
-        for (Thread thread : threads)
-            thread.start();
-    }
-
-    /**
-     *  Convenience function for joining a bunch of threads.
-     */
-    private static void join(Thread... threads) throws InterruptedException
-    {
-        for (Thread thread : threads)
-            thread.join();
-    }
-
-    /**
-     *  A retriever that returns distinct Integer objects based on the provided key.
-     */
-    private static class DistinctValueRetriever
-    implements Function<Integer,Integer>
-    {
-        @Override
-        public Integer apply(Integer key)
-        {
-            return new Integer(key.intValue());
-        }
-    }
-
-    // the following three objects are used for concurrency testing
-
-    /**
-     *  The delegate retriever. Because there is only a single retriever for all callers,
-     *  it has to depend on the task to manage any state (including locks).
-     */
-    private static class ConcurrentRetriever
-    implements Function<Object,Object>
-    {
-        private Map<Thread,ConcurrentRetrieveTask> configMap = new HashMap<Thread,ConcurrentRetrieveTask>();
-
-        public Thread addTask(ConcurrentRetrieveTask task)
-        {
-            Thread thread = new Thread(task);
-            configMap.put(thread, task);
-            return thread;
-        }
-
-        @Override
-        public Object apply(Object key)
-        {
-            ConcurrentRetrieveTask task = configMap.get(Thread.currentThread());
-            try
-            {
-                return task.retrieve();
-            }
-            catch (InterruptedException e)
-            {
-                throw new RuntimeException("task was interrupted");
-            }
-        }
-    }
-
-    /**
-     *  A task that executes a retrieval against the cache, and records information about it.
-     */
-    private static class ConcurrentRetrieveTask
-    implements Runnable
-    {
-        private ReadThroughCache<Object,Object> cache;
-        private Object key;
-        private Object value = new Object();
-        private long retrieveDelay;
-
-        private CountDownLatch taskLatch  = new CountDownLatch(1);
-        private CountDownLatch retrieveLatch  = new CountDownLatch(1);
-
-        public long startTimestamp;             // when the task started running (after latch)
-        public long retrieveEntryTimestamp;     // when the cache called the retriever
-        public long retrieveExitTimestamp;      // when the retriever returned the object
-        public long finishTimestmap;            // when the task finished running
-        public Object result;
-
-        public ConcurrentRetrieveTask(ReadThroughCache<Object,Object> cache, Object key, long retrieveDelay)
-        {
-            this.cache = cache;
-            this.key = key;
-            this.retrieveDelay = retrieveDelay;
-        }
-
-        public void releaseTask()
-        {
-            taskLatch.countDown();
-        }
-
-        public void waitForRetrieve() throws InterruptedException
-        {
-            retrieveLatch.await();
-        }
-
-        public void releaseRetrieve()
-        {
-            retrieveLatch.countDown();
-        }
-
-        public Object retrieve() throws InterruptedException
-        {
-            retrieveEntryTimestamp = System.currentTimeMillis();
-            waitForRetrieve();
-            Thread.sleep(retrieveDelay);
-            retrieveExitTimestamp = System.currentTimeMillis();
-
-            return value;
-        }
-
-        @Override
-        public void run()
-        {
-            try
-            {
-                taskLatch.await();
-                startTimestamp = System.currentTimeMillis();
-                result = cache.retrieve(key);
-                finishTimestmap = System.currentTimeMillis();
-            }
-            catch (InterruptedException ex)
-            {
-                // ignored
-            }
-        }
-    }
-
-    /**
-     *  A variant task that throws when the retriever attempts to get the object.
-     */
-    private static class ThrowingConcurrentRetrieveTask
-    extends ConcurrentRetrieveTask
-    implements Thread.UncaughtExceptionHandler
-    {
-        public Throwable exception;
-
-        public ThrowingConcurrentRetrieveTask(ReadThroughCache<Object,Object> cache, Object key, long retrieveDelay)
-        {
-            super(cache, key, retrieveDelay);
-        }
-
-        @Override
-        public void run()
-        {
-            Thread.currentThread().setUncaughtExceptionHandler(this);
-            super.run();
-        }
-
-        @Override
-        public Object retrieve()
-        {
-            throw new RuntimeException("oops!");
-        }
-
-        @Override
-        public void uncaughtException(Thread t, Throwable e)
-        {
-            exception = e;
-        }
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test cases
@@ -437,4 +264,176 @@ public class TestReadThroughCache
         assertTrue("thread 2 should have thread 2's object", task2.result == task2.value);
     }
 
+//----------------------------------------------------------------------------
+//  Support code
+//----------------------------------------------------------------------------
+
+    private final static long DEFAULT_DELAY = 50;
+
+    /**
+     *  Convenience function for starting a bunch of threads.
+     */
+    private static void start(Thread... threads)
+    {
+        for (Thread thread : threads)
+            thread.start();
+    }
+
+    /**
+     *  Convenience function for joining a bunch of threads.
+     */
+    private static void join(Thread... threads) throws InterruptedException
+    {
+        for (Thread thread : threads)
+            thread.join();
+    }
+
+    /**
+     *  A retriever that returns distinct Integer objects based on the provided key.
+     */
+    private static class DistinctValueRetriever
+    implements Function<Integer,Integer>
+    {
+        @Override
+        public Integer apply(Integer key)
+        {
+            return new Integer(key.intValue());
+        }
+    }
+
+    // the following three objects are used for concurrency testing
+
+    /**
+     *  The delegate retriever. Because there is only a single retriever for all callers,
+     *  it has to depend on the task to manage any state (including locks).
+     */
+    private static class ConcurrentRetriever
+    implements Function<Object,Object>
+    {
+        private Map<Thread,ConcurrentRetrieveTask> configMap = new HashMap<Thread,ConcurrentRetrieveTask>();
+
+        public Thread addTask(ConcurrentRetrieveTask task)
+        {
+            Thread thread = new Thread(task);
+            configMap.put(thread, task);
+            return thread;
+        }
+
+        @Override
+        public Object apply(Object key)
+        {
+            ConcurrentRetrieveTask task = configMap.get(Thread.currentThread());
+            try
+            {
+                return task.retrieve();
+            }
+            catch (InterruptedException e)
+            {
+                throw new RuntimeException("task was interrupted");
+            }
+        }
+    }
+
+    /**
+     *  A task that executes a retrieval against the cache, and records information about it.
+     */
+    private static class ConcurrentRetrieveTask
+    implements Runnable
+    {
+        private ReadThroughCache<Object,Object> cache;
+        private Object key;
+        private Object value = new Object();
+        private long retrieveDelay;
+
+        private CountDownLatch taskLatch  = new CountDownLatch(1);
+        private CountDownLatch retrieveLatch  = new CountDownLatch(1);
+
+        public long startTimestamp;             // when the task started running (after latch)
+        public long retrieveEntryTimestamp;     // when the cache called the retriever
+        public long retrieveExitTimestamp;      // when the retriever returned the object
+        public long finishTimestmap;            // when the task finished running
+        public Object result;
+
+        public ConcurrentRetrieveTask(ReadThroughCache<Object,Object> cache, Object key, long retrieveDelay)
+        {
+            this.cache = cache;
+            this.key = key;
+            this.retrieveDelay = retrieveDelay;
+        }
+
+        public void releaseTask()
+        {
+            taskLatch.countDown();
+        }
+
+        public void waitForRetrieve() throws InterruptedException
+        {
+            retrieveLatch.await();
+        }
+
+        public void releaseRetrieve()
+        {
+            retrieveLatch.countDown();
+        }
+
+        public Object retrieve() throws InterruptedException
+        {
+            retrieveEntryTimestamp = System.currentTimeMillis();
+            waitForRetrieve();
+            Thread.sleep(retrieveDelay);
+            retrieveExitTimestamp = System.currentTimeMillis();
+
+            return value;
+        }
+
+        @Override
+        public void run()
+        {
+            try
+            {
+                taskLatch.await();
+                startTimestamp = System.currentTimeMillis();
+                result = cache.retrieve(key);
+                finishTimestmap = System.currentTimeMillis();
+            }
+            catch (InterruptedException ex)
+            {
+                // ignored
+            }
+        }
+    }
+
+    /**
+     *  A variant task that throws when the retriever attempts to get the object.
+     */
+    private static class ThrowingConcurrentRetrieveTask
+    extends ConcurrentRetrieveTask
+    implements Thread.UncaughtExceptionHandler
+    {
+        public Throwable exception;
+
+        public ThrowingConcurrentRetrieveTask(ReadThroughCache<Object,Object> cache, Object key, long retrieveDelay)
+        {
+            super(cache, key, retrieveDelay);
+        }
+
+        @Override
+        public void run()
+        {
+            Thread.currentThread().setUncaughtExceptionHandler(this);
+            super.run();
+        }
+
+        @Override
+        public Object retrieve()
+        {
+            throw new RuntimeException("oops!");
+        }
+
+        @Override
+        public void uncaughtException(Thread t, Throwable e)
+        {
+            exception = e;
+        }
+    }
 }

@@ -24,36 +24,6 @@ import static org.junit.Assert.*;
 
 public class TestCloseBlockingOutputStream
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    /**
-     *  A stream for testing the flush and close operations.
-     */
-    private static class MyMockOutputStream
-    extends OutputStream
-    {
-        public boolean wasFlushed;
-
-        @Override
-        public void write(int b) throws IOException
-        {
-            fail("write() should not be called by this test");
-        }
-
-        @Override
-        public void flush() throws IOException
-        {
-            wasFlushed = true;
-        }
-
-        @Override
-        public void close() throws IOException
-        {
-            fail("close called on underlying stream");
-        }
-    }
 
 //----------------------------------------------------------------------------
 //  Test cases
@@ -97,5 +67,36 @@ public class TestCloseBlockingOutputStream
 
         // mock will throw if this gets through
         test.close();
+    }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    /**
+     *  A stream for testing the flush and close operations.
+     */
+    private static class MyMockOutputStream
+    extends OutputStream
+    {
+        public boolean wasFlushed;
+
+        @Override
+        public void write(int b) throws IOException
+        {
+            fail("write() should not be called by this test");
+        }
+
+        @Override
+        public void flush() throws IOException
+        {
+            wasFlushed = true;
+        }
+
+        @Override
+        public void close() throws IOException
+        {
+            fail("close called on underlying stream");
+        }
     }
 }

@@ -28,22 +28,6 @@ public class TestMappedFileBufferThreadLocal
     private final int testLoc = 4;
     private final int testVal = 0x12345678;
 
-
-    private class MyRunnable
-    implements Runnable
-    {
-        public MappedFileBuffer myBuffer;
-        public int myValue;
-
-        @Override
-        public void run()
-        {
-            myBuffer = tl.get();
-            myValue = myBuffer.getInt(testLoc);
-        }
-    }
-
-
 //----------------------------------------------------------------------------
 //  Test Case -- there's really only one, and it doesn't truly test
 //               concurrent access
@@ -85,5 +69,23 @@ public class TestMappedFileBufferThreadLocal
 
         assertEquals(testVal, r1.myValue);
         assertEquals(testVal, r2.myValue);
+    }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    private class MyRunnable
+    implements Runnable
+    {
+        public MappedFileBuffer myBuffer;
+        public int myValue;
+
+        @Override
+        public void run()
+        {
+            myBuffer = tl.get();
+            myValue = myBuffer.getInt(testLoc);
+        }
     }
 }

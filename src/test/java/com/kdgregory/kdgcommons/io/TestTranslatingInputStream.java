@@ -25,24 +25,6 @@ import static org.junit.Assert.*;
 
 public class TestTranslatingInputStream
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    // TODO - replace loop with function that reads stream to bytes?
-    private static void assertStreamContent(byte[] expected, InputStream in)
-    throws IOException
-    {
-        for (int ii = 0 ; ii < expected.length ; ii++)
-        {
-            int e = expected[ii] & 0xFF;
-            int a = in.read();
-            assertEquals("byte " + ii, e, a);
-        }
-
-        assertTrue("EOF", in.read() == -1);
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test Cases
@@ -208,4 +190,23 @@ public class TestTranslatingInputStream
         assertEquals(0xA4, in.read());
         assertEquals(-1, in.read());
     }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    // TODO - replace loop with function that reads stream to bytes?
+    private static void assertStreamContent(byte[] expected, InputStream in)
+    throws IOException
+    {
+        for (int ii = 0 ; ii < expected.length ; ii++)
+        {
+            int e = expected[ii] & 0xFF;
+            int a = in.read();
+            assertEquals("byte " + ii, e, a);
+        }
+
+        assertTrue("EOF", in.read() == -1);
+    }
+
 }

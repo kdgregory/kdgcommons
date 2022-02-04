@@ -136,5 +136,4 @@ public class TestDataTable
         assertEquals("bar", table.getValue(1, 1));
         assertEquals("bargle", table.getValue(1, 2));
     }
-
 }

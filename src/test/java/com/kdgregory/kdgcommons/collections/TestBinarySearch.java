@@ -22,50 +22,6 @@ import com.kdgregory.kdgcommons.collections.BinarySearch.IndexedComparator;
 
 public class TestBinarySearch
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    // we'll test with character arrays, in keeping with the examples in the
-    // method doc ... it's also really easy to implement
-    private static class CharacterArrayAccessor
-    implements BinarySearch.Accessor<Character>
-    {
-        private char[] array;
-        private int start;
-        private int end;
-
-        public CharacterArrayAccessor(char[] array, int start, int end)
-        {
-            this.array = array;
-            this.start = start;
-            this.end = end;
-        }
-
-        public CharacterArrayAccessor(char[] array)
-        {
-            this(array, 0, array.length);
-        }
-
-        @Override
-        public int start()
-        {
-            return start;
-        }
-
-        @Override
-        public int end()
-        {
-            return end;
-        }
-
-        @Override
-        public int compare(Character value, int index)
-        {
-            return value.charValue() - array[index];
-        }
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test Cases
@@ -211,4 +167,49 @@ public class TestBinarySearch
         assertEquals(4,  BinarySearch.search(index, 'J', cmp));
         assertEquals(-6, BinarySearch.search(index, 'K', cmp));
     }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    // we'll test with character arrays, in keeping with the examples in the
+    // method doc ... it's also really easy to implement
+    private static class CharacterArrayAccessor
+    implements BinarySearch.Accessor<Character>
+    {
+        private char[] array;
+        private int start;
+        private int end;
+
+        public CharacterArrayAccessor(char[] array, int start, int end)
+        {
+            this.array = array;
+            this.start = start;
+            this.end = end;
+        }
+
+        public CharacterArrayAccessor(char[] array)
+        {
+            this(array, 0, array.length);
+        }
+
+        @Override
+        public int start()
+        {
+            return start;
+        }
+
+        @Override
+        public int end()
+        {
+            return end;
+        }
+
+        @Override
+        public int compare(Character value, int index)
+        {
+            return value.charValue() - array[index];
+        }
+    }
+
 }

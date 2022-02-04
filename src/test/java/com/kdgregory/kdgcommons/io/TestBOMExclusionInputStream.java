@@ -24,65 +24,6 @@ import static org.junit.Assert.*;
 
 public class TestBOMExclusionInputStream
 {
-//----------------------------------------------------------------------------
-//  Support code
-//----------------------------------------------------------------------------
-
-    /**
-     *  Creates the underlying data stream, with or without BOM.
-     */
-    public InputStream createDataStream(byte[] baseData, boolean addBOM)
-    {
-        byte[] data = baseData;
-        if (addBOM)
-        {
-            data = new byte[baseData.length + 3];
-            data[0] = (byte)0xEF;
-            data[1] = (byte)0xBB;
-            data[2] = (byte)0xBF;
-            System.arraycopy(baseData, 0, data, 3, baseData.length);
-        }
-        return new ByteArrayInputStream(data);
-    }
-
-
-    private void assertData(byte[] expected, byte[] actual, int off, int len)
-    throws Exception
-    {
-        assertEquals("length", expected.length, len);
-        for (int ii = 0 ; ii < expected.length ; ii++)
-        {
-            assertEquals("byte " + ii, expected[ii], actual[ii]);
-        }
-    }
-
-
-    /**
-     *  A mock InputStream that expects <code>close()</code> to be called.
-     */
-    private static class ExpectCloseInputStream
-    extends InputStream
-    {
-        private boolean closeCalled;
-
-        @Override
-        public void close() throws IOException
-        {
-            closeCalled = true;
-        }
-
-        @Override
-        public int read() throws IOException
-        {
-            return -1;
-        }
-
-        public void assertCloseCalled()
-        {
-            assertTrue(closeCalled);
-        }
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test cases
@@ -362,4 +303,64 @@ public class TestBOMExclusionInputStream
         assertEquals(0x01, in.read());
         assertEquals(-1, in.read());
     }
+
+//----------------------------------------------------------------------------
+//  Support code
+//----------------------------------------------------------------------------
+
+    /**
+     *  Creates the underlying data stream, with or without BOM.
+     */
+    public InputStream createDataStream(byte[] baseData, boolean addBOM)
+    {
+        byte[] data = baseData;
+        if (addBOM)
+        {
+            data = new byte[baseData.length + 3];
+            data[0] = (byte)0xEF;
+            data[1] = (byte)0xBB;
+            data[2] = (byte)0xBF;
+            System.arraycopy(baseData, 0, data, 3, baseData.length);
+        }
+        return new ByteArrayInputStream(data);
+    }
+
+
+    private void assertData(byte[] expected, byte[] actual, int off, int len)
+    throws Exception
+    {
+        assertEquals("length", expected.length, len);
+        for (int ii = 0 ; ii < expected.length ; ii++)
+        {
+            assertEquals("byte " + ii, expected[ii], actual[ii]);
+        }
+    }
+
+
+    /**
+     *  A mock InputStream that expects <code>close()</code> to be called.
+     */
+    private static class ExpectCloseInputStream
+    extends InputStream
+    {
+        private boolean closeCalled;
+
+        @Override
+        public void close() throws IOException
+        {
+            closeCalled = true;
+        }
+
+        @Override
+        public int read() throws IOException
+        {
+            return -1;
+        }
+
+        public void assertCloseCalled()
+        {
+            assertTrue(closeCalled);
+        }
+    }
+
 }

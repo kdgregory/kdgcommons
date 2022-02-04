@@ -24,80 +24,6 @@ import static org.junit.Assert.*;
 
 public class TestCombiningInputStream
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    /**
-     *  This class always reports 0 bytes available, simulating a stream that
-     *  would block if it were read.
-     */
-    private static class WouldBlockInputStream
-    extends ByteArrayInputStream
-    {
-        public WouldBlockInputStream(byte[] data)
-        {
-            super(data);
-        }
-
-        @Override
-        public synchronized int available()
-        {
-            return 0;
-        }
-    }
-
-
-    /**
-     *  This class overrides the default <code>markSupported()</code> to
-     *  always return <code>false</code>.
-     */
-    private static class MarkNotSupportedInputStream
-    extends ByteArrayInputStream
-    {
-        public MarkNotSupportedInputStream(byte[] data)
-        {
-            super(data);
-        }
-
-        @Override
-        public boolean markSupported()
-        {
-            return false;
-        }
-    }
-
-
-    /**
-     *  A stream where we can assert that <code>close()</code> was called.
-     *  and also cause an exception when closing.
-     */
-    private static class CloseAssertingInputStream
-    extends ByteArrayInputStream
-    {
-        boolean _doThrow;
-        boolean _closed;
-
-        public CloseAssertingInputStream(boolean doThrow)
-        {
-            super(new byte[0]);
-            _doThrow = doThrow;
-        }
-
-        @Override
-        public void close() throws IOException
-        {
-            if (_doThrow)
-                throw new IOException("testing close failure");
-            _closed = true;
-        }
-
-        public boolean isClosed()
-        {
-            return _closed;
-        }
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test Cases
@@ -448,5 +374,79 @@ public class TestCombiningInputStream
         assertEquals(0xFF, in.read());
         assertEquals(0x02, in.read());
         assertEquals(-1, in.read());
+    }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    /**
+     *  This class always reports 0 bytes available, simulating a stream that
+     *  would block if it were read.
+     */
+    private static class WouldBlockInputStream
+    extends ByteArrayInputStream
+    {
+        public WouldBlockInputStream(byte[] data)
+        {
+            super(data);
+        }
+
+        @Override
+        public synchronized int available()
+        {
+            return 0;
+        }
+    }
+
+
+    /**
+     *  This class overrides the default <code>markSupported()</code> to
+     *  always return <code>false</code>.
+     */
+    private static class MarkNotSupportedInputStream
+    extends ByteArrayInputStream
+    {
+        public MarkNotSupportedInputStream(byte[] data)
+        {
+            super(data);
+        }
+
+        @Override
+        public boolean markSupported()
+        {
+            return false;
+        }
+    }
+
+
+    /**
+     *  A stream where we can assert that <code>close()</code> was called.
+     *  and also cause an exception when closing.
+     */
+    private static class CloseAssertingInputStream
+    extends ByteArrayInputStream
+    {
+        boolean _doThrow;
+        boolean _closed;
+
+        public CloseAssertingInputStream(boolean doThrow)
+        {
+            super(new byte[0]);
+            _doThrow = doThrow;
+        }
+
+        @Override
+        public void close() throws IOException
+        {
+            if (_doThrow)
+                throw new IOException("testing close failure");
+            _closed = true;
+        }
+
+        public boolean isClosed()
+        {
+            return _closed;
+        }
     }
 }

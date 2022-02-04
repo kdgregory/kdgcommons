@@ -52,43 +52,6 @@ public class TestMappedFileBuffer
         testFile.delete();
     }
 
-
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    /**
-     *  Writes a "walking byte" pattern into the test file. This will cause
-     *  problems with any retrievals that don't look at the correct location.
-     */
-    private void writeDefaultContent(int length)
-    throws Exception
-    {
-        try (FileOutputStream fos = new FileOutputStream(testFile);
-             BufferedOutputStream out = new BufferedOutputStream(fos))
-        {
-            for (int ii = 0 ; ii < length ; ii++)
-                out.write(ii % 256);
-            out.flush();
-            out.close();
-        }
-    }
-
-
-    private void writeExplicitContent(long offset, int... bytes)
-    throws Exception
-    {
-        try (RandomAccessFile out = new RandomAccessFile(testFile, "rwd"))
-        {
-            out.seek(offset);
-            for (int b : bytes)
-            {
-                out.write(b);
-            }
-        }
-    }
-
-
 //----------------------------------------------------------------------------
 //  Test Cases
 //----------------------------------------------------------------------------
@@ -374,6 +337,41 @@ public class TestMappedFileBuffer
         catch (IndexOutOfBoundsException ex)
         {
             // success
+        }
+    }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    /**
+     *  Writes a "walking byte" pattern into the test file. This will cause
+     *  problems with any retrievals that don't look at the correct location.
+     */
+    private void writeDefaultContent(int length)
+    throws Exception
+    {
+        try (FileOutputStream fos = new FileOutputStream(testFile);
+             BufferedOutputStream out = new BufferedOutputStream(fos))
+        {
+            for (int ii = 0 ; ii < length ; ii++)
+                out.write(ii % 256);
+            out.flush();
+            out.close();
+        }
+    }
+
+
+    private void writeExplicitContent(long offset, int... bytes)
+    throws Exception
+    {
+        try (RandomAccessFile out = new RandomAccessFile(testFile, "rwd"))
+        {
+            out.seek(offset);
+            for (int b : bytes)
+            {
+                out.write(b);
+            }
         }
     }
 }

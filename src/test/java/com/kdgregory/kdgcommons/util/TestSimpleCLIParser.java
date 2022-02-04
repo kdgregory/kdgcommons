@@ -38,47 +38,6 @@ public class TestSimpleCLIParser
     public final static String  OPT2_DISABLE    = "--disableTwo";
     public final static int     OPT2_NUMPARAM   = 0;
     public final static String  OPT2_DESC       = "option 2 description";
-
-
-//----------------------------------------------------------------------------
-//  Support code
-//----------------------------------------------------------------------------
-
-    private static class NoOptionParser
-    extends SimpleCLIParser
-    {
-        public NoOptionParser(String... argv)
-        {
-            super(argv);
-        }
-    }
-
-
-    private static class EnableDisableParser
-    extends SimpleCLIParser
-    {
-
-        public EnableDisableParser(String... argv)
-        {
-            super(argv,
-                  new OptionDefinition(OPT1, OPT1_ENABLE, OPT1_DISABLE, true,  OPT1_DESC),
-                  new OptionDefinition(OPT2, OPT2_ENABLE, OPT2_DISABLE, false, OPT2_DESC));
-        }
-    }
-
-
-    private static class ParamParser
-    extends SimpleCLIParser
-    {
-        public ParamParser(String... argv)
-        {
-            super(argv,
-                  new OptionDefinition(OPT1, OPT1_ENABLE, OPT1_NUMPARAM, OPT1_DESC),
-                  new OptionDefinition(OPT2, OPT2_ENABLE, OPT2_NUMPARAM, OPT2_DESC));
-        }
-    }
-
-
 //----------------------------------------------------------------------------
 //  Test cases
 //----------------------------------------------------------------------------
@@ -288,5 +247,43 @@ public class TestSimpleCLIParser
 
         OptionDefinition def1 = parser.getDefinition(OPT1);
         assertEquals("enableVal", def1.getEnableVal(), OPT1_ENABLE);
+    }
+
+//----------------------------------------------------------------------------
+//  Support code
+//----------------------------------------------------------------------------
+
+    private static class NoOptionParser
+    extends SimpleCLIParser
+    {
+        public NoOptionParser(String... argv)
+        {
+            super(argv);
+        }
+    }
+
+
+    private static class EnableDisableParser
+    extends SimpleCLIParser
+    {
+
+        public EnableDisableParser(String... argv)
+        {
+            super(argv,
+                  new OptionDefinition(OPT1, OPT1_ENABLE, OPT1_DISABLE, true,  OPT1_DESC),
+                  new OptionDefinition(OPT2, OPT2_ENABLE, OPT2_DISABLE, false, OPT2_DESC));
+        }
+    }
+
+
+    private static class ParamParser
+    extends SimpleCLIParser
+    {
+        public ParamParser(String... argv)
+        {
+            super(argv,
+                  new OptionDefinition(OPT1, OPT1_ENABLE, OPT1_NUMPARAM, OPT1_DESC),
+                  new OptionDefinition(OPT2, OPT2_ENABLE, OPT2_NUMPARAM, OPT2_DESC));
+        }
     }
 }

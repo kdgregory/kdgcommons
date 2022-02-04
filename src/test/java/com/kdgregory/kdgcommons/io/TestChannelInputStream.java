@@ -58,49 +58,6 @@ public class TestChannelInputStream
     }
 
 //----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    private static byte[] createWalkingBytes(int size)
-    {
-        byte[] bytes = new byte[size];
-        for (int ii = 0 ; ii < bytes.length ; ii++)
-            bytes[ii] = (byte)(ii % 256);
-        return bytes;
-    }
-
-
-    private static void assertWalkingBytes(byte[] bytes, int off, int len)
-    {
-        for (int ii = 0 ; ii < len ; ii++)
-        {
-            int idx = off + ii;
-            int val = idx % 256;
-            assertEquals("byte " + off + " (" + idx + ")", val, bytes[ii] & 0xFF);
-        }
-    }
-
-
-    // this takes ints rather than bytes so that we don't need to cast
-    private void appendToFile(int... bytes)
-    throws IOException
-    {
-        FileOutputStream out = null;
-        try
-        {
-            out = new FileOutputStream(file, true);
-            for (int bb : bytes)
-                out.write(bb);
-            out.flush();
-        }
-        finally
-        {
-            IOUtil.closeQuietly(out);
-        }
-    }
-
-
-//----------------------------------------------------------------------------
 //  Test Cases
 //----------------------------------------------------------------------------
 
@@ -297,4 +254,47 @@ public class TestChannelInputStream
         assertEquals(100, bytesSkipped);
         assertEquals(100, in.read());
     }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    private static byte[] createWalkingBytes(int size)
+    {
+        byte[] bytes = new byte[size];
+        for (int ii = 0 ; ii < bytes.length ; ii++)
+            bytes[ii] = (byte)(ii % 256);
+        return bytes;
+    }
+
+
+    private static void assertWalkingBytes(byte[] bytes, int off, int len)
+    {
+        for (int ii = 0 ; ii < len ; ii++)
+        {
+            int idx = off + ii;
+            int val = idx % 256;
+            assertEquals("byte " + off + " (" + idx + ")", val, bytes[ii] & 0xFF);
+        }
+    }
+
+
+    // this takes ints rather than bytes so that we don't need to cast
+    private void appendToFile(int... bytes)
+    throws IOException
+    {
+        FileOutputStream out = null;
+        try
+        {
+            out = new FileOutputStream(file, true);
+            for (int bb : bytes)
+                out.write(bb);
+            out.flush();
+        }
+        finally
+        {
+            IOUtil.closeQuietly(out);
+        }
+    }
+
 }

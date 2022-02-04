@@ -28,127 +28,6 @@ import com.kdgregory.kdgcommons.collections.InplaceSort.Accessor;
 
 public class TestInplaceSort
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    // the "big" tests will all start with a random int[]
-    private static int[] createRandomArray(int size)
-    {
-        int[] arr = new int[size];
-        for (int ii = 0 ; ii < arr.length ; ii++)
-            arr[ii] = (int)(Math.random() * Integer.MAX_VALUE);
-        return arr;
-    }
-
-
-    // and will need to compare to an already-sorted array
-    private static int[] createSortedCopy(int[] src)
-    {
-        int[] ret = new int[src.length];
-        System.arraycopy(src, 0, ret, 0, src.length);
-        Arrays.sort(ret);
-        return ret;
-    }
-
-
-    // and we'll convert these to objects if needed
-    private static Integer[] toObjectArray(int[] src)
-    {
-        Integer[] ret = new Integer[src.length];
-        for (int ii = 0 ; ii < src.length ; ii++)
-            ret[ii] = Integer.valueOf(src[ii]);
-        return ret;
-    }
-
-
-    // this is used for tests where we rely on Comparable objects
-    public static class ForwardIntComparator
-    implements InplaceSort.IntComparator
-    {
-        @Override
-        public int compare(int i1, int i2)
-        {
-            return (i1 > i2) ? 1
-                 : (i1 < i2) ? -1
-                 : 0;
-        }
-    }
-
-
-    // this throws a wrench into int[] tests
-    public static class ReversingIntComparator
-    implements InplaceSort.IntComparator
-    {
-        @Override
-        public int compare(int i1, int i2)
-        {
-            return (i1 > i2) ? -1
-                 : (i1 < i2) ? 1
-                 : 0;
-        }
-    }
-
-
-    // this will be used to verify the O(NlogN) property; it orders by
-    // increasing values so we can compare result to Arrays.sort()
-    public static class CountingIntComparator
-    implements InplaceSort.IntComparator
-    {
-        public int count;
-        public int expectedCount;
-
-        public CountingIntComparator(int size)
-        {
-            // our implementation of heapsort should perform at most 3 compares per element
-            expectedCount = 3 * size * (int)Math.ceil(Math.log(size) / Math.log(2));
-        }
-
-        @Override
-        public int compare(int i1, int i2)
-        {
-            count++;
-            return (i1 < i2) ? -1
-                 : (i1 > i2) ? 1
-                 : 0;
-        }
-
-        public void assertCompareCount()
-        {
-            assertTrue("expected > 0", count > 0);
-            assertTrue("expected < " + expectedCount + ", was " + count,
-                       count < expectedCount);
-        }
-    }
-
-
-    // but use a straightforward comparison for integers
-    public static class ForwardComparator<T extends Comparable<T>>
-    implements Comparator<T>
-    {
-        @Override
-        public int compare(T o1, T o2)
-        {
-            return o1.compareTo(o2);
-        }
-    }
-
-
-    private void assertArraysEqual(int[] expected, int[] actual)
-    {
-        // we'll convert to List<Integer> because the reporting is nicer
-
-        ArrayList<Integer> expected2 = new ArrayList<Integer>(expected.length);
-        for (int ii = 0 ; ii < expected.length ; ii++)
-            expected2.add(Integer.valueOf(expected[ii]));
-
-        ArrayList<Integer> actual2 = new ArrayList<Integer>(expected.length);
-        for (int ii = 0 ; ii < expected.length ; ii++)
-            actual2.add(Integer.valueOf(actual[ii]));
-
-        assertEquals(expected2, actual2);
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test Cases
@@ -342,4 +221,126 @@ public class TestInplaceSort
 
         assertTrue(Arrays.equals(exp, data));
     }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    // the "big" tests will all start with a random int[]
+    private static int[] createRandomArray(int size)
+    {
+        int[] arr = new int[size];
+        for (int ii = 0 ; ii < arr.length ; ii++)
+            arr[ii] = (int)(Math.random() * Integer.MAX_VALUE);
+        return arr;
+    }
+
+
+    // and will need to compare to an already-sorted array
+    private static int[] createSortedCopy(int[] src)
+    {
+        int[] ret = new int[src.length];
+        System.arraycopy(src, 0, ret, 0, src.length);
+        Arrays.sort(ret);
+        return ret;
+    }
+
+
+    // and we'll convert these to objects if needed
+    private static Integer[] toObjectArray(int[] src)
+    {
+        Integer[] ret = new Integer[src.length];
+        for (int ii = 0 ; ii < src.length ; ii++)
+            ret[ii] = Integer.valueOf(src[ii]);
+        return ret;
+    }
+
+
+    // this is used for tests where we rely on Comparable objects
+    public static class ForwardIntComparator
+    implements InplaceSort.IntComparator
+    {
+        @Override
+        public int compare(int i1, int i2)
+        {
+            return (i1 > i2) ? 1
+                 : (i1 < i2) ? -1
+                 : 0;
+        }
+    }
+
+
+    // this throws a wrench into int[] tests
+    public static class ReversingIntComparator
+    implements InplaceSort.IntComparator
+    {
+        @Override
+        public int compare(int i1, int i2)
+        {
+            return (i1 > i2) ? -1
+                 : (i1 < i2) ? 1
+                 : 0;
+        }
+    }
+
+
+    // this will be used to verify the O(NlogN) property; it orders by
+    // increasing values so we can compare result to Arrays.sort()
+    public static class CountingIntComparator
+    implements InplaceSort.IntComparator
+    {
+        public int count;
+        public int expectedCount;
+
+        public CountingIntComparator(int size)
+        {
+            // our implementation of heapsort should perform at most 3 compares per element
+            expectedCount = 3 * size * (int)Math.ceil(Math.log(size) / Math.log(2));
+        }
+
+        @Override
+        public int compare(int i1, int i2)
+        {
+            count++;
+            return (i1 < i2) ? -1
+                 : (i1 > i2) ? 1
+                 : 0;
+        }
+
+        public void assertCompareCount()
+        {
+            assertTrue("expected > 0", count > 0);
+            assertTrue("expected < " + expectedCount + ", was " + count,
+                       count < expectedCount);
+        }
+    }
+
+
+    // but use a straightforward comparison for integers
+    public static class ForwardComparator<T extends Comparable<T>>
+    implements Comparator<T>
+    {
+        @Override
+        public int compare(T o1, T o2)
+        {
+            return o1.compareTo(o2);
+        }
+    }
+
+
+    private void assertArraysEqual(int[] expected, int[] actual)
+    {
+        // we'll convert to List<Integer> because the reporting is nicer
+
+        ArrayList<Integer> expected2 = new ArrayList<Integer>(expected.length);
+        for (int ii = 0 ; ii < expected.length ; ii++)
+            expected2.add(Integer.valueOf(expected[ii]));
+
+        ArrayList<Integer> actual2 = new ArrayList<Integer>(expected.length);
+        for (int ii = 0 ; ii < expected.length ; ii++)
+            actual2.add(Integer.valueOf(actual[ii]));
+
+        assertEquals(expected2, actual2);
+    }
+
 }

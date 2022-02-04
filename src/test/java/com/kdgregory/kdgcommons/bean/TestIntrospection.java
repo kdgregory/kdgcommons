@@ -27,143 +27,6 @@ public class TestIntrospection
 {
 
 //----------------------------------------------------------------------------
-//  Classes to introspect -- all must be public and static
-//----------------------------------------------------------------------------
-
-    /**
-     *  A simple bean class, with both primitive and object properties, and
-     *  getters that use both "get" and "is".
-     */
-    public static class SimpleBean
-    {
-        private String sVal;
-        private int iVal;
-        private boolean bVal;
-
-        public String getSVal()             { return sVal; }
-        public void setSVal(String val)     { sVal = val; }
-
-        public int getIVal()                { return iVal; }
-        public void setIVal(int val)        { iVal = val; }
-
-        public boolean isBVal()             { return bVal; }
-        public void setBVal(boolean val)    { bVal = val; }
-    }
-
-
-    /**
-     *  A class that violates the bean spec by providing getters and setters
-     *  with different types.
-     */
-    public static class MixedPrimitiveAndWrapperBean
-    {
-        private Integer iVal;
-
-        public Integer getIVal()        { return iVal; }
-        public void setIVal(int val)    { iVal = Integer.valueOf(val); }
-    }
-
-
-    /**
-     *  A class that violates the bean spec by having methods with too many
-     *  or too few parameters.
-     */
-    public static class InvalidMethodBean
-    {
-        private String sVal;
-        private int iVal;
-        private boolean bVal;
-
-        public String getSVal(String s)     { return sVal; }
-        public void setSVal(String val)     { sVal = val; }
-
-        public int getIVal()                { return iVal; }
-        public void setIVal(int v1, int v2) { iVal = v1 + v2; }
-
-        public boolean isBVal(boolean b)    { return bVal; }
-        public void setBVal()               { bVal = true; }
-    }
-
-
-    /**
-     *  A class that provides a variety of setters for its values.
-     */
-    public static class MultipleSetterBean
-    {
-        private String propS1;
-        private String propS2;
-        private Integer propI1;
-        private Integer propI2;
-        private Integer propI3;
-        private Integer propI4;
-
-        public String getPropS1()           { return propS1; }
-        public void setPropS1(String val)   { propS1 = val; }
-        public void setPropS1(Object val)   { propS1 = String.valueOf(val); }
-
-        public String getPropS2()           { return propS2; }
-        public void setPropS2(Object val)   { propS2 = String.valueOf(val); }
-
-        public Integer getPropI1()          { return propI1; }
-        public void setPropI1(Integer val)  { propI1 = val; }
-        public void setPropI1(int val)      { propI1 = Integer.valueOf(val); }
-
-        public Integer getPropI2()          { return propI2; }
-        public void setPropI2(String val)   { propI2 = Integer.valueOf(val); }
-        public void setPropI2(Integer val)  { propI2 = val; }
-
-        public Integer getPropI3()          { return propI3; }
-        public void setPropI3(String val)   { propI3 = Integer.valueOf(val); }
-        public void setPropI3(Object val)   { propI3 = Integer.valueOf(String.valueOf(val)); }
-
-        public Integer getPropI4()          { return propI4; }
-        public void setPropI4(Object val)   { propI4 = Integer.valueOf(String.valueOf(val)); }
-    }
-
-
-    /**
-     *  Base class for override tests.
-     */
-    public static class OverrideBaseBean
-    {
-        protected Integer iVal;
-
-        public Number getIVal()             { return iVal; }
-        public void setIVal(Integer val)    { iVal = val; }
-    }
-
-
-    /**
-     *  Subclass for override tests.
-     */
-    public static class OverrideChildBean
-    extends OverrideBaseBean
-    {
-        @Override
-        public Integer getIVal()           { return iVal; }
-        public void setIVal(String val)    { iVal = Integer.valueOf(val); }
-    }
-
-
-    /**
-     *  This class has setters for all fields, but is missing a getter. The
-     *  introspector should ignore that field.
-     */
-    public static class MissingGetterBean
-    {
-        private String propS1;
-
-        @SuppressWarnings("unused")
-        private String propS2;
-
-        public String getPropS1()           { return propS1; }
-        public void setPropS1(String val)   { propS1 = val; }
-
-        public void setPropS2(String val)   { propS2 = val; }
-    }
-
-
-//----------------------------------------------------------------------------
 //  Test Cases
 //----------------------------------------------------------------------------
 
@@ -412,5 +275,141 @@ public class TestIntrospection
         assertNotNull("able to retrieve setter", setter2);
         setter2.invoke(instance, "foo");
         assertEquals("able to invoke setter", "foo", instance.getValue());
+    }
+
+//----------------------------------------------------------------------------
+//  Classes to introspect -- all must be public and static
+//----------------------------------------------------------------------------
+
+    /**
+     *  A simple bean class, with both primitive and object properties, and
+     *  getters that use both "get" and "is".
+     */
+    public static class SimpleBean
+    {
+        private String sVal;
+        private int iVal;
+        private boolean bVal;
+
+        public String getSVal()             { return sVal; }
+        public void setSVal(String val)     { sVal = val; }
+
+        public int getIVal()                { return iVal; }
+        public void setIVal(int val)        { iVal = val; }
+
+        public boolean isBVal()             { return bVal; }
+        public void setBVal(boolean val)    { bVal = val; }
+    }
+
+
+    /**
+     *  A class that violates the bean spec by providing getters and setters
+     *  with different types.
+     */
+    public static class MixedPrimitiveAndWrapperBean
+    {
+        private Integer iVal;
+
+        public Integer getIVal()        { return iVal; }
+        public void setIVal(int val)    { iVal = Integer.valueOf(val); }
+    }
+
+
+    /**
+     *  A class that violates the bean spec by having methods with too many
+     *  or too few parameters.
+     */
+    public static class InvalidMethodBean
+    {
+        private String sVal;
+        private int iVal;
+        private boolean bVal;
+
+        public String getSVal(String s)     { return sVal; }
+        public void setSVal(String val)     { sVal = val; }
+
+        public int getIVal()                { return iVal; }
+        public void setIVal(int v1, int v2) { iVal = v1 + v2; }
+
+        public boolean isBVal(boolean b)    { return bVal; }
+        public void setBVal()               { bVal = true; }
+    }
+
+
+    /**
+     *  A class that provides a variety of setters for its values.
+     */
+    public static class MultipleSetterBean
+    {
+        private String propS1;
+        private String propS2;
+        private Integer propI1;
+        private Integer propI2;
+        private Integer propI3;
+        private Integer propI4;
+
+        public String getPropS1()           { return propS1; }
+        public void setPropS1(String val)   { propS1 = val; }
+        public void setPropS1(Object val)   { propS1 = String.valueOf(val); }
+
+        public String getPropS2()           { return propS2; }
+        public void setPropS2(Object val)   { propS2 = String.valueOf(val); }
+
+        public Integer getPropI1()          { return propI1; }
+        public void setPropI1(Integer val)  { propI1 = val; }
+        public void setPropI1(int val)      { propI1 = Integer.valueOf(val); }
+
+        public Integer getPropI2()          { return propI2; }
+        public void setPropI2(String val)   { propI2 = Integer.valueOf(val); }
+        public void setPropI2(Integer val)  { propI2 = val; }
+
+        public Integer getPropI3()          { return propI3; }
+        public void setPropI3(String val)   { propI3 = Integer.valueOf(val); }
+        public void setPropI3(Object val)   { propI3 = Integer.valueOf(String.valueOf(val)); }
+
+        public Integer getPropI4()          { return propI4; }
+        public void setPropI4(Object val)   { propI4 = Integer.valueOf(String.valueOf(val)); }
+    }
+
+
+    /**
+     *  Base class for override tests.
+     */
+    public static class OverrideBaseBean
+    {
+        protected Integer iVal;
+
+        public Number getIVal()             { return iVal; }
+        public void setIVal(Integer val)    { iVal = val; }
+    }
+
+
+    /**
+     *  Subclass for override tests.
+     */
+    public static class OverrideChildBean
+    extends OverrideBaseBean
+    {
+        @Override
+        public Integer getIVal()           { return iVal; }
+        public void setIVal(String val)    { iVal = Integer.valueOf(val); }
+    }
+
+
+    /**
+     *  This class has setters for all fields, but is missing a getter. The
+     *  introspector should ignore that field.
+     */
+    public static class MissingGetterBean
+    {
+        private String propS1;
+
+        @SuppressWarnings("unused")
+        private String propS2;
+
+        public String getPropS1()           { return propS1; }
+        public void setPropS1(String val)   { propS1 = val; }
+
+        public void setPropS2(String val)   { propS2 = val; }
     }
 }

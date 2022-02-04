@@ -30,196 +30,6 @@ import com.kdgregory.kdgcommons.collections.HashMultimap;
 
 public class TestClassUtil
 {
-//----------------------------------------------------------------------------
-//  Test Classes -- note that they must be static to allow reflection
-//----------------------------------------------------------------------------
-
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface Foo
-    {
-        // just a marker
-    }
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Inherited
-    public @interface Bar
-    {
-        // just a marker
-    }
-
-    public static class Parent
-    {
-        protected int parentField;
-        protected int fieldToBeShadowed;
-
-        public Parent()
-        {}
-
-        public Parent(int fieldValue, int shadowValue)
-        {
-            parentField = fieldValue;
-            fieldToBeShadowed = shadowValue;
-        }
-
-        public int foo()
-        { return 1; }
-
-        @Bar
-        public int bar()
-        { return 2; }
-    }
-
-
-    @SuppressWarnings("unused")
-    public static class Child
-    extends Parent
-    {
-        // leaving this private to verify that we can make it accessible
-        private int childField;
-
-        public Child()
-        {}
-
-        public Child(int parentValue, int shadowValue, int fieldValue)
-        {
-            super(parentValue, shadowValue);
-            childField = fieldValue;
-        }
-
-        @Override
-        public int bar()
-        { return 3; }
-
-        @Foo
-        public int baz()
-        { return 3; }
-    }
-
-
-    public static class Grandchild extends Child
-    {
-        public int grandchildField;
-        public int fieldToBeShadowed;
-
-        public Grandchild()
-        {}
-
-        public Grandchild(int parentValue, int parentShadowValue, int childValue, int fieldValue, int shadowValue)
-        {
-            super(parentValue, parentShadowValue, childValue);
-            grandchildField = fieldValue;
-            fieldToBeShadowed = shadowValue;
-        }
-
-        public int bar(int param)
-        { return 4; }
-    }
-
-
-    public static class VisibilityBase
-    {
-        public    void foo(Object val)          { /* nothing here */ }
-
-        @SuppressWarnings("unused")
-        private   void bar(Object val)          { /* nothing here */ }
-
-        protected void baz(Object val)          { /* nothing here */ }
-
-                  void bif(Object val)          { /* nothing here */ }
-    }
-
-
-    public static class VisibilitySub
-    extends VisibilityBase
-    {
-        // everything is inherited
-    }
-
-
-    public static class VisibilityOverride
-    extends VisibilityBase
-    {
-        @Override
-        protected void baz(Object val)          { /* nothing here */ }
-    }
-
-
-    public static class BestMethodBase
-    {
-        public void foo(Object val)             { /* nothing here */ }
-        public void foo(String val)             { /* nothing here */ }
-        public void foo(Number val)             { /* nothing here */ }
-
-        public void bar(Object val)             { /* nothing here */ }
-
-        public void baz()                       { /* nothing here */ }
-        public void baz(Object val)             { /* nothing here */ }
-    }
-
-
-    public static class BestMethodSub
-    extends BestMethodBase
-    {
-        @Override
-        public void foo(Object val)             { /* nothing here */ }
-        public void foo(Integer val)            { /* nothing here */ }
-    }
-
-
-    public static class BestMethodMultiArg
-    {
-        public void foo(Integer v1, Number v2)  { /* nothing here */ }
-        public void foo(Number v1,  Integer v2) { /* nothing here */ }
-        public void foo(Number v1,  Number v2)  { /* nothing here */ }
-    }
-
-
-    public static class BestMethodPrimitive
-    {
-        public void foo(int val)                { /* nothing here */ }
-
-        public void bar(int val)                { /* nothing here */ }
-        public void bar(double val)             { /* nothing here */ }
-
-        public void baz(int val)                { /* nothing here */ }
-        public void baz(Integer val)            { /* nothing here */ }
-
-        public void bif(boolean val)            { /* nothing here */ }
-    }
-
-
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    /**
-     *  Converts an array of methods to a multimap keyed by method name.
-     */
-    public static HashMultimap<String,Method> methods2map(Method[] methods)
-    {
-        HashMultimap<String,Method> ret = new HashMultimap<String,Method>();
-        for (Method method : methods)
-            ret.put(method.getName(), method);
-        return ret;
-    }
-
-
-    /**
-     *  Asserts that the passed array of method contains one with the given name
-     *  and parameters.
-     */
-    private static void assertContainsMethod(String message, Method[] arr, String name, Class<?>... paramTypes)
-    {
-        for (Method method : arr)
-        {
-            if (! method.getName().equals(name))
-                continue;
-            if (Arrays.equals(method.getParameterTypes(), paramTypes))
-                return;
-        }
-        fail(message + ": no such method: " + name + "(" + Arrays.asList(paramTypes) + ")");
-    }
-
 
 //----------------------------------------------------------------------------
 //  Testcases
@@ -569,4 +379,192 @@ public class TestClassUtil
         }
     }
 
+//----------------------------------------------------------------------------
+//  Test Classes -- note that they must be static to allow reflection
+//----------------------------------------------------------------------------
+
+    @Retention(RetentionPolicy.RUNTIME)
+    public @interface Foo
+    {
+        // just a marker
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Inherited
+    public @interface Bar
+    {
+        // just a marker
+    }
+
+    public static class Parent
+    {
+        protected int parentField;
+        protected int fieldToBeShadowed;
+
+        public Parent()
+        {}
+
+        public Parent(int fieldValue, int shadowValue)
+        {
+            parentField = fieldValue;
+            fieldToBeShadowed = shadowValue;
+        }
+
+        public int foo()
+        { return 1; }
+
+        @Bar
+        public int bar()
+        { return 2; }
+    }
+
+
+    @SuppressWarnings("unused")
+    public static class Child
+    extends Parent
+    {
+        // leaving this private to verify that we can make it accessible
+        private int childField;
+
+        public Child()
+        {}
+
+        public Child(int parentValue, int shadowValue, int fieldValue)
+        {
+            super(parentValue, shadowValue);
+            childField = fieldValue;
+        }
+
+        @Override
+        public int bar()
+        { return 3; }
+
+        @Foo
+        public int baz()
+        { return 3; }
+    }
+
+
+    public static class Grandchild extends Child
+    {
+        public int grandchildField;
+        public int fieldToBeShadowed;
+
+        public Grandchild()
+        {}
+
+        public Grandchild(int parentValue, int parentShadowValue, int childValue, int fieldValue, int shadowValue)
+        {
+            super(parentValue, parentShadowValue, childValue);
+            grandchildField = fieldValue;
+            fieldToBeShadowed = shadowValue;
+        }
+
+        public int bar(int param)
+        { return 4; }
+    }
+
+
+    public static class VisibilityBase
+    {
+        public    void foo(Object val)          { /* nothing here */ }
+
+        @SuppressWarnings("unused")
+        private   void bar(Object val)          { /* nothing here */ }
+
+        protected void baz(Object val)          { /* nothing here */ }
+
+                  void bif(Object val)          { /* nothing here */ }
+    }
+
+
+    public static class VisibilitySub
+    extends VisibilityBase
+    {
+        // everything is inherited
+    }
+
+
+    public static class VisibilityOverride
+    extends VisibilityBase
+    {
+        @Override
+        protected void baz(Object val)          { /* nothing here */ }
+    }
+
+
+    public static class BestMethodBase
+    {
+        public void foo(Object val)             { /* nothing here */ }
+        public void foo(String val)             { /* nothing here */ }
+        public void foo(Number val)             { /* nothing here */ }
+
+        public void bar(Object val)             { /* nothing here */ }
+
+        public void baz()                       { /* nothing here */ }
+        public void baz(Object val)             { /* nothing here */ }
+    }
+
+
+    public static class BestMethodSub
+    extends BestMethodBase
+    {
+        @Override
+        public void foo(Object val)             { /* nothing here */ }
+        public void foo(Integer val)            { /* nothing here */ }
+    }
+
+
+    public static class BestMethodMultiArg
+    {
+        public void foo(Integer v1, Number v2)  { /* nothing here */ }
+        public void foo(Number v1,  Integer v2) { /* nothing here */ }
+        public void foo(Number v1,  Number v2)  { /* nothing here */ }
+    }
+
+
+    public static class BestMethodPrimitive
+    {
+        public void foo(int val)                { /* nothing here */ }
+
+        public void bar(int val)                { /* nothing here */ }
+        public void bar(double val)             { /* nothing here */ }
+
+        public void baz(int val)                { /* nothing here */ }
+        public void baz(Integer val)            { /* nothing here */ }
+
+        public void bif(boolean val)            { /* nothing here */ }
+    }
+
+//----------------------------------------------------------------------------
+//  Other support code
+//----------------------------------------------------------------------------
+
+    /**
+     *  Converts an array of methods to a multimap keyed by method name.
+     */
+    public static HashMultimap<String,Method> methods2map(Method[] methods)
+    {
+        HashMultimap<String,Method> ret = new HashMultimap<String,Method>();
+        for (Method method : methods)
+            ret.put(method.getName(), method);
+        return ret;
+    }
+
+
+    /**
+     *  Asserts that the passed array of method contains one with the given name
+     *  and parameters.
+     */
+    private static void assertContainsMethod(String message, Method[] arr, String name, Class<?>... paramTypes)
+    {
+        for (Method method : arr)
+        {
+            if (! method.getName().equals(name))
+                continue;
+            if (Arrays.equals(method.getParameterTypes(), paramTypes))
+                return;
+        }
+        fail(message + ": no such method: " + name + "(" + Arrays.asList(paramTypes) + ")");
+    }
 }

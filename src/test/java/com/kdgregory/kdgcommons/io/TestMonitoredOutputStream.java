@@ -25,27 +25,6 @@ import static org.junit.Assert.*;
 
 public class TestMonitoredOutputStream 
 {
-    // an implementation that records all calls and has its own delegate
-    private static class MyMonitoredOutputStream
-    extends MonitoredOutputStream
-    {
-        public int numCalls;
-        public long lastRead;
-        public long totalBytes;
-
-        public MyMonitoredOutputStream(OutputStream stream)
-        {
-            super(stream);
-        }
-
-        @Override
-        public void progress(long last, long total)
-        {
-            numCalls++;
-            lastRead = last;
-            totalBytes = total;
-        }
-    }
 
 //----------------------------------------------------------------------------
 //  Test Cases
@@ -136,5 +115,30 @@ public class TestMonitoredOutputStream
 
         out.close();
         assertTrue(isClosed.get());
+    }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+    // an implementation that records all calls and has its own delegate
+    private static class MyMonitoredOutputStream
+    extends MonitoredOutputStream
+    {
+        public int numCalls;
+        public long lastRead;
+        public long totalBytes;
+
+        public MyMonitoredOutputStream(OutputStream stream)
+        {
+            super(stream);
+        }
+
+        @Override
+        public void progress(long last, long total)
+        {
+            numCalls++;
+            lastRead = last;
+            totalBytes = total;
+        }
     }
 }

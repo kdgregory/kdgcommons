@@ -26,23 +26,6 @@ import static org.junit.Assert.*;
 
 public class TestBufferUtil
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    /**
-     *  Generates a <code>byte[]</code> the is filled with a repeated sequence
-     *  of 0x00 to 0xFF. This is typically used as a "background" array for
-     *  tests.
-     */
-    private static byte[] newByteArray(int size)
-    {
-        byte[] data = new byte[size];
-        for (int ii = 0 ; ii < data.length ; ii++)
-            data[ii] = (byte)(ii % 256);
-        return data;
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test Cases
@@ -143,5 +126,22 @@ public class TestBufferUtil
         buf.limit(2);
         byte[] result2 = BufferUtil.toArray(buf);
         assertArrayEquals("returned array after reduced limit", new byte[] {0x01, 0x02}, result2);
+    }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    /**
+     *  Generates a <code>byte[]</code> the is filled with a repeated sequence
+     *  of 0x00 to 0xFF. This is typically used as a "background" array for
+     *  tests.
+     */
+    private static byte[] newByteArray(int size)
+    {
+        byte[] data = new byte[size];
+        for (int ii = 0 ; ii < data.length ; ii++)
+            data[ii] = (byte)(ii % 256);
+        return data;
     }
 }

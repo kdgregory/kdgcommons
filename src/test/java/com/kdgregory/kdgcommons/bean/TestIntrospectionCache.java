@@ -25,27 +25,6 @@ public class TestIntrospectionCache
 {
 
 //----------------------------------------------------------------------------
-//  Test Objects
-//----------------------------------------------------------------------------
-
-    public static class Bean1
-    {
-        private String sVal;
-
-        public String getSVal()             { return sVal; }
-        public void setSVal(String val)     { sVal = val; }
-    }
-
-
-    public static class Bean2
-    {
-        private String sVal;
-
-        public String getSVal()             { return sVal; }
-        public void setSVal(String val)     { sVal = val; }
-    }
-
-//----------------------------------------------------------------------------
 //  Test Cases
 //----------------------------------------------------------------------------
 
@@ -120,5 +99,26 @@ public class TestIntrospectionCache
         assertNotNull("able to retrieve setter", setter2);
         setter2.invoke(instance, "foo");
         assertEquals("able to invoke setter", "foo", instance.getValue());
+    }
+
+//----------------------------------------------------------------------------
+//  Test Objects
+//----------------------------------------------------------------------------
+
+    public static class Bean1
+    {
+        private String sVal;
+
+        public String getSVal()             { return sVal; }
+        public void setSVal(String val)     { sVal = val; }
+    }
+
+
+    public static class Bean2
+    {
+        private String sVal;
+
+        public String getSVal()             { return sVal; }
+        public void setSVal(String val)     { sVal = val; }
     }
 }

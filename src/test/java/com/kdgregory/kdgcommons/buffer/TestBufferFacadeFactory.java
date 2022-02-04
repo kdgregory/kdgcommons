@@ -26,24 +26,6 @@ import static org.junit.Assert.*;
 
 public class TestBufferFacadeFactory
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    private static MappedFileBuffer createMappedFile(String name, int size)
-    throws IOException
-    {
-        File mappedFile = File.createTempFile(name, ".tmp");
-        mappedFile.deleteOnExit();
-
-        try (FileOutputStream fos = new FileOutputStream(mappedFile))
-        {
-            fos.write(new byte[size]);
-        }
-
-        return new MappedFileBuffer(mappedFile, true);
-    }
-
 
 //----------------------------------------------------------------------------
 //  Test Cases -- all tests compare access via the buffer to access via the
@@ -479,5 +461,23 @@ public class TestBufferFacadeFactory
         buf.putInt(1100, 0x12345678);
         ByteBuffer b2 = facade.slice(100);
         assertEquals(0x12345678, b2.getInt(0));
+    }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    private static MappedFileBuffer createMappedFile(String name, int size)
+    throws IOException
+    {
+        File mappedFile = File.createTempFile(name, ".tmp");
+        mappedFile.deleteOnExit();
+
+        try (FileOutputStream fos = new FileOutputStream(mappedFile))
+        {
+            fos.write(new byte[size]);
+        }
+
+        return new MappedFileBuffer(mappedFile, true);
     }
 }

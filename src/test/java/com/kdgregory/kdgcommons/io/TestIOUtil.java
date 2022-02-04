@@ -32,84 +32,6 @@ import com.kdgregory.kdgcommons.test.SimpleMock;
 
 public class TestIOUtil
 {
-//----------------------------------------------------------------------------
-//  Support Code
-//----------------------------------------------------------------------------
-
-    /**
-     *  A stream that will only play out its data a smidge at a time. Rather
-     *  than give it data, we simply walk the byte values 0..127.
-     */
-    private static class ReadLimitedInputStream
-    extends InputStream
-    {
-        private int readLimit;
-        private int max;
-        private int next;
-        private boolean wasClosed = false;
-
-        public ReadLimitedInputStream(int readLimit, int max)
-        {
-            this.readLimit = readLimit;
-            this.max = max;
-        }
-
-        private byte nextByte()
-        {
-            return (byte)(next++ % 128);
-        }
-
-        public boolean isClosed()
-        {
-            return wasClosed;
-        }
-
-        @Override
-        public void close() throws IOException
-        {
-            wasClosed = true;
-        }
-
-        @Override
-        public int read() throws IOException
-        {
-            return (next < max) ? nextByte() : -1;
-        }
-
-        @Override
-        public synchronized int read(byte[] b, int off, int len)
-        {
-            int ret = 0;
-            for (int ii = 0 ; ii < Math.min(len, readLimit) ; ii++)
-            {
-                if (next >= max)
-                    break;
-                b[off + ii] = nextByte();
-                ret++;
-            }
-            if (ret > 0)
-                return ret;
-            if (next >= max)
-                return -1;
-            return 0;
-        }
-
-        @Override
-        public int read(byte[] b) throws IOException
-        {
-            return read(b, 0, b.length);
-        }
-
-        @Override
-        public long skip(long n) throws IOException
-        {
-            int toSkip = (int)Math.min(readLimit, n);
-            if ((next + toSkip) > max)
-                toSkip = max - next;
-            next += toSkip;
-            return toSkip;
-        }
-    }
 
 //----------------------------------------------------------------------------
 //  Testcases
@@ -344,5 +266,84 @@ public class TestIOUtil
         // skipping past end should do nothing
         long s4 = IOUtil.skipFully(in, 700);
         assertEquals("bytes skipped",           0, s4);
+    }
+
+//----------------------------------------------------------------------------
+//  Support Code
+//----------------------------------------------------------------------------
+
+    /**
+     *  A stream that will only play out its data a smidge at a time. Rather
+     *  than give it data, we simply walk the byte values 0..127.
+     */
+    private static class ReadLimitedInputStream
+    extends InputStream
+    {
+        private int readLimit;
+        private int max;
+        private int next;
+        private boolean wasClosed = false;
+
+        public ReadLimitedInputStream(int readLimit, int max)
+        {
+            this.readLimit = readLimit;
+            this.max = max;
+        }
+
+        private byte nextByte()
+        {
+            return (byte)(next++ % 128);
+        }
+
+        public boolean isClosed()
+        {
+            return wasClosed;
+        }
+
+        @Override
+        public void close() throws IOException
+        {
+            wasClosed = true;
+        }
+
+        @Override
+        public int read() throws IOException
+        {
+            return (next < max) ? nextByte() : -1;
+        }
+
+        @Override
+        public synchronized int read(byte[] b, int off, int len)
+        {
+            int ret = 0;
+            for (int ii = 0 ; ii < Math.min(len, readLimit) ; ii++)
+            {
+                if (next >= max)
+                    break;
+                b[off + ii] = nextByte();
+                ret++;
+            }
+            if (ret > 0)
+                return ret;
+            if (next >= max)
+                return -1;
+            return 0;
+        }
+
+        @Override
+        public int read(byte[] b) throws IOException
+        {
+            return read(b, 0, b.length);
+        }
+
+        @Override
+        public long skip(long n) throws IOException
+        {
+            int toSkip = (int)Math.min(readLimit, n);
+            if ((next + toSkip) > max)
+                toSkip = max - next;
+            next += toSkip;
+            return toSkip;
+        }
     }
 }
