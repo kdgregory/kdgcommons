@@ -21,8 +21,6 @@ import java.io.OutputStream;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import com.kdgregory.kdgcommons.test.ArrayAsserts;
-
 
 public class TestCloseBlockingOutputStream
 {
@@ -73,7 +71,7 @@ public class TestCloseBlockingOutputStream
         test.write(new byte[] { 68, 69, 70 }, 1, 1);
 
         byte[] written = base.toByteArray();
-        ArrayAsserts.assertEquals(new byte[] { 64,  65, 66, 67, 69 }, written);
+        assertArrayEquals(new byte[] { 64,  65, 66, 67, 69 }, written);
     }
 
 

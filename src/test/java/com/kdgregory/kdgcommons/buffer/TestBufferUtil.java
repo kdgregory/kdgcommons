@@ -23,8 +23,6 @@ import java.nio.channels.FileChannel.MapMode;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import com.kdgregory.kdgcommons.test.ArrayAsserts;
-
 
 public class TestBufferUtil
 {
@@ -139,11 +137,11 @@ public class TestBufferUtil
 
         byte[] result1 = BufferUtil.toArray(buf);
         assertFalse("does not return wrapped array", result1 == data);
-        ArrayAsserts.assertEquals("returned array equals wrapped array", data, result1);
+        assertArrayEquals("returned array equals wrapped array", data, result1);
 
         buf.rewind();
         buf.limit(2);
         byte[] result2 = BufferUtil.toArray(buf);
-        ArrayAsserts.assertEquals("returned array after reduced limit", new byte[] {0x01, 0x02}, result2);
+        assertArrayEquals("returned array after reduced limit", new byte[] {0x01, 0x02}, result2);
     }
 }

@@ -26,7 +26,13 @@ import org.junit.Assert;
  *  <li> each element in actual array is equal to corresponding element in
  *       expected array
  *  </ul>
+ *  
+ *  @deprecated
+ *  This class exists because JUnit 3.8 did not have array assertions. JUnit
+ *  4.x does, so this class should be replaced with native assertions. There
+ *  are no plans, however, to remove this class.
  */
+@Deprecated
 public class ArrayAsserts
 {
     private ArrayAsserts()

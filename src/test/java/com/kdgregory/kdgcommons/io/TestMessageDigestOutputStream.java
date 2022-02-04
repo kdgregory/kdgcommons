@@ -20,8 +20,6 @@ import java.security.NoSuchAlgorithmException;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import com.kdgregory.kdgcommons.test.ArrayAsserts;
-
 
 public class TestMessageDigestOutputStream
 {
@@ -45,8 +43,8 @@ public class TestMessageDigestOutputStream
 
         byte[] expectedDigest = digester.digest();
 
-        ArrayAsserts.assertEquals("digests matches check",      expectedDigest,                     out.digest());
-        ArrayAsserts.assertEquals("can digest multiple times",  expectedDigest,                     out.digest());
+        assertArrayEquals("digests matches check",      expectedDigest,                     out.digest());
+        assertArrayEquals("can digest multiple times",  expectedDigest,                     out.digest());
         assertEquals("string digest matches precomputed",       "07e3ef6e12a61cc291789f3728d57e90", out.digestAsString());
     }
 

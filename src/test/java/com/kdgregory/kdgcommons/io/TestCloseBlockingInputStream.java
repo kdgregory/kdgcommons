@@ -21,8 +21,6 @@ import java.io.InputStream;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import com.kdgregory.kdgcommons.test.ArrayAsserts;
-
 
 public class TestCloseBlockingInputStream
 {
@@ -64,11 +62,11 @@ public class TestCloseBlockingInputStream
 
         byte[] r0 = new byte[4];
         assertEquals("read of full byte array, return", 4, test.read(r0));
-        ArrayAsserts.assertEquals("read of full byte array, data", new byte[] { 64, 65, 66, 67 }, r0);
+        assertArrayEquals("read of full byte array, data", new byte[] { 64, 65, 66, 67 }, r0);
 
         byte[] r1 = new byte[4];
         assertEquals("read of partial byte array, return", 2, test.read(r1, 1, 2));
-        ArrayAsserts.assertEquals("read of partial byte array, data", new byte[] { 0, 68, 69, 0 }, r1);
+        assertArrayEquals("read of partial byte array, data", new byte[] { 0, 68, 69, 0 }, r1);
 
         int r2 = test.read();
         assertEquals("single byte read", 70, r2);

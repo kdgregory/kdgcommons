@@ -17,8 +17,6 @@ package com.kdgregory.kdgcommons.codec;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import com.kdgregory.kdgcommons.test.ArrayAsserts;
-
 
 public class TestHexCodec
 {
@@ -57,7 +55,7 @@ public class TestHexCodec
         assertEquals("conversion to string", "", str);
 
         byte[] dst = codec.toBytes(null);
-        ArrayAsserts.assertEquals("conversion to byte[]", new byte[0], dst);
+        assertArrayEquals("conversion to byte[]", new byte[0], dst);
     }
 
 
@@ -70,7 +68,7 @@ public class TestHexCodec
         assertEquals("conversion to string", "", str);
 
         byte[] dst = codec.toBytes("");
-        ArrayAsserts.assertEquals("conversion to byte[]", new byte[0], dst);
+        assertArrayEquals("conversion to byte[]", new byte[0], dst);
     }
 
 
@@ -85,7 +83,7 @@ public class TestHexCodec
         assertEquals("conversion to string", "123456789ABCDEF0", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -100,7 +98,7 @@ public class TestHexCodec
         assertEquals("conversion to string", "1234X5678X9ABCXDEF0", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -115,7 +113,7 @@ public class TestHexCodec
         assertEquals("conversion to string", "1234XYZ5678XYZ9ABCXYZDEF0", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -126,7 +124,7 @@ public class TestHexCodec
         byte[] exp = new byte[] { 0x12, 0x34, 0x56, 0x78, (byte)0x9A, (byte)0xBC, (byte)0xDE, (byte)0xF0 };
 
         byte[] dst = new HexCodec().toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", exp, dst);
+        assertArrayEquals("conversion to byte[]", exp, dst);
     }
 
 
@@ -137,7 +135,7 @@ public class TestHexCodec
         byte[] exp = new byte[] { 0x12, 0x34 };
 
         byte[] dst = new HexCodec().toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", exp, dst);
+        assertArrayEquals("conversion to byte[]", exp, dst);
     }
 
 

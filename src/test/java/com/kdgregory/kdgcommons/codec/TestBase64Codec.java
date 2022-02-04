@@ -18,7 +18,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import com.kdgregory.kdgcommons.codec.Base64Codec.Option;
-import com.kdgregory.kdgcommons.test.ArrayAsserts;
 
 
 public class TestBase64Codec
@@ -58,7 +57,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "", str);
 
         byte[] dst = codec.toBytes(null);
-        ArrayAsserts.assertEquals("conversion to byte[]", new byte[0], dst);
+        assertArrayEquals("conversion to byte[]", new byte[0], dst);
     }
 
 
@@ -71,7 +70,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "", str);
 
         byte[] dst = codec.toBytes("");
-        ArrayAsserts.assertEquals("conversion to byte[]", new byte[0], dst);
+        assertArrayEquals("conversion to byte[]", new byte[0], dst);
     }
 
 
@@ -86,7 +85,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "Eg==", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -101,7 +100,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "EjQ=", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -116,7 +115,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "EjRW", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -131,7 +130,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "EjRWeJq83vA=", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -146,7 +145,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "EjRWXeJq8X3vA=", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -161,7 +160,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "EjRWXYZeJq8XYZ3vA=", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -176,7 +175,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "789+/A==", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -191,7 +190,7 @@ public class TestBase64Codec
         assertEquals("conversion to string", "789-_A", str);
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", src, dst);
+        assertArrayEquals("conversion to byte[]", src, dst);
     }
 
 
@@ -204,7 +203,7 @@ public class TestBase64Codec
         String str = "Ej  RW\reJ\t q8\n3vA=";
 
         byte[] dst = codec.toBytes(str);
-        ArrayAsserts.assertEquals("conversion to byte[]", exp, dst);
+        assertArrayEquals("conversion to byte[]", exp, dst);
     }
 
 
