@@ -7,11 +7,14 @@
         <release version="2.0.1" date="TBD"
             description="removal/replacement of deprecated functionality">
             <action dev='kdgregory' type='update'>
-                ArrayAsserts: deprecated; JUnit 4.x provides this functionality and should
-                be used instead.
+                Removed all functions and classes that had been deprecated in version 1.x.
             </action>
             <action dev='kdgregory' type='update'>
-                Removed all functions and classes that had been deprecated in version 1.x.
+                ChannelInputStream.close(): no longer closes the underlying stream.
+            </action>
+            <action dev='kdgregory' type='update'>
+                ArrayAsserts: deprecated; JUnit 4.x provides this functionality and should
+                be used instead.
             </action>
             <action dev='kdgregory' type='update'>
                 ObjectUtil.defaultValue(): now uses a java.util.function.Supplier rather

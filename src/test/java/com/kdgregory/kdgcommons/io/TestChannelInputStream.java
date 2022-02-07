@@ -223,10 +223,10 @@ public class TestChannelInputStream
     public void testClose() throws Exception
     {
         ChannelInputStream in = new ChannelInputStream(channel);
-        assertTrue("channel not open at start of test", channel.isOpen());
+        assertTrue("channel open at start of test", channel.isOpen());
 
         in.close();
-        assertFalse("channel is still open", channel.isOpen());
+        assertTrue("channel is still open after close", channel.isOpen());
     }
 
 

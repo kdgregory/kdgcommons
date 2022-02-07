@@ -122,12 +122,15 @@ extends InputStream
 
 
     /**
-     *  Closes this stream, along with the underlying channel.
+     *  Does nothing; closing the channel does not close the underlying stream.
+     *  <p>
+     *  Warning: this behavior differs from version 1.x, where this method did
+     *  close the underlying stream. 
      */
     @Override
     public void close() throws IOException
     {
-        channel.close();
+        // no-op
     }
 
 
