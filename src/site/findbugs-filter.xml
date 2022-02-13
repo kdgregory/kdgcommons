@@ -1,57 +1,58 @@
 <FindBugsFilter>
 
     <Match>
-        <Class name='net.sf.kdgcommons.lang.ClassUtil' />
+        <Class name='com.kdgregory.kdgcommons.lang.ClassUtil' />
         <Method name='internalNameToExternal' />
         <Bug pattern='SBSC_USE_STRINGBUFFER_CONCATENATION' />
         <!-- this is a loop with few iterations (almost always < 3), not worth replacing -->
     </Match>
 
     <Match>
-        <Class name='net.sf.kdgcommons.lang.StringCanon' />
+        <Class name='com.kdgregory.kdgcommons.lang.ObjectUtil' />
+        <Bug pattern='NP_NULL_ON_SOME_PATH_MIGHT_BE_INFEASIBLE' />
+        <!-- all paths are covered; FindBugs is being paranoid -->
+    </Match>
+
+    <Match>
+        <Class name='com.kdgregory.kdgcommons.lang.ObjectUtil' />
+        <Method name='equals' />
+        <Bug pattern='RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE' />
+        <!-- intentional: as written I consider the conditions more obvious -->
+    </Match>
+
+    <Match>
+        <Class name='com.kdgregory.kdgcommons.lang.StringCanon' />
         <Method name='intern' />
         <Bug pattern='DM_STRING_CTOR' />
         <!-- the String constructor is used here to trim the source string (which may share a large backing array) -->
     </Match>
 
     <Match>
-        <Class name='net.sf.kdgcommons.util.Base64Converter' />
+        <Class name='com.kdgregory.kdgcommons.io.MessageDigestOutputStream' />
+        <Method name='digest' />
+        <Bug pattern='EI_EXPOSE_REP' />
+        <!-- maintaining this state internally is a convenience for repeated calls; no effects from changing it -->
+    </Match>
+
+    <Match>
+        <Class name='com.kdgregory.kdgcommons.util.Base64Converter' />
         <Method name='encodeGroup' />
         <Bug pattern='SF_SWITCH_FALLTHROUGH' />
         <!-- switch fallthrough intentional here, as form of loop unrolling -->
     </Match>
 
     <Match>
-        <Class name='net.sf.kdgcommons.util.ByteArray' />
+        <Class name='com.kdgregory.kdgcommons.util.ByteArray' />
         <Method name='getArray' />
         <Bug pattern='EI_EXPOSE_REP' />
         <!-- intentionally returns internal state, documented as such -->
     </Match>
 
     <Match>
-        <Class name='net.sf.kdgcommons.util.Counters' />
+        <Class name='com.kdgregory.kdgcommons.util.Counters' />
         <Method name='put' />
         <Bug pattern='AT_OPERATION_SEQUENCE_ON_CONCURRENT_ABSTRACTION' />
         <!-- failure mode and workaround are documented -->
-    </Match>
-
-    <Match>
-        <Class name='net.sf.kdgcommons.util.IdentityKey' />
-        <Bug pattern='NM_SAME_SIMPLE_NAME_AS_SUPERCLASS' />
-        <!-- intentional: the version in util has been deprecated, has same functionality as version in collections -->
-    </Match>
-
-    <Match>
-        <Class name='net.sf.kdgcommons.lang.ObjectUtil' />
-        <Bug pattern='NP_NULL_ON_SOME_PATH_MIGHT_BE_INFEASIBLE' />
-        <!-- all paths are covered; FindBugs is being paranoid -->
-    </Match>
-
-    <Match>
-        <Class name='net.sf.kdgcommons.lang.ObjectUtil' />
-        <Method name='equals' />
-        <Bug pattern='RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE' />
-        <!-- intentional: as written I consider the conditions more obvious -->
     </Match>
 
 </FindBugsFilter>
