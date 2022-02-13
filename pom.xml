@@ -30,6 +30,11 @@
         <url>https://github.com/kdgregory/kdgcommons</url>
     </scm>
 
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/kdgregory/kdgcommons/issues</url>
+    </issueManagement>
+
 
     <developers>
         <developer>
