@@ -25,9 +25,6 @@ import java.util.function.Function;
  *  A size-limited LRU cache that uses a retriever function to load values. Instances are
  *  thread-safe (provided the retriever is thread-safe) and provide a variety of blocking
  *  options for retrieval.
- *  <p>
- *  Note that the cache itself implements the {@link Retriever} interface; caches may be
- *  stacked.
  *
  *  @since 1.0.15
  */

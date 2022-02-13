@@ -168,14 +168,13 @@ public class CollectionUtil
      *  Adds the specified item to a map if it does not already exist. Returns
      *  either the added item or the existing mapping.
      *  <p>
-     *  <em>Note:</em>    The return behavior differs from <code>Map.put()</code>,
+     *  <em>Warning:</em> The return behavior differs from <code>Map.put()</code>,
      *                    in that it returns the new value if there was no prior
      *                    mapping. I find this more useful, as I typically want
      *                    to do something with the mapping.
      *  <p>
-     *  <em>Warning:</em> This operation is not synchronized. In most cases, a
-     *                    better approach is to use {@link DefaultMap}, with a
-     *                    functor to generate new entries.
+     *  Note that Java8 now provides similar behavior as part of the <code>Map</code>
+     *  interface.
      *
      *  @since 1.0.12
      */
