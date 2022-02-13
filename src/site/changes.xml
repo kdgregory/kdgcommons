@@ -27,7 +27,7 @@
         </release>
 
         <release version="1.0.19" date="2021-01-26"
-            description="final version 1 release: deprecate in preparation for version 2">
+            description="final version 1 release: deprecations in preparation for version 2">
             <action dev='kdgregory' type='update'>
                 Deprecated all "functor-like" objects and operations that consume them:
                 these should be replaced by objects from the java.util.function package.
