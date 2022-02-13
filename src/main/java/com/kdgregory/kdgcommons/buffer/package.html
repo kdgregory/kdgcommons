@@ -1,0 +1,26 @@
+<html>
+<body>
+
+Classes for working with <code>java.nio.ByteBuffer</code>s and their close kin.
+<p>
+These classes were originally developed to work with mapped files that were over
+2 gigabytes in size (larger than a single <code>java.nio.MappedByteBuffer</code>
+can access).
+<p>
+{@link com.kdgregory.kdgcommons.buffer.BufferFacade} is the primary abstraction: it allows
+indexed ("absolute") access to a buffer using <code>long</code> indexes, versus the
+<code>int</code> indexes of <code>java.nio.ByteBuffer</code>). It also provies bulk
+get operations that take/return a <code>byte[]</code>. And it gets rid of relative
+operations (they weren't that useful in my original applications).
+<p>
+{@link com.kdgregory.kdgcommons.buffer.MappedFileBuffer} memory-maps files, using a series
+of overlapping <code>java.nio.MappedByteBuffer</code>s. By default, the overlap is
+1 GB, allowing access to up to 2 GB of sequential data.
+<p>
+In addition to these classes, there is {@link com.kdgregory.kdgcommons.buffer.BufferUtil},
+which provides utility methods for working with <code>java.nio.ByteBuffer</code>
+instances, and <Code>InputStream</Code>/<code>OutputStream</code> implementations
+that read/write data in a <code>ByteBuffer</code>.
+
+</body>
+</html>

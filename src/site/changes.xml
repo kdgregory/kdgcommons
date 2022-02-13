@@ -4,8 +4,30 @@
 	</properties>
 
     <body>
+        <release version="2.0.1" date="TBD"
+            description="removal/replacement of deprecated functionality">
+            <action dev='kdgregory' type='update'>
+                Removed all functions and classes that had been deprecated in version 1.x.
+            </action>
+            <action dev='kdgregory' type='update'>
+                ChannelInputStream.close(): no longer closes the underlying stream.
+            </action>
+            <action dev='kdgregory' type='update'>
+                ArrayAsserts: deprecated; JUnit 4.x provides this functionality and should
+                be used instead.
+            </action>
+            <action dev='kdgregory' type='update'>
+                ObjectUtil.defaultValue(): now uses a java.util.function.Supplier rather
+                than the custom ObjectFactory class.
+            </action>
+            <action dev='kdgregory' type='update'>
+                ReadThroughCache: now uses a java.util.function.Function rather than the
+                custom Retriever class.
+            </action>
+        </release>
+
         <release version="1.0.19" date="2021-01-26"
-            description="final version 1 release: deprecate in preparation for version 2">
+            description="final version 1 release: deprecations in preparation for version 2">
             <action dev='kdgregory' type='update'>
                 Deprecated all "functor-like" objects and operations that consume them:
                 these should be replaced by objects from the java.util.function package.
