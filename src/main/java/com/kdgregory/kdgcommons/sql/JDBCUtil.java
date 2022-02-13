@@ -100,12 +100,22 @@ public class JDBCUtil
     public static PreparedStatement prepare(Connection cxt, String sql, Object... args)
     throws SQLException
     {
-        PreparedStatement stmt = cxt.prepareStatement(sql);
-        for (int ii = 0 ; ii < args.length ; ii++)
+        
+        PreparedStatement stmt = null;
+        try
         {
-            stmt.setObject(ii + 1, args[ii]);
+            stmt = cxt.prepareStatement(sql);
+            for (int ii = 0 ; ii < args.length ; ii++)
+            {
+                stmt.setObject(ii + 1, args[ii]);
+            }
+            return stmt;
         }
-        return stmt;
+        catch (SQLException ex)
+        {
+            closeQuietly(stmt);
+            throw ex;
+        }
     }
 
 
