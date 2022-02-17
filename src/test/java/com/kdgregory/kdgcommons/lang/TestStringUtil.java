@@ -57,11 +57,12 @@ public class TestStringUtil
     @Test
     public void testTrim() throws Exception
     {
-        assertEquals("no trimming",         "foo", StringUtil.trim("foo"));
-        assertEquals("trimmed non-empty",   "foo", StringUtil.trim("  foo\t  "));
-        assertEquals("trimmed empty",       "",    StringUtil.trim("  \r\t  "));
-        assertEquals("initially empty",     "",    StringUtil.trim(""));
-        assertEquals("initially null",      "",    StringUtil.trim(null));
+        assertEquals("no trimming",         "foo",                          StringUtil.trim("foo"));
+        assertEquals("trimmed non-empty",   "foo",                          StringUtil.trim("  foo\t  "));
+        assertEquals("trimmed empty",       "",                             StringUtil.trim("  \r\t  "));
+        assertEquals("initially empty",     "",                             StringUtil.trim(""));
+        assertEquals("initially null",      "",                             StringUtil.trim(null));
+        assertEquals("UCS-2 codepoints",    "\uD83D\uDE00 \uD83D\uDE41",    StringUtil.trim("\u000B\uD83D\uDE00\u0020\uuD83D\uDE41\u001D"));
     }
 
 

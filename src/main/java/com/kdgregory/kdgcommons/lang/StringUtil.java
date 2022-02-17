@@ -94,31 +94,34 @@ public class StringUtil
 
     /**
      *  Removes all whitespace characters from either side of a string, using
-     *  <code>Character.isWhitespace()</code> to test. Returns an empty string
-     *  if passed null, the original string if it doesn't need trimming.
+     *  <code>Character.isWhitespace()</code> to determine whitespace characters.
+     *  Returns an empty string if passed null.
+     *  <p>
+     *  Note: current versions of <code>String.substring()</code> create a new
+     *  backing array. Older versions did not.
      */
     public static String trim(String str)
     {
-        if (str == null)
+        if ((str == null) || (str.length() == 0))
             return "";
-        else if (str.length() == 0)
-            return "";
-        else if (!Character.isWhitespace(str.charAt(0))
-                && !Character.isWhitespace(str.charAt(str.length() - 1)))
-            return str;
 
-        StringBuilder sb = new StringBuilder(str);
-        while ((sb.length() > 0) && Character.isWhitespace(sb.charAt(0)))
-            sb.deleteCharAt(0);
-        while ((sb.length() > 0) && Character.isWhitespace(sb.charAt(sb.length()-1)))
-            sb.deleteCharAt(sb.length()-1);
-        return sb.toString();
+        int start = 0;
+        while ((start < str.length()) && Character.isWhitespace(str.charAt(start)))
+            start++;
+
+        int end  = str.length() - 1;
+        while ((end >= 0) && Character.isWhitespace(str.charAt(end)))
+            end--;
+
+        return (end < 0)
+             ? ""
+             : str.substring(start, end + 1);
     }
 
 
     /**
      *  Invokes {@link #trim}, and returns null if the result is an empty string
-     *  This is useful to create flag values.
+     *  (otherwise return the trimmed string). This is useful for flag values.
      *
      *  @since 1.0.9
      */
