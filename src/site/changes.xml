@@ -4,6 +4,10 @@
 	</properties>
 
     <body>
+        <release version="2.1.0" date="TBD"
+            description="assorted updates">
+        </release>
+        
         <release version="2.0.0" date="2022-02-13"
             description="removal/replacement of deprecated functionality">
             <action dev='kdgregory' type='update'>
