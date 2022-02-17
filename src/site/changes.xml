@@ -4,7 +4,7 @@
 	</properties>
 
     <body>
-        <release version="2.0.1" date="TBD"
+        <release version="2.0.0" date="2022-02-13"
             description="removal/replacement of deprecated functionality">
             <action dev='kdgregory' type='update'>
                 Removed all functions and classes that had been deprecated in version 1.x.
