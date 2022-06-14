@@ -375,13 +375,12 @@ public class CollectionUtil
 
 
     /**
-     *  Adds all elements of the <code>src</code> collections to <code>dest</code>,
+     *  Adds all elements of the <code>src</code> lists to <code>dest</code>,
      *  returning <code>dest</code>. This is typically used when you need to combine
      *  collections temporarily for a method argument.
      *
-     *  <p><strong>Warning:</strong> this mutates the provided list. In version 2.0
-     *  it will create a new list, with a variant of <code>addAll()</code> that mutates
-     *  the list.
+     *  <p><strong>Warning:</strong> this mutates the provided list. If this behavior
+     *  is not what you want, provide an empty list.
      *
      *  @since 1.0.7
      */
@@ -401,9 +400,8 @@ public class CollectionUtil
      *  returning <code>dest</code>. This is typically used when you need to combine
      *  collections temporarily for a method argument.
      *
-     *  <p><strong>Warning:</strong> this mutates the provided set. In version 2.0
-     *  it will create a new set, with a variant of <code>addAll()</code> that mutates
-     *  the set.
+     *  <p><strong>Warning:</strong> this mutates the provided set. If this behavior
+     *  is not what you want, provide an empty set.
      *
      *  @since 1.0.7
      */
@@ -419,16 +417,15 @@ public class CollectionUtil
 
 
     /**
-     *  Adds all elements of the <code>src</code> collections to <code>dest</code>,
+     *  Adds all elements of the <code>src</code> maps to <code>dest</code>,
      *  returning <code>dest</code>. This is typically used when you need to combine
      *  collections temporarily for a method argument.
      *  <p>
      *  Note: source maps are added in order; if the same keys are present in multiple
      *  sources, the last one wins.
      *
-     *  <p><strong>Warning:</strong> this mutates the provided map. In version 2.0
-     *  it will create a new map, with a variant of <code>putAll()</code> that mutates
-     *  the map.
+     *  <p><strong>Warning:</strong> this mutates the provided map. If this behavior
+     *  is not what you want, provide an empty map.
      *
      *  @since 1.0.7
      */
