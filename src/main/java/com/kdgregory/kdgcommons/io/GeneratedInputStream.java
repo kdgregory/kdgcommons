@@ -18,14 +18,18 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-/**
+/**  
  *  An <code>InputStream</code> that calls a method to generate blocks of data.
  *  This can be used to replace a pipe in many situations where you can't spin
- *  up a new thread. It's also useful for testing.
+ *  up a new thread. It's also useful for performing ranged retrieval from a
+ *  web-service and wrapping it in a stream.
  *  <p>
  *  To use, implement {@link #nextBuffer}. Each time this method is called, it
  *  should return an arbitrary-size <code>byte[]</code> containing the next
  *  chunk of data. At EOF, it returns <code>null</code>.
+ *  <p>
+ *  {@link FunctionInputStream} is a Java-8 alternative to this class, in which
+ *  you provide a <code>java.util.Function</code> that returns the buffer.
  */
 public abstract class GeneratedInputStream
 extends InputStream

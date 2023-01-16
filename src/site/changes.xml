@@ -6,6 +6,10 @@
     <body>
         <release version="2.1.0" date="TBD"
             description="assorted updates">
+            <action dev='kdgregory' type='add'>
+                FunctionInputStream: an InputStream that uses a Java8 Function to retrieve
+                chunks of data from a source.
+            </action>
         </release>
         
         <release version="2.0.0" date="2022-02-13"
