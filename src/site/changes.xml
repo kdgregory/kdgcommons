@@ -10,6 +10,9 @@
                 FunctionInputStream: an InputStream that uses a Java8 Function to retrieve
                 chunks of data from a source.
             </action>
+            <action dev='kdgregory' type='add'>
+                ClassUtil.setFieldValue(): uses reflection to set a member variable.
+            </action>
         </release>
         
         <release version="2.0.0" date="2022-02-13"

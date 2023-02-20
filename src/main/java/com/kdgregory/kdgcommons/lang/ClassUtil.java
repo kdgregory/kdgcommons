@@ -308,10 +308,9 @@ public class ClassUtil
     {
         for (Class<?> objKlass = obj.getClass() ; objKlass != null ; objKlass = objKlass.getSuperclass())
         {
-            Field field = null;
             try
             {
-                field = objKlass.getDeclaredField(fieldName);
+                Field field = objKlass.getDeclaredField(fieldName);
                 field.setAccessible(true);
                 return (T)field.get(obj);
             }
@@ -323,6 +322,37 @@ public class ClassUtil
         }
 
         throw new NoSuchFieldException("unable to retrieve field " + fieldName + " from object of class " + obj.getClass().getName());
+    }
+
+
+    /**
+     *  Looks for the specified field in the class or its superclasses, setting it
+     *  to the provided value if it exists. Throws <code>NoSuchFieldException</code>
+     *  if unable to find the field in the class hierarchy, or if an exception occurred
+     *  while setting its value.
+     *
+     *  @since 2.1.0
+     */
+    public static <T> void setFieldValue(Object obj, String fieldName, Class<T> expectedClass, T value)
+    throws NoSuchFieldException
+    {
+        for (Class<?> objKlass = obj.getClass() ; objKlass != null ; objKlass = objKlass.getSuperclass())
+        {
+            try
+            {
+                Field field = objKlass.getDeclaredField(fieldName);
+                field.setAccessible(true);
+                field.set(obj, value);
+                return;
+            }
+            catch (Exception ignored)
+            {
+                // most likely a NoSuchFieldException, but could be a security exception
+                // from setAccessible(); in either case we'll just try superclass
+            }
+        }
+
+        throw new NoSuchFieldException("unable to update field " + fieldName + " in object of class " + obj.getClass().getName());
     }
 
 

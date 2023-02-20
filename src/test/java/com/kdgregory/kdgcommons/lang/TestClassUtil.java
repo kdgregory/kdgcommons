@@ -379,6 +379,49 @@ public class TestClassUtil
         }
     }
 
+
+    @Test
+    public void testSetFieldValue() throws Exception
+    {
+        Grandchild obj1 = new Grandchild(1, 2, 3, 4, 5);
+
+        ClassUtil.setFieldValue(obj1, "parentField",     Integer.TYPE, Integer.valueOf(11));
+        ClassUtil.setFieldValue(obj1, "childField",      Integer.TYPE, Integer.valueOf(13));
+        ClassUtil.setFieldValue(obj1, "grandchildField", Integer.TYPE, Integer.valueOf(14));
+        ClassUtil.setFieldValue(obj1, "fieldToBeShadowed", Integer.TYPE, Integer.valueOf(15));
+
+        // rather than add getters to the test classes, we'll just use functionality that we've tested elsewhere
+        assertEquals("parentField",         Integer.valueOf(11),     ClassUtil.getFieldValue(obj1, "parentField",     Integer.TYPE));
+        assertEquals("childField",          Integer.valueOf(13),     ClassUtil.getFieldValue(obj1, "childField",      Integer.TYPE));
+        assertEquals("grandchildField",     Integer.valueOf(14),     ClassUtil.getFieldValue(obj1, "grandchildField", Integer.TYPE));
+        assertEquals("fieldToBeShadowed",   Integer.valueOf(15),     ClassUtil.getFieldValue(obj1, "fieldToBeShadowed", Integer.TYPE));
+
+        Child obj2 = new Child(1, 2, 3);
+
+        ClassUtil.setFieldValue(obj2, "parentField",     Integer.TYPE, Integer.valueOf(11));
+        ClassUtil.setFieldValue(obj2, "childField",      Integer.TYPE, Integer.valueOf(13));
+        ClassUtil.setFieldValue(obj2, "fieldToBeShadowed", Integer.TYPE, Integer.valueOf(15));
+
+        assertEquals("parentField",         Integer.valueOf(11),     ClassUtil.getFieldValue(obj2, "parentField",     Integer.TYPE));
+        assertEquals("childField",          Integer.valueOf(13),     ClassUtil.getFieldValue(obj2, "childField",      Integer.TYPE));
+        assertEquals("fieldToBeShadowed",   Integer.valueOf(15),     ClassUtil.getFieldValue(obj2, "fieldToBeShadowed", Integer.TYPE));
+
+        try
+        {
+            ClassUtil.setFieldValue(obj2, "grandchildField", Integer.TYPE, Integer.valueOf(24));
+            fail("did not throw when setting non-existent field");
+        }
+        catch (NoSuchFieldException ex)
+        {
+            String message = ex.getMessage();
+            assertTrue("exception message includes field name (was: \"" + message + "\")",
+                       message.contains("grandchildField"));
+            assertTrue("exception message includes class name (was: \"" + message + "\")",
+                       message.contains("Child"));
+        }
+    }
+
+
 //----------------------------------------------------------------------------
 //  Test Classes -- note that they must be static to allow reflection
 //----------------------------------------------------------------------------
