@@ -174,4 +174,58 @@ public class NumericAsserts
             Assert.fail(actualMessage);
         }
     }
+
+
+    /**
+     *  Asserts that the provided arrays are equal, within a particular delta. Fails
+     *  on first element that is different, report it. Also fails if the arrays are
+     *  different sizes.
+     */
+    public static void assertEqual(float[] expected, float[] actual, float delta)
+    {
+        assertEqual(null, expected, actual, delta);
+    }
+
+
+    /**
+     *  Asserts that the provided arrays are equal, within a particular delta. Fails
+     *  on first element that is different, report it. Also fails if the arrays are
+     *  different sizes.
+     */
+    public static void assertEqual(String message, float[] expected, float[] actual, float delta)
+    {
+        String messagePrefix = (message != null) ? message + ": " : "";
+        Assert.assertEquals(messagePrefix + "arrays have different length", expected.length, actual.length);
+        for (int ii = 0 ; ii < expected.length ; ii++)
+        {
+            Assert.assertEquals(messagePrefix + "arrays differ at element " + ii, expected[ii], actual[ii], delta);
+        }
+    }
+
+
+    /**
+     *  Asserts that the provided arrays are equal, within a particular delta. Fails
+     *  on first element that is different, report it. Also fails if the arrays are
+     *  different sizes.
+     */
+    public static void assertEqual(double[] expected, double[] actual, double delta)
+    {
+        assertEqual(null, expected, actual, delta);
+    }
+
+
+    /**
+     *  Asserts that the provided arrays are equal, within a particular delta. Fails
+     *  on first element that is different, report it. Also fails if the arrays are
+     *  different sizes.
+     */
+    public static void assertEqual(String message, double[] expected, double[] actual, double delta)
+    {
+        String messagePrefix = (message != null) ? message + ": " : "";
+        Assert.assertEquals(messagePrefix + "arrays have different length", expected.length, actual.length);
+        for (int ii = 0 ; ii < expected.length ; ii++)
+        {
+            Assert.assertEquals(messagePrefix + "arrays differ at element " + ii, expected[ii], actual[ii], delta);
+        }
+    }
 }

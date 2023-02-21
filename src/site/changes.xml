@@ -7,11 +7,14 @@
         <release version="2.1.0" date="TBD"
             description="assorted updates">
             <action dev='kdgregory' type='add'>
+                ClassUtil.setFieldValue(): uses reflection to set a member variable.
+            </action>
+            <action dev='kdgregory' type='add'>
                 FunctionInputStream: an InputStream that uses a Java8 Function to retrieve
                 chunks of data from a source.
             </action>
             <action dev='kdgregory' type='add'>
-                ClassUtil.setFieldValue(): uses reflection to set a member variable.
+                NumericAsserts: add functions to test equality of float and double arrays.
             </action>
         </release>
         
